@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
 
@@ -22,18 +22,11 @@ const LoginForm = styled.div`
     
 `
 
-const ErrorMessage = styled.div`
-    font-size: 13px;
-    color: red;
-    padding: 10px 0px 20px 0px;
-`
-
-
 const Button = styled.button`
     display: flex;
     width: 100%;
     margin: 10px 0px;
-    padding: 20px 100px;
+    padding: 10px 100px;
     border-radius: 40px;
     letter-spacing: 2px;
     justify-content: center;
@@ -48,61 +41,24 @@ const Button = styled.button`
 `
 
 
-const InputBox = styled.input`
-    display: flex;
-    width: 350px;
-    margin: 10px 0px 0px 0px;
-    padding: 10px 20px;
-    border-radius: 40px;
-    background-color: white;
-    border: 1px solid #7B7B7B;
-`
-
 function Login() {
-    const { register, handleSubmit, formState } = useForm();
-    const onValid = (data) => {
-        console.log(data);
-    }
-    const EmailErrorExist = formState.errors.email && formState.errors.email.message;
-    const PasswordErrorExist = formState.errors.password && formState.errors.password.message;
-
   return (
         <LoginForm>
-            <form onSubmit={handleSubmit(onValid)}>
-                <div>
-                    <label for="email">EMAIL</label>
-                    <InputBox {...register(
-                        "email", 
-                        {required: "이메일을 입력하세요",
-                        pattern: {
-                            value: /^[A-Za-z0-9._%+-]+@[a-z]+\.[a-z]{2,3}/,
-                            message: "올바른 이메일 형식이 아닙니다",
-                            }
-                        }
-                        )} 
-                    id="email" placeholder="이메일을 입력하세요" style={{ borderColor: EmailErrorExist ? "red" : "" }}/>
-                    <ErrorMessage>{EmailErrorExist}</ErrorMessage>
+            <span>소셜 로그인</span>
+            <Button style={{backgroundColor: "#57606f"}}>
+                <div style={{width: 35, height:35, marginRight:10 ,borderRadius: 50, backgroundColor: "white"}}>
+                    <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+                        style={{width:25, marginTop: 5}}/>
                 </div>
-                <div>
-                    <label for="password">PASSWORD</label>
-                    <InputBox {...register(
-                        "password", 
-                        {required: "비밀번호를 입력하세요",
-                        minLength: {
-                            value: 8,
-                            message: "8자 이상 입력하세요",
-                            },
-                        pattern:{
-                            value: /(?=.*[a-z])(?=.*[0-9])/,
-                            message: "최소 한개 이상의 소문자와 숫자를 포함해야합니다"
-                            }, 
-                        }
-                        )} 
-                    id="password" placeholder="비밀번호를 입력하세요"  style={{ borderColor: PasswordErrorExist ? "red" : "" }}/>
-                    <ErrorMessage>{PasswordErrorExist}</ErrorMessage>
-                </div>
-                <Button>LOGIN</Button>
-            </form>
+
+                GOOGLE
+            </Button>
+            <Button style={{backgroundColor: "#4cd137"}}>NAVER</Button>
+            <Button style={{backgroundColor: "#f9ca24"}}>KAKAO</Button>
+            <span>MYCLO가 처음이신가요?</span>
+            <Button style={{backgroundColor: "#E1832C"}}>회원가입</Button>
+
+
         </LoginForm>
   );
 }
