@@ -1,17 +1,26 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 
-
-const Nav = styled.section`
+const Nav = styled.nav`
     display: flex;
     height: 60px;
     //border: 2px solid black;
     background-color: #F97F51;
     color: white;
-    position: relative;
+    /* position: relative; */
     margin-bottom: 50px;
+    list-style: none;
     /* z-index: 1000; */
     width: 100%;
+    @media screen and (max-width: 630px) {
+        width: 100%;
+    }
+    @media screen and (max-width: 430px) {
+        width: 430px;
+    }
+
 `
 const NavHome = styled.div`
     display: flex;
@@ -20,6 +29,9 @@ const NavHome = styled.div`
     //border: 2px solid red;
     padding: 20px 50px;
     letter-spacing: 2px;
+    @media screen and (max-width: 630px) {
+        display: none;
+    }
 `
 const NavMenu = styled.div`
     display: flex;
@@ -30,6 +42,9 @@ const NavMenu = styled.div`
     padding: 20px;
     letter-spacing: 2px;
     font-size: 14px;
+    @media screen and (max-width: 630px) {
+        display: none;
+    }
 `
 const NavRight = styled.div`
     display: flex;
@@ -41,24 +56,45 @@ const NavRight = styled.div`
     padding: 20px;
     letter-spacing: 2px;
     font-size: 14px;
+    @media screen and (max-width: 630px) {
+        display: none;
+    }
+`
+
+const NavMobile = styled.div`
+    display: none;
+    @media screen and (max-width: 630px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 30px;
+        font-size: 20px;
+    }
 `
 
 function Navbar() {
   return (
         <Nav>
+            <NavMobile>
+                <FontAwesomeIcon icon={faBars} />
+                <li>모두의 식판</li>
+                <FontAwesomeIcon icon={faUser} />
+            </NavMobile>
             <NavHome>
-                <span>모두의 식판</span>
+                <li>모두의 식판</li>
             </NavHome>
             <NavMenu>
-                <span>식단공유</span>
-                <span>커뮤니티</span>
-                <span>이벤트</span>
-                <span>이용방법</span>
+                <li>식단공유</li>
+                <li>커뮤니티</li>
+                <li>이벤트</li>
+                <li>이용방법</li>
             </NavMenu>
             <NavRight>
-                <span>프로필</span>
-                <span>포인트</span>
+                <li>프로필</li>
+                <li>포인트</li>
             </NavRight>
+
         </Nav>
   );
 }

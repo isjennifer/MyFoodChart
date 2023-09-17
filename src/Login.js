@@ -2,11 +2,13 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
 import Navbar from "./components/Navbar.js"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const LoginForm = styled.div`
     display: flex;
     flex-direction: column;
-    position: relative;
+    /* position: relative; */
     width: 430px;
     height: 600px;
     padding: 30px;
@@ -23,7 +25,7 @@ const LoginForm = styled.div`
 
 const Button = styled.button`
     display: flex;
-    width: 100%;
+    width: 95%;
     margin: 10px 0px;
     padding: 10px 20px;
     border-radius: 40px;
@@ -65,18 +67,22 @@ function Login() {
                         style={{width:35, marginRight: 10}}/>
 
                 GOOGLE
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
+
             </Button>
             <Button style={{backgroundColor: "#4cd137"}}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
                         style={{width:35, marginRight: 10}}
                     />
                 NAVER
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
             </Button>
             <Button style={{backgroundColor: "#f9ca24"}}>
                 <img src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png" 
                     style={{width:35, marginRight: 10}}
                 />
                 KAKAO
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
             </Button>
             <div style={{width: 350, height:1, backgroundColor:"#BEBEBE", margin:20}}></div>
             <span style={{fontSize: 16, margin:10}}>모두의 식판에 처음 오셨나요?</span>
