@@ -1,33 +1,24 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
-import background_img from "./img/background_img.jpg"
-
-const Background = styled.div`
-    position: relative;
-    height: 100vh;
-    background: url('${background_img}') no-repeat;
-    background-size: cover;
-    z-index: 1;
-`
+import Navbar from "./components/Navbar.js"
 
 const LoginForm = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    top: 15%;
-    width: 350px;
-    height: 530px;
+    width: 430px;
+    height: 600px;
     padding: 30px;
     margin-inline: auto;
     justify-content: center;
     align-items: center;
     color: #505050;
     border-radius: 50px;
-    font-size: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    
+
 `
 
 const Button = styled.button`
@@ -56,7 +47,7 @@ const Logo = styled.span`
     font-family: 'Sunflower', sans-serif;
     font-size: 40px;
     font-weight: bold;
-    color: #E1832C;
+    color: #F97F51;
     margin: 20px;
 
 `
@@ -64,10 +55,11 @@ const Logo = styled.span`
 
 function Login() {
   return (
-        <Background>
+        <>
+        <Navbar />
         <LoginForm>
             <Logo>모두의 식판</Logo>
-            <span style={{margin:20}}>소셜 로그인</span>
+            <span style={{margin:20}}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
             <Button style={{backgroundColor: "#57606f"}}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png"
                         style={{width:35, marginRight: 10}}/>
@@ -88,11 +80,11 @@ function Login() {
             </Button>
             <div style={{width: 350, height:1, backgroundColor:"#BEBEBE", margin:20}}></div>
             <span style={{fontSize: 16, margin:10}}>모두의 식판에 처음 오셨나요?</span>
-            <Button style={{width:150, padding:10, backgroundColor: "#E1832C"}}>회원가입</Button>
+            <Button style={{width:150, padding:10, backgroundColor: "#F97F51"}}>회원가입</Button>
 
 
         </LoginForm>
-        </Background>
+        </>
   );
 }
 
