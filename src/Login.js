@@ -4,6 +4,55 @@ import { useForm } from "react-hook-form"
 import Navbar from "./components/Navbar.js"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { useState } from "react"
+
+
+
+function Login() {
+    const [toggleMenu, setToggleMenu] = useState(false);
+    const [toggleProfile, setToggleProfile] = useState(false);
+
+    return (
+        <>
+        <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
+        <LoginForm>
+            <Logo>모두의 식판</Logo>
+            <span style={{margin:20}}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
+            <Button style={{backgroundColor: "#57606f"}}>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png"
+                        style={{width:35, marginRight: 10}}/>
+
+                GOOGLE
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
+
+            </Button>
+            <Button style={{backgroundColor: "#4cd137"}}>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
+                        style={{width:35, marginRight: 10}}
+                    />
+                NAVER
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
+            </Button>
+            <Button style={{backgroundColor: "#f9ca24"}}>
+                <img src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png" 
+                    style={{width:35, marginRight: 10}}
+                />
+                KAKAO
+                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
+            </Button>
+            <div style={{width: 350, height:1, backgroundColor:"#BEBEBE", margin:20}}></div>
+            <span style={{fontSize: 16, margin:10}}>모두의 식판에 처음 오셨나요?</span>
+            <Button style={{width:150, padding:10, backgroundColor: "#F97F51"}}>회원가입</Button>
+
+
+        </LoginForm>
+        </>
+  );
+}
+
+export default Login;
+
+
 
 const LoginForm = styled.div`
     display: flex;
@@ -53,45 +102,3 @@ const Logo = styled.span`
     margin: 20px;
 
 `
-
-
-function Login() {
-  return (
-        <>
-        <Navbar />
-        <LoginForm>
-            <Logo>모두의 식판</Logo>
-            <span style={{margin:20}}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
-            <Button style={{backgroundColor: "#57606f"}}>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png"
-                        style={{width:35, marginRight: 10}}/>
-
-                GOOGLE
-                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
-
-            </Button>
-            <Button style={{backgroundColor: "#4cd137"}}>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
-                        style={{width:35, marginRight: 10}}
-                    />
-                NAVER
-                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
-            </Button>
-            <Button style={{backgroundColor: "#f9ca24"}}>
-                <img src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png" 
-                    style={{width:35, marginRight: 10}}
-                />
-                KAKAO
-                <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
-            </Button>
-            <div style={{width: 350, height:1, backgroundColor:"#BEBEBE", margin:20}}></div>
-            <span style={{fontSize: 16, margin:10}}>모두의 식판에 처음 오셨나요?</span>
-            <Button style={{width:150, padding:10, backgroundColor: "#F97F51"}}>회원가입</Button>
-
-
-        </LoginForm>
-        </>
-  );
-}
-
-export default Login;
