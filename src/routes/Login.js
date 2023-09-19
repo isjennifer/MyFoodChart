@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
-import Navbar from "./components/Navbar.js"
+import Navbar from "../components/Navbar.js"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react"

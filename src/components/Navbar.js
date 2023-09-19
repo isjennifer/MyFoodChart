@@ -32,32 +32,34 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
             </NavMobile>
             {toggleMenu ? (
                     <NavMobileMenu>
-                        <li>식단공유</li>
-                        <li>커뮤니티</li>
-                        <li>이벤트</li>
-                        <li>이용방법</li>
+                        <Link to={"/recipe"}><li>식단공유</li></Link>
+                        <Link to={"/community"}><li>커뮤니티</li></Link>
+                        <Link to={"/event"}><li>이벤트</li></Link>
+                        <Link to={"/how_to_use"}><li>이용방법</li></Link>
                     </NavMobileMenu>
                 ) : null }
                 {toggleProfile? (
                     <NavMobileMenu style={{height:"120px"}}>
-                        <li>프로필</li>
+                        <Link to={"/login"}><li>프로필</li></Link>
                         <li>포인트</li>
                     </NavMobileMenu>
                 ) : null }
             <NavHome>
-                <li>모두의 식판</li>
+                <Link to={"/"}><li>모두의 식판</li></Link>
             </NavHome>
             <NavMenu>
-                <li>식단공유</li>
-                <li>커뮤니티</li>
-                <li>이벤트</li>
-                <li>이용방법</li>
+                <Link to={"/recipe"}><li>식단공유</li></Link>
+                <Link to={"/community"}><li>커뮤니티</li></Link>
+                <Link to={"/event"}><li>이벤트</li></Link>
+                <Link to={"/how_to_use"}><li>이용방법</li></Link>
             </NavMenu>
             <NavRight>
-                <div>
-                    <FontAwesomeIcon icon={faCircleUser} className="icon"/>
-                    프로필
-                </div>
+                <Link to={"/login"}>
+                    <div>
+                        <FontAwesomeIcon icon={faCircleUser} className="icon"/>
+                        프로필
+                    </div>
+                </Link>
                 <div>
                     <FontAwesomeIcon icon={faGem} className="icon"/>
                     포인트

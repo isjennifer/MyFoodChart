@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { createGlobalStyle } from 'styled-components';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterInfo } from './router';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -66,12 +67,13 @@ a {
 }
 `;
 
+const RouterObject = createBrowserRouter(RouterInfo);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <App />
+    <RouterProvider router={RouterObject} />
   </React.StrictMode>
 );
 
