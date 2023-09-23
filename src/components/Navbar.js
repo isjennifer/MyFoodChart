@@ -98,7 +98,7 @@ const NavHome = styled.div`
     justify-content: center;
     align-items: center;
     /* border: 2px solid red; */
-    width: 200px;
+    width: 300px;
     letter-spacing: 2px;
     @media screen and (max-width: 630px) {
         display: none;
