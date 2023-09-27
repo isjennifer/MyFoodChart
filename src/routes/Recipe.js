@@ -16,7 +16,7 @@ function Recipe() {
         <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
         <RowDiv>
             <div style={{display:"inline-flex"}}>
-                <Button>학</Button>
+                <Button>학교</Button>
                 <Button>산업체</Button>
             </div>
             <SearchBox>

@@ -12,6 +12,12 @@ function Login() {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
 
+    // // const NAVER_AUTH_URL = "http://localhost:3001/auth/naver";
+    // const NaverLogin = () => {
+    //     window.location.href = NAVER_AUTH_URL;
+    // };
+
+
     return (
         <>
         <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
