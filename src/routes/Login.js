@@ -5,18 +5,26 @@ import Navbar from "../components/Navbar.js"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react"
-
+import axios from "axios"
 
 
 function Login() {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
-
-    // // const NAVER_AUTH_URL = "http://localhost:3001/auth/naver";
+    
+    // const NAVER_AUTH_URL = "http://localhost:3001/auth/naver";
     // const NaverLogin = () => {
     //     window.location.href = NAVER_AUTH_URL;
     // };
 
+    async function getUser() {
+        try {
+          const response = await axios.get('/auth/login/naver');
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
     return (
         <>
@@ -24,7 +32,7 @@ function Login() {
         <LoginForm>
             <Logo>모두의 식판</Logo>
             <span style={{margin:20}}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
-            <Button style={{backgroundColor: "#4cd137"}}>
+            <Button onClick={getUser} style={{backgroundColor: "#4cd137"}}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
                         style={{width:35, marginRight: 10}}
                     />

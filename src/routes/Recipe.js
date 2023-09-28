@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Navbar from "../components/Navbar.js"
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -25,6 +25,16 @@ function Recipe() {
                 <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
             </SearchBox>
         </RowDiv>
+        <RowDiv>
+            <Div>
+                <FontAwesomeIcon icon={faUsers} style={{fontSize:20, margin:10}}/>
+                식단을 공유해요!
+            </Div>
+            <Div>
+                <FontAwesomeIcon icon={faPenToSquare} />
+                <FontAwesomeIcon icon={faFilter} />
+            </Div>
+        </RowDiv>
         </>
     );
 };
@@ -42,6 +52,18 @@ const RowDiv = styled.div`
     align-items: center;
 
 `
+
+const Div = styled.div`
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+
+    
+
+` 
+
+
 const SearchBox = styled.div`
     display: inline-flex;
     background-color: white;
