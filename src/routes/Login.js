@@ -19,7 +19,7 @@ function Login() {
 
     async function getUser() {
         try {
-          const response = await axios.get('/auth/login/naver');
+          const response = await axios.get('http://localhost:3001/auth/login/naver');
           console.log(response);
         } catch (error) {
           console.error(error);
@@ -46,7 +46,8 @@ function Login() {
                 KAKAO 로그인
                 <FontAwesomeIcon icon={faArrowRight} style={{marginLeft:5}}/>
             </Button>
-
+            <DivisionLine></DivisionLine>
+            <span style={{fontSize:12}}>© 2023. 모두의식판. all rights reserved.</span>
 
         </LoginForm>
         </>
@@ -56,13 +57,18 @@ function Login() {
 export default Login;
 
 
+const DivisionLine = styled.div`
+    width: 350px;
+    border: solid #DEDEDE 1px;
+    margin: 30px;
+`
 
 const LoginForm = styled.div`
     display: flex;
     flex-direction: column;
     /* position: relative; */
     width: 430px;
-    height: 600px;
+    height: 500px;
     padding: 30px;
     margin-inline: auto;
     justify-content: center;

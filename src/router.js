@@ -4,6 +4,9 @@ import Recipe from "./routes/Recipe"
 import Community from "./routes/Community"
 import Event from "./routes/Event"
 import HowToUse from "./routes/HowToUse"
+import RecipeSchool from "./routes/RecipeSchool"
+import RecipeCompany from "./routes/RecipeCompany"
+
 
 
 
@@ -19,7 +22,7 @@ export const RouterInfo = [
         label: 'login',
     },
     {
-        path: "/recipe",
+        path: "/recipe/*",
         element: <Recipe/>,
         label: 'recipe',
     },
@@ -37,5 +40,15 @@ export const RouterInfo = [
         path: "/how_to_use",
         element: <HowToUse/>,
         label: 'how_to_use',
+    },
+    {
+        path: "/recipe_school",
+        element: <RecipeSchool/>,
+        label: 'recipe_school',
+    },
+    {
+        path: "/recipe_company",
+        element: <RecipeCompany/>,
+        label: 'recipe_company',
     },
 ]

@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
+import { BrowserRouter as Router, Routes, Route, Link, NavLink} from "react-router-dom"
+import styled, {css} from "styled-components"
 import Navbar from "../components/Navbar.js"
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
+import RecipeSchool from "./RecipeSchool.js";
+import RecipeCompany from "./RecipeCompany.js";
+
+
 
 
 
@@ -11,13 +15,24 @@ function Recipe() {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
 
+
     return (
         <>
         <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
         <RowDiv>
             <div style={{display:"inline-flex"}}>
-                <Button>학교</Button>
-                <Button>산업체</Button>
+                <NavLinkStlye
+                    to={"/recipe/recipe_school"} 
+                    activeClassName="active"
+                >
+                    <Button>학교</Button>
+                </NavLinkStlye>
+                <NavLinkStlye
+                    to={"/recipe/recipe_company"} 
+                    activeClassName="active"
+                >
+                    <Button>산업체</Button>
+                </NavLinkStlye> 
             </div>
             <SearchBox>
                 <FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize:20, margin:10}}/>
@@ -25,22 +40,17 @@ function Recipe() {
                 <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
             </SearchBox>
         </RowDiv>
-        <RowDiv>
-            <Div>
-                <FontAwesomeIcon icon={faUsers} style={{fontSize:20, margin:10}}/>
-                식단을 공유해요!
-            </Div>
-            <Div>
-                <FontAwesomeIcon icon={faPenToSquare} />
-                <FontAwesomeIcon icon={faFilter} />
-            </Div>
-        </RowDiv>
+        <Routes>
+                <Route path="/recipe_school" element={<RecipeSchool />}></Route>
+        </Routes>
+        <Routes>
+                <Route path="/recipe_company" element={<RecipeCompany />}></Route>
+        </Routes>
         </>
     );
 };
 
 export default Recipe;
-
 
 
 
@@ -53,15 +63,6 @@ const RowDiv = styled.div`
 
 `
 
-const Div = styled.div`
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-
-    
-
-` 
 
 
 const SearchBox = styled.div`
@@ -107,8 +108,17 @@ const Button = styled.button`
         cursor: pointer;
         background-color: #F97F51;
     }
-    &:focus{
+    &:active{
         background-color: #F97F51;
+    }
+    
+`
+
+const NavLinkStlye = styled(NavLink)`
+    &.active{
+        ${Button} {
+         background-color: #F97F51;
+      }
     }
     
 `
