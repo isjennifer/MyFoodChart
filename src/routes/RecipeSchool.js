@@ -32,12 +32,38 @@ function RecipeSchool() {
             <School>중학교</School>
             <School>고등학교</School>
         </Div>
+        <RecipeList>
+            <RecipeCompo>사진</RecipeCompo>
+            <RecipeCompo>사진</RecipeCompo>
+
+        </RecipeList>
         </>
     );
 };
 
 export default RecipeSchool;
 
+
+
+
+const RecipeCompo = styled.div`
+    display: flex;
+    width: 46%;
+    height: auto;
+    background-color: gray;
+    margin: 10px;
+
+`
+
+const RecipeList = styled.div`
+    display: flex;
+    width: 100%;
+    padding: 50px 100px;
+    align-items: center;
+    justify-content: space-evenly;
+
+
+`
 
 
 const DivisionLine = styled.div`
