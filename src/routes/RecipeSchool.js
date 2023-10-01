@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Navbar from "../components/Navbar.js"
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -33,9 +33,34 @@ function RecipeSchool() {
             <School>고등학교</School>
         </Div>
         <RecipeList>
-            <RecipeCompo>사진</RecipeCompo>
-            <RecipeCompo>사진</RecipeCompo>
-
+            <RecipeCompo>
+                <Div>
+                    <Div style={{fontSize: 16, padding:10}}>
+                        {/* 아이콘 바꿔야됨 */}
+                        <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
+                        작성자닉네임
+                    </Div>
+                    <Div style={{fontSize: 16, padding:10}}>
+                        <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
+                        좋아요수
+                    </Div>
+                </Div>
+                <Img>식단이미지</Img>
+            </RecipeCompo>
+            <RecipeCompo>
+                <Div>
+                    <Div style={{fontSize: 16, padding:10}}>
+                        {/* 아이콘 바꿔야됨 */}
+                        <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
+                        작성자닉네임
+                    </Div>
+                    <Div style={{fontSize: 16, padding:10}}>
+                        <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
+                        좋아요수
+                    </Div>
+                </Div>
+                <Img>식단이미지</Img>
+            </RecipeCompo>
         </RecipeList>
         </>
     );
@@ -45,12 +70,19 @@ export default RecipeSchool;
 
 
 
+const Img = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+
+`
 
 const RecipeCompo = styled.div`
     display: flex;
+    flex-direction: column;
     width: 46%;
-    height: auto;
-    background-color: gray;
+    height: 400px;
     margin: 10px;
 
 `
@@ -94,7 +126,6 @@ const Div = styled.div`
     align-items: center;
     font-size: 30px;
     color: #505050;
-    
 
 ` 
 

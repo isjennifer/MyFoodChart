@@ -57,7 +57,7 @@ export default Recipe;
 const RowDiv = styled.div`
     display: inline-flex;
     width: 100%;
-    padding: 50px 100px;
+    padding: 0px 100px 50px 100px;
     justify-content: space-between;
     align-items: center;
 
