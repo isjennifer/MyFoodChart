@@ -17,10 +17,12 @@ function RecipeSchool() {
                 식단을 공유해요!
             </Div>
             <Div>
-                <Button style={{width: 130, padding:10}}>
-                    <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
-                    글쓰기
-                </Button>
+                <Link to={"/recipe_write"}>
+                    <Button style={{width: 130, padding:10}}>
+                        <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
+                        글쓰기
+                    </Button>
+                </Link>
                 <FontAwesomeIcon icon={faFilter} style={{fontSize:25, margin:10}}/>
             </Div>
         </RowDiv>

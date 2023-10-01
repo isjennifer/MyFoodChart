@@ -6,6 +6,7 @@ import Event from "./routes/Event"
 import HowToUse from "./routes/HowToUse"
 import RecipeSchool from "./routes/RecipeSchool"
 import RecipeCompany from "./routes/RecipeCompany"
+import RecipeWrite from "./routes/RecipeWrite"
 
 
 
@@ -50,5 +51,10 @@ export const RouterInfo = [
         path: "/recipe_company",
         element: <RecipeCompany/>,
         label: 'recipe_company',
+    },
+    {
+        path: "/recipe_write",
+        element: <RecipeWrite/>,
+        label: 'recipe_write',
     },
 ]
