@@ -16,15 +16,6 @@ function Login() {
     window.location.href = `http://localhost:3001/auth/login/${platform}`;
   }
 
-  async function getUser() {
-    try {
-      const response = await axios.get("http://localhost:3001/auth/login/naver");
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <>
       <Navbar
