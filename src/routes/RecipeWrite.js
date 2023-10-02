@@ -1,13 +1,25 @@
 import Navbar from "../components/Navbar.js"
 import styled from "styled-components"
-import { useState } from "react";
+import { useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil, } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faImage} from '@fortawesome/free-solid-svg-icons'
 
 
 function RecipeWrite () {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
+
+    const [imgFile, setImgFile] = useState("");
+    const imgRef = useRef();
+
+    const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+           };
+    };
 
     return(
         <>
@@ -16,6 +28,7 @@ function RecipeWrite () {
             <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             내 식단 공유하기
         </HeadDiv>
+
         <Form>
             <FormDiv>
                 <RowDiv>
@@ -49,7 +62,7 @@ function RecipeWrite () {
                         </RowDiv>
                     </ColDiv>
                 </RowDiv>
-                <ColDiv>
+                <ColDiv style={{paddingRight:215}}>
                     <RowDiv style={{paddingBottom:50}}>
                         <Title>식수</Title>
                         <DivisionLine />
@@ -62,17 +75,60 @@ function RecipeWrite () {
                     </RowDiv>
                 </ColDiv>
             </FormDiv>
+            <form>
+                <label htmlFor="recipeImg">
+                    <UploadImg>
+                        {imgFile ? <img src={imgFile ? imgFile : ""} alt="프로필 이미지"/>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 이미지 업로드 </>
+                        }
+                    </UploadImg>
+                </label>
+                <input type="file" accept="image/*" id="recipeImg" onChange={saveImgFile}
+                        ref={imgRef} style={{display:"none"}}></input>
+            </form>
+
+            <FormDiv>
+                <Title>구분</Title>
+                <Title>메뉴명</Title>
+                <Title>공산품 사용여부</Title>
+                <Title>사용 제품명</Title>
+                <Title>브랜드</Title>
+            </FormDiv>
+            <FormDiv>
+                <Title>메뉴 1</Title>
+                <Input style={{width:200}}/>
+                <input type={"checkbox"} style={{width:20, height:20}}/>
+                <Input style={{width:200}}/>
+                <Input style={{width:200}}/>
+
+            </FormDiv>
+            <FormDiv>
+                <Title>메뉴 2</Title>
+            </FormDiv>
         </Form>
 
-
-        
-        
-        
         </>
     );
 }
 
 export default RecipeWrite;
+
+
+
+const UploadImg = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0px 80px 0px;
+    width: 800px;
+    height: 500px;
+    background-color: #DEDEDE;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        cursor: pointer;
+    }
+    
+`
 
 
 const Title = styled.p`
@@ -95,11 +151,11 @@ const DivisionLine = styled.div`
 `
 
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   /* position: relative; */
-  width: 85%;
+  width: 70%;
   height: auto;
   padding: 100px 100px;
   margin-inline: auto;
@@ -119,7 +175,7 @@ const HeadDiv = styled.div`
     align-items: center;
     color: #505050;
     font-size: 30px;
-    padding: 50px 100px 30px 100px;
+    padding: 50px 200px 30px 200px;
 
 `
 
@@ -149,7 +205,7 @@ const ColDiv = styled.div`
     display: flex;
     flex-direction: column;
     color: #505050;
-    width: 415px;
+    
 
     
     
