@@ -21,6 +21,44 @@ function RecipeWrite () {
            };
     };
 
+    const nextID = useRef(1);
+    const [inputItems, setInputItems] = useState([{ id: 0, menuName: '', isProductUsed: '', productName: '', productBrand: '' }]);
+
+    // 추가
+    function addMenu() {
+        const menues = {			  // 새로운 인풋객체를 하나 만들고,
+            id: nextID.current,		  // id 값은 변수로 넣어주고,
+            menuName: '',
+            isProductUsed: false, 
+            productName: '', 
+            productBrand: '', 		  // 내용은 빈칸으로 만들자
+        };
+
+        setInputItems([...inputItems, menues]); // 기존 값에 새로운 인풋객체를 추가해준다.
+        nextID.current += 1; 		            // id값은 1씩 늘려준다.
+    }
+
+    // 삭제
+    function deleteMenu(id) {    // 인덱스 값을 받아서
+        setInputItems(prevInputItems => prevInputItems.filter(item => item.id !== id)); // 인덱스 값과 같지 않은 애들만 남겨둔다
+    }
+
+    function handleChange (event, index, field) {
+        if (index > inputItems.length) return; // 혹시 모르니 예외처리
+        // 인풋배열을 copy 해주자
+        const inputItemsCopy = [...inputItems];
+  
+        // 해당 인덱스를 가진 <input>의 내용을 변경해주자
+          if (field === 'isProductUsed') {
+            inputItemsCopy[index][field] = event.target.checked;
+          } else {
+            inputItemsCopy[index][field] = event.target.value;
+          } ;// 그리고 해당 인덱스를 가진 <input>의 내용을 변경해주자 
+        setInputItems(inputItemsCopy);		                 // 그걸 InputItems 에 저장해주자
+    }
+
+
+
     return(
         <>
         <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
@@ -94,19 +132,27 @@ function RecipeWrite () {
                 <Title>사용 제품명</Title>
                 <Title>브랜드</Title>
             </FormDiv>
-            <FormDiv>
-                <Title>메뉴 1</Title>
-                <Input style={{width:200}}/>
-                <input type={"checkbox"} style={{width:20, height:20}}/>
-                <Input style={{width:200}}/>
-                <Input style={{width:200}}/>
 
-            </FormDiv>
-            <FormDiv>
-                <Title>메뉴 2</Title>
-            </FormDiv>
+            {inputItems.map((item,index) =>(
+                <>
+                <FormDiv key={index}>
+                    <Title>메뉴 {index + 1}</Title>
+                    <Input onChange={e => handleChange(e, index, 'menuName')} value={item.menuName} style={{width:200}}/>
+                    <input type={"checkbox"} onChange={e => handleChange(e, index, 'isProductUsed')} checked={item.isProductUsed} style={{width:20, height:20}}/>
+                    <Input onChange={e => handleChange(e, index, 'productName')} value={item.productName} style={{width:200}}/>
+                    <Input onChange={e => handleChange(e, index, 'productBrand')} value={item.productBrand} style={{width:200}}/>
+                    <div onClick={() => deleteMenu(item.id)}>메뉴 삭제</div>
+                </FormDiv>
+                </>
+                )
+            )}
+            <div onClick={addMenu}>메뉴 추가</div>
+
+
+
+        
+
         </Form>
-
         </>
     );
 }
