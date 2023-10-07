@@ -2,7 +2,8 @@ import Navbar from "../components/Navbar.js"
 import styled from "styled-components"
 import { useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil, faImage} from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
+import Footer from "../components/Footer.js"
 
 
 function RecipeWrite () {
@@ -125,34 +126,50 @@ function RecipeWrite () {
                         ref={imgRef} style={{display:"none"}}></input>
             </form>
 
-            <FormDiv>
-                <Title>구분</Title>
-                <Title>메뉴명</Title>
-                <Title>공산품 사용여부</Title>
-                <Title>사용 제품명</Title>
-                <Title>브랜드</Title>
-            </FormDiv>
+            <MenuTitleDiv>
+                <MenuTitle style={{marginLeft:20}}>구분</MenuTitle>
+                <MenuTitle style={{marginLeft:110}}>메뉴명</MenuTitle>
+                <MenuTitle style={{marginLeft:85, textAlign:'center', fontSize:18}}>공산품<br/>사용</MenuTitle>
+                <MenuTitle style={{marginLeft:85}}>사용 제품명</MenuTitle>
+                <MenuTitle style={{marginLeft:135}}>브랜드</MenuTitle>
+            </MenuTitleDiv>
 
             {inputItems.map((item,index) =>(
                 <>
                 <FormDiv key={index}>
                     <Title>메뉴 {index + 1}</Title>
-                    <Input onChange={e => handleChange(e, index, 'menuName')} value={item.menuName} style={{width:200}}/>
-                    <input type={"checkbox"} onChange={e => handleChange(e, index, 'isProductUsed')} checked={item.isProductUsed} style={{width:20, height:20}}/>
+                    <DivisionLine />
+                    <Input onChange={e => handleChange(e, index, 'menuName')} value={item.menuName} style={{width:170}}/>
+                    <input type={"checkbox"} onChange={e => handleChange(e, index, 'isProductUsed')} checked={item.isProductUsed} style={{width:20, height:20, marginInline:30}}/>
                     <Input onChange={e => handleChange(e, index, 'productName')} value={item.productName} style={{width:200}}/>
-                    <Input onChange={e => handleChange(e, index, 'productBrand')} value={item.productBrand} style={{width:200}}/>
-                    <div onClick={() => deleteMenu(item.id)}>메뉴 삭제</div>
+                    <Input onChange={e => handleChange(e, index, 'productBrand')} value={item.productBrand} style={{width:170}}/>
+                    <div onClick={() => deleteMenu(item.id)}><FontAwesomeIcon icon={faSquareMinus} style={{cursor:"pointer"}}/></div>
                 </FormDiv>
                 </>
                 )
             )}
-            <div onClick={addMenu}>메뉴 추가</div>
-
-
-
-        
+            <Button onClick={addMenu}>
+                <FontAwesomeIcon icon={faPlus} style={{marginRight:10}} />메뉴 추가
+            </Button>
+            <FormDiv>
+                <RowDiv>
+                    <Title>설명</Title>
+                    <DivisionLine />
+                    <textarea style={{width:720, height:200, resize:"none"}}/>
+                </RowDiv>
+            </FormDiv>
+            <FormDiv style={{marginTop: 30}}>
+                <RowDiv>
+                    <Title>레시피 업로드</Title>
+                    <DivisionLine />
+                    <input type="file" />
+                </RowDiv>
+            </FormDiv>
+            <RowDivisionLine />
+        <FormSubmitBtn>내 식단 공유하기</FormSubmitBtn>
 
         </Form>
+        <Footer/>
         </>
     );
 }
@@ -160,6 +177,39 @@ function RecipeWrite () {
 export default RecipeWrite;
 
 
+const FormSubmitBtn = styled.button`
+    display: flex;
+    width: 100%;
+    height: 80px;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: #F97F51;
+    color: white;
+    border: none;
+    font-size: 20px;
+    &:hover {
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+
+
+`
+const Button = styled.div`
+    display: flex;
+    width: 160px;
+    height: 60px;
+    background-color: #F97F51;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    margin-bottom: 40px;
+    &:hover{
+        cursor: pointer;
+    }
+    
+`
 
 const UploadImg = styled.div`
     display: flex;
@@ -176,6 +226,10 @@ const UploadImg = styled.div`
     
 `
 
+const MenuTitle = styled.div`
+    font-weight: 600;
+
+`
 
 const Title = styled.p`
     font-weight: 600;
@@ -195,6 +249,11 @@ const DivisionLine = styled.div`
     margin: 0px 20px;
 
 `
+const RowDivisionLine = styled.div`
+  width: 100%;
+  border: solid #DEDEDE 1px;
+  margin: 20px 0px 40px 0px;
+`;
 
 
 const Form = styled.form`
@@ -225,6 +284,16 @@ const HeadDiv = styled.div`
 
 `
 
+const MenuTitleDiv = styled.div`
+    display: inline-flex;
+    align-items: center;
+    color: #505050;
+    width: 100%;
+    margin-bottom: 30px;
+
+
+`
+
 const FormDiv = styled.div`
     display: inline-flex;
     align-items: center;
@@ -239,10 +308,7 @@ const FormDiv = styled.div`
 
 const RowDiv = styled.div`
     display: inline-flex;
-    align-items: center;
     color: #505050;
-
-    
 
 ` 
 
