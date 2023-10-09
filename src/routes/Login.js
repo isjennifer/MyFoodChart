@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
+import Footer from "../components/Footer.js";
+
 
 function Login() {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -46,6 +48,7 @@ function Login() {
         <DivisionLine></DivisionLine>
         <span style={{ fontSize: 12 }}>© 2023. 모두의식판. all rights reserved.</span>
       </LoginForm>
+      <Footer/>
     </>
   );
 }

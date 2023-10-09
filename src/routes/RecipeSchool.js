@@ -3,7 +3,9 @@ import styled from "styled-components"
 import Navbar from "../components/Navbar.js"
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import Footer from "../components/Footer.js"
+import Recipe from "./Recipe.js"
 
 
 
@@ -36,6 +38,12 @@ function RecipeSchool() {
         </Div>
         <RecipeList>
             <RecipeCompo>
+                <Title>
+                    <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
+                    8월 식단입니다.................................................................................
+                </Title>
+                <Img>식단이미지</Img>
+ 
                 <Div>
                     <Div style={{fontSize: 16, padding:10}}>
                         {/* 아이콘 바꿔야됨 */}
@@ -47,9 +55,13 @@ function RecipeSchool() {
                         좋아요수
                     </Div>
                 </Div>
-                <Img>식단이미지</Img>
             </RecipeCompo>
             <RecipeCompo>
+                <Title>
+                    <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
+                    8월 식단입니다.................................................................................
+                </Title>
+                <Img>식단이미지</Img>
                 <Div>
                     <Div style={{fontSize: 16, padding:10}}>
                         {/* 아이콘 바꿔야됨 */}
@@ -61,9 +73,9 @@ function RecipeSchool() {
                         좋아요수
                     </Div>
                 </Div>
-                <Img>식단이미지</Img>
             </RecipeCompo>
         </RecipeList>
+        <Footer/>
         </>
     );
 };
@@ -71,6 +83,15 @@ function RecipeSchool() {
 export default RecipeSchool;
 
 
+const Title = styled.div`
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    align-items: center;
+
+
+`
 
 const Img = styled.div`
     display: flex;
@@ -105,6 +126,7 @@ const DivisionLine = styled.div`
     border: solid #7B7B7B 1px;
 
 `
+
 const School = styled.div`
     &:hover {
         font-weight: 600;

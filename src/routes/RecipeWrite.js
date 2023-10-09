@@ -4,12 +4,16 @@ import { useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
 import Footer from "../components/Footer.js"
+import { useForm } from "react-hook-form"
 
 
 function RecipeWrite () {
+
+// Navbar 모바일 반응형
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
 
+// 이미지 업로드
     const [imgFile, setImgFile] = useState("");
     const imgRef = useRef();
 
@@ -22,6 +26,7 @@ function RecipeWrite () {
            };
     };
 
+// 메뉴 리스트 추가 삭제 부분
     const nextID = useRef(1);
     const [inputItems, setInputItems] = useState([{ id: 0, menuName: '', isProductUsed: '', productName: '', productBrand: '' }]);
 
@@ -58,6 +63,44 @@ function RecipeWrite () {
         setInputItems(inputItemsCopy);		                 // 그걸 InputItems 에 저장해주자
     }
 
+// 폼 데이터 서버로 보내기
+    // const [recipeInfo, setRecipeInfo] = useState({
+    //     year : '',
+    //     month :'',
+    //     day : '',
+    //     institute: '',
+    //     school: '',
+    //     peopleNum: '',
+    //     price: '',
+    // });
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+      
+    //     fetch("API 주소", {
+    //       method: "POST",
+    //       body: new FormData(recipeInfo),
+    //     })
+    //       .then((response) => {
+    //         if (response.ok === true) {
+    //           return response.json();
+    //         }
+    //         throw new Error("에러 발생!");
+    //       })
+    //       .catch((error) => {
+    //         alert(error);
+    //       })
+    //       .then((data) => {
+    //         console.log(data);
+    //       });
+    //   };
+
+
+// react-hook-form
+    const { register, handleSubmit } = useForm();
+    const onSubmit = (data) => console.log(data);
+
+
 
 
     return(
@@ -68,7 +111,7 @@ function RecipeWrite () {
             내 식단 공유하기
         </HeadDiv>
 
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <FormDiv>
                 <RowDiv>
                     <Title>작성자</Title>
@@ -78,7 +121,7 @@ function RecipeWrite () {
                 <RowDiv>
                     <Title>급식일</Title>
                     <DivisionLine />
-                    <Input/>년<Input/>월<Input/>일
+                    <input {...register("date")} type={"date"} style={{fontSize:18, marginRight:10}}/>
                 </RowDiv>
             </FormDiv>
             <FormDiv>
@@ -87,8 +130,8 @@ function RecipeWrite () {
                     <DivisionLine style={{height:100}}/>
                     <ColDiv>
                         <RowDiv style={{paddingBottom:50}}>
-                            <input type={"radio"} name={"institute"} style={{width:20, height:20, marginRight:10}} />학교
-                            <select name={"school"} style={{fontSize: 18, marginLeft:10}}>
+                            <input {...register("institute")} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
+                            <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
                                 <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
                                 <option value={"kinder"} >유치원</option>
                                 <option value={"elemen"} >초등학교</option>
@@ -97,20 +140,20 @@ function RecipeWrite () {
                             </select>
                         </RowDiv>
                         <RowDiv>
-                            <input type={"radio"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
+                            <input {...register("institute")} type={"radio"} value={"company"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
                         </RowDiv>
                     </ColDiv>
                 </RowDiv>
-                <ColDiv style={{paddingRight:215}}>
+                <ColDiv style={{paddingRight:95}}>
                     <RowDiv style={{paddingBottom:50}}>
                         <Title>식수</Title>
                         <DivisionLine />
-                        <Input/>명
+                        <Input name={"peopleNum"}/>명
                     </RowDiv>
                     <RowDiv>
                         <Title>식단가</Title>
                         <DivisionLine />
-                        <Input/>원
+                        <Input name={"price"}/>원
                     </RowDiv>
                 </ColDiv>
             </FormDiv>
@@ -155,7 +198,7 @@ function RecipeWrite () {
                 <RowDiv>
                     <Title>설명</Title>
                     <DivisionLine />
-                    <textarea style={{width:720, height:200, resize:"none"}}/>
+                    <textarea style={{width:720, height:200, resize:"none", fontSize:18}}/>
                 </RowDiv>
             </FormDiv>
             <FormDiv style={{marginTop: 30}}>
@@ -166,7 +209,7 @@ function RecipeWrite () {
                 </RowDiv>
             </FormDiv>
             <RowDivisionLine />
-        <FormSubmitBtn>내 식단 공유하기</FormSubmitBtn>
+        <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
 
         </Form>
         <Footer/>
@@ -175,6 +218,8 @@ function RecipeWrite () {
 }
 
 export default RecipeWrite;
+
+
 
 
 const FormSubmitBtn = styled.button`
