@@ -97,7 +97,7 @@ function RecipeWrite () {
 
 
 // react-hook-form
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, watch } = useForm();
     const onSubmit = (data) => console.log(data);
 
 
@@ -131,13 +131,15 @@ function RecipeWrite () {
                     <ColDiv>
                         <RowDiv style={{paddingBottom:50}}>
                             <input {...register("institute")} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
-                            <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
-                                <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
-                                <option value={"kinder"} >유치원</option>
-                                <option value={"elemen"} >초등학교</option>
-                                <option value={"middle"} >중학교</option>
-                                <option value={"high"} >고등학교</option>
-                            </select>
+                            {watch("institute") === "school" && (
+                                <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
+                                    <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
+                                    <option value={"kinder"} >유치원</option>
+                                    <option value={"elemen"} >초등학교</option>
+                                    <option value={"middle"} >중학교</option>
+                                    <option value={"high"} >고등학교</option>
+                                </select>
+                            )}
                         </RowDiv>
                         <RowDiv>
                             <input {...register("institute")} type={"radio"} value={"company"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
@@ -148,12 +150,12 @@ function RecipeWrite () {
                     <RowDiv style={{paddingBottom:50}}>
                         <Title>식수</Title>
                         <DivisionLine />
-                        <Input name={"peopleNum"}/>명
+                        <Input {...register("peopleNum")} type={"number"} name={"peopleNum"}/>명
                     </RowDiv>
                     <RowDiv>
                         <Title>식단가</Title>
                         <DivisionLine />
-                        <Input name={"price"}/>원
+                        <Input {...register("price")} type={"number"} name={"price"}/>원
                     </RowDiv>
                 </ColDiv>
             </FormDiv>
