@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar.js"
 import styled from "styled-components"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
 import Footer from "../components/Footer.js"
@@ -64,19 +64,20 @@ function RecipeWrite () {
     }
 
 // 폼 데이터 서버로 보내기
-    // const [recipeInfo, setRecipeInfo] = useState({
-    //     year : '',
-    //     month :'',
-    //     day : '',
-    //     institute: '',
-    //     school: '',
-    //     peopleNum: '',
-    //     price: '',
-    // });
+    const [recipeInfo, setRecipeInfo] = useState(null);
+    
+    // 서버에서 데이터 가져오기
+    useEffect(() => {
+        fetch("http://localhost:3010/posts")
+        .then((response) => response.json())
+        .then((data) => setRecipeInfo(data))
+    }, []);
+ 
+
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
-      
+
     //     fetch("API 주소", {
     //       method: "POST",
     //       body: new FormData(recipeInfo),
@@ -98,8 +99,16 @@ function RecipeWrite () {
 
 // react-hook-form
     const { register, handleSubmit, watch } = useForm();
-    const onSubmit = (data) => console.log(data);
 
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
+    //     fetch("http://localhost:3010", {
+    //         method: "POST",
+    //         body: JSON.stringify({
+    //             e,
+    //         })
+    //     })
+    // }
 
 
 
@@ -111,8 +120,18 @@ function RecipeWrite () {
             내 식단 공유하기
         </HeadDiv>
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit()}>
             <FormDiv>
+            {/* 데이터가 비동기적으로 로드되는 경우: 데이터를 서버에서 비동기적으로 가져오는 경우, 
+            데이터가 로드되기 전에 컴포넌트가 렌더링될 수 있습니다. 
+            이 경우 recipeInfo 배열이 초기값인 null 또는 undefined일 수 있으므로 
+            map 함수를 호출할 때 오류가 발생할 수 있습니다. 
+            이 문제를 해결하기 위해서는 조건부 렌더링을 사용하여 데이터 로드 후에만 map 함수를 호출하도록 할 수 있습니다: */}
+            {recipeInfo && recipeInfo.map((data) => (
+                <div key={data.author}>
+                    <div>{data.author}</div>
+                </div>
+                ))}
                 <RowDiv>
                     <Title>작성자</Title>
                     <DivisionLine />
