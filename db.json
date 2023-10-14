@@ -1,9 +1,33 @@
 {
-    "posts": [
-      { "id": 1, "title": "json-server", "author": "typicode" }
-    ],
-    "comments": [
-      { "id": 1, "body": "some comment", "postId": 1 }
-    ],
-    "profile": { "name": "typicode" }
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "name": "dundun"
+    }
+  ],
+  "comments": [
+    {
+      "date": "",
+      "institute": "",
+      "peopleNum": "",
+      "price": "",
+      "recipeImg": "",
+      "explanation": "",
+      "recipeFile": "",
+      "whichSchool": "",
+      "menues": [
+        {
+          "id": 0,
+          "menuName": "",
+          "isProductUsed": true,
+          "productName": "",
+          "productBrand": ""
+        }
+      ]
+    }
+  ],
+  "profile": {
+    "name": "typicode"
   }
+}

@@ -13,18 +13,32 @@ function RecipeWrite () {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
 
-// 이미지 업로드
-    const [imgFile, setImgFile] = useState("");
-    const imgRef = useRef();
+// react-hook-form
+const { register, handleSubmit, watch } = useForm();
 
-    const saveImgFile = () => {
-        const file = imgRef.current.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setImgFile(reader.result);
-           };
-    };
+
+// 이미지 업로드
+    const [recipeImgURL, setRecipeImgURL] = useState("");
+    const recipeImg = watch('recipeImg');
+    useEffect(() => {
+        if (recipeImg && recipeImg.length > 0) {
+            const file = recipeImg[0];
+            setRecipeImgURL(URL.createObjectURL(file));
+        }
+    },[recipeImg])
+
+// 파일 업로드
+    const [recipeFileURL, setRecipeFileURL] = useState("");
+    const recipeFile = watch('recipeFile');
+    useEffect(() => {
+        if (recipeFile && recipeFile.length > 0) {
+            const file = recipeFile[0];
+            setRecipeFileURL(URL.createObjectURL(file));
+        }
+    },[recipeFile])
+
+
+    
 
 // 메뉴 리스트 추가 삭제 부분
     const nextID = useRef(1);
@@ -63,10 +77,9 @@ function RecipeWrite () {
         setInputItems(inputItemsCopy);		                 // 그걸 InputItems 에 저장해주자
     }
 
-// 폼 데이터 서버로 보내기
+// 서버에서 데이터 가져오기
     const [recipeInfo, setRecipeInfo] = useState(null);
     
-    // 서버에서 데이터 가져오기
     useEffect(() => {
         fetch("http://localhost:3010/posts")
         .then((response) => response.json())
@@ -96,19 +109,20 @@ function RecipeWrite () {
     //       });
     //   };
 
-
-// react-hook-form
-    const { register, handleSubmit, watch } = useForm();
-
-    // const onSubmit = (e) => {
-    //     e.preventDefault();
-    //     fetch("http://localhost:3010", {
-    //         method: "POST",
-    //         body: JSON.stringify({
-    //             e,
-    //         })
-    //     })
-    // }
+// 서버로 form 데이터 보내기
+    const onSubmit = (data) => {
+        data.recipeImg = recipeImgURL;
+        data.recipeFile = recipeFileURL;
+        data.menues = inputItems;
+        console.log(JSON.stringify(data))
+        fetch("http://localhost:3010/comments", {
+            method: "POST",
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+    }
 
 
 
@@ -120,22 +134,18 @@ function RecipeWrite () {
             내 식단 공유하기
         </HeadDiv>
 
-        <Form onSubmit={handleSubmit()}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <FormDiv>
             {/* 데이터가 비동기적으로 로드되는 경우: 데이터를 서버에서 비동기적으로 가져오는 경우, 
             데이터가 로드되기 전에 컴포넌트가 렌더링될 수 있습니다. 
             이 경우 recipeInfo 배열이 초기값인 null 또는 undefined일 수 있으므로 
             map 함수를 호출할 때 오류가 발생할 수 있습니다. 
             이 문제를 해결하기 위해서는 조건부 렌더링을 사용하여 데이터 로드 후에만 map 함수를 호출하도록 할 수 있습니다: */}
-            {recipeInfo && recipeInfo.map((data) => (
-                <div key={data.author}>
-                    <div>{data.author}</div>
-                </div>
-                ))}
+
                 <RowDiv>
                     <Title>작성자</Title>
                     <DivisionLine />
-                    작성자닉네임
+                    {recipeInfo?.map((data) => (<div key={data.name}>{data.name}</div>))}
                 </RowDiv>
                 <RowDiv>
                     <Title>급식일</Title>
@@ -150,7 +160,7 @@ function RecipeWrite () {
                     <ColDiv>
                         <RowDiv style={{paddingBottom:50}}>
                             <input {...register("institute")} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
-                            {watch("institute") === "school" && (
+                            { watch("institute") === "school" && (
                                 <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
                                     <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
                                     <option value={"kinder"} >유치원</option>
@@ -181,13 +191,13 @@ function RecipeWrite () {
             <form>
                 <label htmlFor="recipeImg">
                     <UploadImg>
-                        {imgFile ? <img src={imgFile ? imgFile : ""} alt="프로필 이미지"/>
-                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 이미지 업로드 </>
+                        {recipeImgURL ? <img src={recipeImgURL ? recipeImgURL : ""} alt="식단 이미지"/>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 </>
                         }
                     </UploadImg>
                 </label>
-                <input type="file" accept="image/*" id="recipeImg" onChange={saveImgFile}
-                        ref={imgRef} style={{display:"none"}}></input>
+                <input {...register("recipeImg")} type="file" accept="image/*" id="recipeImg"
+                        style={{display:"none"}} />
             </form>
 
             <MenuTitleDiv>
@@ -212,21 +222,23 @@ function RecipeWrite () {
                 </>
                 )
             )}
+
             <Button onClick={addMenu}>
                 <FontAwesomeIcon icon={faPlus} style={{marginRight:10}} />메뉴 추가
             </Button>
+
             <FormDiv>
                 <RowDiv>
                     <Title>설명</Title>
                     <DivisionLine />
-                    <textarea style={{width:720, height:200, resize:"none", fontSize:18}}/>
+                    <textarea {...register("explanation")} style={{width:720, height:200, resize:"none", fontSize:18}}/>
                 </RowDiv>
             </FormDiv>
             <FormDiv style={{marginTop: 30}}>
                 <RowDiv>
                     <Title>레시피 업로드</Title>
                     <DivisionLine />
-                    <input type="file" />
+                    <input {...register("recipeFile")}  type="file" />
                 </RowDiv>
             </FormDiv>
             <RowDivisionLine />
