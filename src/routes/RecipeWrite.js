@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
+import { Navigate, useNavigate } from "react-router-dom"
 
 
 function RecipeWrite () {
@@ -110,20 +111,36 @@ const { register, handleSubmit, watch } = useForm();
     //   };
 
 // 서버로 form 데이터 보내기
+    const navigate = useNavigate();
     const onSubmit = (data) => {
         data.recipeImg = recipeImgURL;
         data.recipeFile = recipeFileURL;
         data.menues = inputItems;
-        console.log(JSON.stringify(data))
         fetch("http://localhost:3010/comments", {
             method: "POST",
             headers:{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        })
-    }
+        }).then((response) => {
+            if (response.ok === true) {
+                return response.json();
+                }
+            throw new Error("에러 발생!");
+        }).catch((error) => {
+            alert(error);
+        }).then((data) => {
+            if(window.confirm("포스팅 하시겠습니까?")){
+                console.log("포스팅 되었습니다.")
+                console.log(data)
+                navigate('/recipe')
+                
+            } else {
+                console.log("취소 되었습니다.")
+            };
+        });
 
+    }
 
 
     return(
