@@ -89,27 +89,6 @@ const { register, handleSubmit, watch } = useForm();
  
 
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     fetch("API 주소", {
-    //       method: "POST",
-    //       body: new FormData(recipeInfo),
-    //     })
-    //       .then((response) => {
-    //         if (response.ok === true) {
-    //           return response.json();
-    //         }
-    //         throw new Error("에러 발생!");
-    //       })
-    //       .catch((error) => {
-    //         alert(error);
-    //       })
-    //       .then((data) => {
-    //         console.log(data);
-    //       });
-    //   };
-
 // 서버로 form 데이터 보내기
     const navigate = useNavigate();
     const onSubmit = (data) => {

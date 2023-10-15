@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Navbar from "../components/Navbar.js"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
 import Footer from "../components/Footer.js"
@@ -10,6 +10,23 @@ import Recipe from "./Recipe.js"
 
 
 function RecipeSchool() {
+
+    // 서버에서 메뉴이름들 가져오기
+    const [recipeInfo, setRecipeInfo] = useState(null);
+    
+    
+    useEffect(() => {
+        fetch("http://localhost:3010/comments")
+        .then((response) => response.json())
+        .then((data) => data.find((data) => {
+            return data.id === 2;
+        }))
+        .then((data) => data.menues)
+        .then((data) => data.map((item) => {return item.menuName}))
+        .then((data) => setRecipeInfo(data))
+    }, []);
+
+ 
 
     return (
         <>
@@ -36,11 +53,13 @@ function RecipeSchool() {
             <School>중학교</School>
             <School>고등학교</School>
         </Div>
+
         <RecipeList>
             <RecipeCompo>
                 <Title>
                     <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
-                    8월 식단입니다.................................................................................
+                    {recipeInfo?.join(" - ")}
+
                 </Title>
                 <Img>식단이미지</Img>
  
@@ -59,7 +78,8 @@ function RecipeSchool() {
             <RecipeCompo>
                 <Title>
                     <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
-                    8월 식단입니다.................................................................................
+                    {recipeInfo?.join(" - ")}
+
                 </Title>
                 <Img>식단이미지</Img>
                 <Div>

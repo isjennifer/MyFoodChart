@@ -27,213 +27,59 @@
       ]
     },
     {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
+      "date": "2023-10-12",
+      "institute": "school",
+      "peopleNum": "300",
+      "price": "1000",
       "recipeImg": "",
       "explanation": "",
       "recipeFile": "",
+      "whichSchool": "middle",
       "menues": [
         {
           "id": 0,
-          "menuName": "",
+          "menuName": "쌀밥",
           "isProductUsed": "",
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 1,
+          "menuName": "된장국",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 2,
+          "menuName": "두부구이",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 3,
+          "menuName": "시금치무침",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 4,
+          "menuName": "배추김치",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 5,
+          "menuName": "초코우유",
+          "isProductUsed": false,
           "productName": "",
           "productBrand": ""
         }
       ],
       "id": 2
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 3
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 4
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 5
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 6
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 7
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 8
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 9
-    },
-    {
-      "date": "2023-10-04",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 10
-    },
-    {
-      "date": "",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 11
-    },
-    {
-      "date": "",
-      "institute": null,
-      "peopleNum": "",
-      "price": "",
-      "recipeImg": "",
-      "explanation": "",
-      "recipeFile": "",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
-        }
-      ],
-      "id": 12
     }
   ],
   "profile": {
