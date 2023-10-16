@@ -32,30 +32,30 @@
       "peopleNum": "300",
       "price": "1000",
       "recipeImg": "",
-      "explanation": "",
+      "explanation": "레시피 설명 입니다.",
       "recipeFile": "",
-      "whichSchool": "middle",
+      "whichSchool": "중학교",
       "menues": [
         {
           "id": 0,
           "menuName": "쌀밥",
-          "isProductUsed": "",
-          "productName": "",
-          "productBrand": ""
+          "isProductUsed": true,
+          "productName": "김포금쌀",
+          "productBrand": "김포산"
         },
         {
           "id": 1,
           "menuName": "된장국",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
+          "isProductUsed": true,
+          "productName": "된장",
+          "productBrand": "풀무원"
         },
         {
           "id": 2,
           "menuName": "두부구이",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
+          "isProductUsed": true,
+          "productName": "두부",
+          "productBrand": "청정원"
         },
         {
           "id": 3,
@@ -74,9 +74,9 @@
         {
           "id": 5,
           "menuName": "초코우유",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
+          "isProductUsed": true,
+          "productName": "맛있는초코우유",
+          "productBrand": "서울우유"
         }
       ],
       "id": 2

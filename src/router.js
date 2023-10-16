@@ -7,6 +7,7 @@ import HowToUse from "./routes/HowToUse"
 import RecipeSchool from "./routes/RecipeSchool"
 import RecipeCompany from "./routes/RecipeCompany"
 import RecipeWrite from "./routes/RecipeWrite"
+import RecipeDetail from "./routes/RecipeDetail"
 
 
 
@@ -56,5 +57,10 @@ export const RouterInfo = [
         path: "/recipe_write",
         element: <RecipeWrite/>,
         label: 'recipe_write',
+    },
+    {
+        path: "/recipe_detail",
+        element: <RecipeDetail/>,
+        label: 'recipe_detail',
     },
 ]

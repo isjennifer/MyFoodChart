@@ -79,12 +79,12 @@ const { register, handleSubmit, watch } = useForm();
     }
 
 // 서버에서 데이터 가져오기
-    const [recipeInfo, setRecipeInfo] = useState(null);
+    const [userName, setUserName] = useState(null);
     
     useEffect(() => {
         fetch("http://localhost:3010/posts")
         .then((response) => response.json())
-        .then((data) => setRecipeInfo(data))
+        .then((data) => setUserName(data))
     }, []);
  
 
@@ -141,7 +141,7 @@ const { register, handleSubmit, watch } = useForm();
                 <RowDiv>
                     <Title>작성자</Title>
                     <DivisionLine />
-                    {recipeInfo?.map((data) => (<div key={data.name}>{data.name}</div>))}
+                    {userName?.map((data) => (<div key={data.name}>{data.name}</div>))}
                 </RowDiv>
                 <RowDiv>
                     <Title>급식일</Title>
@@ -159,15 +159,15 @@ const { register, handleSubmit, watch } = useForm();
                             { watch("institute") === "school" && (
                                 <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
                                     <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
-                                    <option value={"kinder"} >유치원</option>
-                                    <option value={"elemen"} >초등학교</option>
-                                    <option value={"middle"} >중학교</option>
-                                    <option value={"high"} >고등학교</option>
+                                    <option value={"유치원"} >유치원</option>
+                                    <option value={"초등학교"} >초등학교</option>
+                                    <option value={"중학교"} >중학교</option>
+                                    <option value={"고등학교"} >고등학교</option>
                                 </select>
                             )}
                         </RowDiv>
                         <RowDiv>
-                            <input {...register("institute")} type={"radio"} value={"company"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
+                            <input {...register("institute")} type={"radio"} value={"산업체"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
                         </RowDiv>
                     </ColDiv>
                 </RowDiv>
