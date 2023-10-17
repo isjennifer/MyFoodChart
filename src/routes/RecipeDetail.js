@@ -2,7 +2,9 @@ import Navbar from "../components/Navbar.js"
 import styled from "styled-components"
 import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faImage, faPlus,faSquareMinus} from '@fortawesome/free-solid-svg-icons'
+import { faSquareCheck,faSquare } from '@fortawesome/free-regular-svg-icons'
+
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
 import { Navigate, useNavigate } from "react-router-dom"
@@ -37,6 +39,7 @@ function RecipeDetail () {
         .then((data) => setUserName(data))
     }, []);
 
+    const menues = recipeInfo?.menues.map((data)=>{return data})
 
 
 
@@ -91,8 +94,25 @@ function RecipeDetail () {
                     <MenuTitle style={{marginLeft:85}}>사용 제품명</MenuTitle>
                     <MenuTitle style={{marginLeft:135}}>브랜드</MenuTitle>
                 </MenuTitleDiv>
-
-                    {/* 메뉴리스트 */}
+                
+            
+                {menues?.map((data)=>{
+                    return (
+                        <>
+                        <FormDiv>
+                            <RowDiv>
+                                <Title>메뉴</Title>{data.id + 1}<DivisionLine />
+                            </RowDiv>
+                            <div>{data.menuName}</div>
+                            <div>{data.isProductUsed ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}</div>
+                            <div>{data.productName}</div>
+                            <div>{data.productBrand}</div>
+                        </FormDiv>
+                        </>
+                    )
+                })}
+                    
+                
 
                 <FormDiv>
                     <RowDiv>
@@ -103,7 +123,7 @@ function RecipeDetail () {
                 </FormDiv>
                 <FormDiv style={{marginTop: 30}}>
                     <RowDiv>
-                        <Title>레시피 업로드</Title>
+                        <Title>레시피 정보</Title>
                         <DivisionLine />
                         {recipeInfo?.recipeFile}
                     </RowDiv>
@@ -263,9 +283,6 @@ const ColDiv = styled.div`
     display: flex;
     flex-direction: column;
     color: #505050;
-    
 
-    
-    
 
 ` 
