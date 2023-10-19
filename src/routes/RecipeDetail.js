@@ -2,9 +2,8 @@ import Navbar from "../components/Navbar.js"
 import styled from "styled-components"
 import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil, faImage, faPlus,faSquareMinus} from '@fortawesome/free-solid-svg-icons'
-import { faSquareCheck,faSquare } from '@fortawesome/free-regular-svg-icons'
-
+import { faPencil,faTriangleExclamation,faArrowRight,faMagnifyingGlass, faImage, faPlus,faSquareMinus} from '@fortawesome/free-solid-svg-icons'
+import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
 import { Navigate, useNavigate } from "react-router-dom"
@@ -15,6 +14,10 @@ function RecipeDetail () {
 // Navbar 모바일 반응형
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
+
+
+    const { register, handleSubmit, watch } = useForm();
+
 
 
 // 서버에서 메뉴이름들 가져오기
@@ -40,6 +43,46 @@ function RecipeDetail () {
     }, []);
 
     const menues = recipeInfo?.menues.map((data)=>{return data})
+
+
+
+// 서버로 댓글 보내기
+    const onSubmit = (data) => {
+        fetch("http://localhost:3010/profile",{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }).then((response) => {
+            if (response.ok === true) {
+                return response.json();
+                }
+            throw new Error("에러 발생!");
+        }).catch((error) => {
+            alert(error);
+        }).then((data) => {
+            if(window.confirm("댓글을 남기시겠습니까?")){
+                console.log("댓글이 등록되었습니다.")
+                console.log(data)
+            } else {
+                console.log("취소 되었습니다.")
+            };
+        });
+
+    }
+
+
+// 서버에서 댓글 가져오기
+    const [comment, setComment] = useState(null);
+            
+    useEffect(() => {
+        fetch("http://localhost:3010/profile")
+        .then((response) => response.json())
+        .then((data) => setComment(data))
+    }, [comment]);
+
+
 
 
 
@@ -128,8 +171,45 @@ function RecipeDetail () {
                         {recipeInfo?.recipeFile}
                     </RowDiv>
                 </FormDiv>
+
+                    <RowDiv>
+                        <FontAwesomeIcon icon={faCommentDots} />
+                        댓글
+                        <FontAwesomeIcon icon={faHeart} />
+                        좋아요
+                        <FontAwesomeIcon icon={faBookmark} />
+                        북마크
+                        <FontAwesomeIcon icon={faTriangleExclamation} />
+                        신고
+                    </RowDiv>
+
                 <RowDivisionLine />
-            
+                    {comment?.map((data) => {
+                        return (
+                            <>
+                            <RowDiv>
+                            <div>{data.id}</div>
+                            <div>{data.comment}</div>
+                            </RowDiv>
+                            </>
+                        )
+                    })}
+                    <CommentBox onSubmit={handleSubmit(onSubmit)}>
+                        <CommentInput {...register("comment")} name="comment" placeholder="댓글 남기기..."/>
+                        <button type="submit" style={{border:"none", backgroundColor:"transparent"}}>
+                        <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
+                        </button>
+                    </CommentBox>
+                   
+                <RowDivisionLine />
+                    <RowDiv>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                        수정
+                        <FontAwesomeIcon icon={faTrashCan} />
+                        삭제
+                    </RowDiv>
+                
+                
 
         </Form>
 
@@ -141,6 +221,31 @@ function RecipeDetail () {
 export default RecipeDetail;
 
 
+const CommentBox = styled.form`
+    display: inline-flex;
+    background-color: white;
+    border: #7B7B7B solid 1px;
+    padding: 0px 10px;
+    border-radius: 40px;
+    width: 100%;
+    height: 45px;
+    align-items: center;
+    justify-content: space-between;
+
+
+`
+const CommentInput = styled.input`
+    border: none; // 검색창 border 을 없앰으로써 자연스러워짐
+    -webkit-appearance: none; // 기본 search 디자인을 없앰
+    width: 100%;
+    height: 40px;
+    margin: 0px 10px;
+    overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
+    font-size: 18px;
+    &:focus{
+        outline: none;
+    };
+`
 
 
 const FormSubmitBtn = styled.button`

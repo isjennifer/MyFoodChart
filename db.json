@@ -82,7 +82,26 @@
       "id": 2
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "profile": [
+    {
+      "id": 1,
+      "comment": "댓글을 또 남겨용"
+    },
+    {
+      "comment": "댓글을 또 남겨",
+      "id": 2
+    },
+    {
+      "comment": "댓글을 남겨볼까요?",
+      "id": 3
+    },
+    {
+      "comment": "댓글을 남겨요.",
+      "id": 4
+    },
+    {
+      "comment": "댓글을 남깁시다!",
+      "id": 5
+    }
+  ]
 }
