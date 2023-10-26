@@ -6,6 +6,7 @@ import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
 import { Navigate, useNavigate } from "react-router-dom"
+import ImageCropper from "../components/ImageCropper.js"
 
 
 function RecipeWrite () {
@@ -121,6 +122,25 @@ const { register, handleSubmit, watch } = useForm();
 
     }
 
+    const [image, setImage] = useState(null);
+    const onChange = (e) => {
+        e.preventDefault();
+        let files;
+        if (e.dataTransfer) {
+          files = e.dataTransfer.files;
+        } else if (e.target) {
+          files = e.target.files;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImage(reader.result);
+        };
+        reader.readAsDataURL(files[0]);
+      };
+
+    const childRef = useRef({});
+
+
 
     return(
         <>
@@ -184,7 +204,7 @@ const { register, handleSubmit, watch } = useForm();
                     </RowDiv>
                 </ColDiv>
             </FormDiv>
-            <form>
+            {/* <form>
                 <label htmlFor="recipeImg">
                     <UploadImg>
                         {recipeImgURL ? <img src={recipeImgURL ? recipeImgURL : ""} alt="식단 이미지"/>
@@ -193,8 +213,21 @@ const { register, handleSubmit, watch } = useForm();
                     </UploadImg>
                 </label>
                 <input {...register("recipeImg")} type="file" accept="image/*" id="recipeImg"
-                        style={{display:"none"}} />
-            </form>
+                        style={{display:"none"}} onChange={onChange}/>
+            </form> */}
+            <label htmlFor="recipeImg">
+                <UploadImg>
+                    {childRef.current.cropData ? <img src={childRef.current.cropData  ? childRef.current.cropData  : ""} alt="식단 이미지"/>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 </>
+                    }
+                </UploadImg>
+            </label>
+            <input type="file" accept="image/*" id="recipeImg"
+                    style={{display:"none"}} onChange={onChange}/>
+
+            {image && <Modal><ImageCropper image={image} childref={childRef} /></Modal>}
+
+            
 
             <MenuTitleDiv>
                 <MenuTitle style={{marginLeft:20}}>구분</MenuTitle>
@@ -248,7 +281,18 @@ const { register, handleSubmit, watch } = useForm();
 
 export default RecipeWrite;
 
+const Modal = styled.div`
+    display: flex;
+    position: absolute;
+    z-index: 1000;
+    width: 650px;
+    height: 500px;
+    top: 75%;
+    left: 27%;
+    background-color: green;
+    border-radius: 50px;
 
+`
 
 
 const FormSubmitBtn = styled.button`
