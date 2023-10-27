@@ -122,23 +122,11 @@ const { register, handleSubmit, watch } = useForm();
 
     }
 
-    const [image, setImage] = useState(null);
-    const onChange = (e) => {
-        e.preventDefault();
-        let files;
-        if (e.dataTransfer) {
-          files = e.dataTransfer.files;
-        } else if (e.target) {
-          files = e.target.files;
-        }
-        const reader = new FileReader();
-        reader.onload = () => {
-          setImage(reader.result);
-        };
-        reader.readAsDataURL(files[0]);
-      };
-
-    const childRef = useRef({});
+// ImageCropper 구현
+    const [image, setImage] = useState(null)
+    const onCrop = (croppedImage) => {
+        setImage(croppedImage);
+    }
 
 
 
@@ -204,29 +192,14 @@ const { register, handleSubmit, watch } = useForm();
                     </RowDiv>
                 </ColDiv>
             </FormDiv>
-            {/* <form>
-                <label htmlFor="recipeImg">
-                    <UploadImg>
-                        {recipeImgURL ? <img src={recipeImgURL ? recipeImgURL : ""} alt="식단 이미지"/>
-                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 </>
-                        }
-                    </UploadImg>
-                </label>
-                <input {...register("recipeImg")} type="file" accept="image/*" id="recipeImg"
-                        style={{display:"none"}} onChange={onChange}/>
-            </form> */}
-            <label htmlFor="recipeImg">
+            
+            <ImageCropper onCrop={onCrop}>
                 <UploadImg>
-                    {childRef.current.cropData ? <img src={childRef.current.cropData  ? childRef.current.cropData  : ""} alt="식단 이미지"/>
+                    {image ? <img src={image} alt="식단 이미지" style={{width:800, height:500}}/>
                             : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 </>
                     }
                 </UploadImg>
-            </label>
-            <input type="file" accept="image/*" id="recipeImg"
-                    style={{display:"none"}} onChange={onChange}/>
-
-            {image && <Modal><ImageCropper image={image} childref={childRef} /></Modal>}
-
+            </ImageCropper>
             
 
             <MenuTitleDiv>
@@ -290,7 +263,7 @@ const Modal = styled.div`
     top: 75%;
     left: 27%;
     background-color: green;
-    border-radius: 50px;
+    border-radius: 10px;
 
 `
 
