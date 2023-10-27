@@ -127,6 +127,9 @@ const { register, handleSubmit, watch } = useForm();
     const onCrop = (croppedImage) => {
         setImage(croppedImage);
     }
+    useEffect(() =>{
+        setImage(image);
+    }, [image])
 
 
 
