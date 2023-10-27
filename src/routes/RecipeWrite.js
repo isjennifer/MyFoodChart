@@ -16,18 +16,8 @@ function RecipeWrite () {
     const [toggleProfile, setToggleProfile] = useState(false);
 
 // react-hook-form
-const { register, handleSubmit, watch } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, setError,} = useForm({mode: 'onBlur'});
 
-
-// 이미지 업로드
-    const [recipeImgURL, setRecipeImgURL] = useState("");
-    const recipeImg = watch('recipeImg');
-    useEffect(() => {
-        if (recipeImg && recipeImg.length > 0) {
-            const file = recipeImg[0];
-            setRecipeImgURL(URL.createObjectURL(file));
-        }
-    },[recipeImg])
 
 // 파일 업로드
     const [recipeFileURL, setRecipeFileURL] = useState("");
@@ -93,7 +83,7 @@ const { register, handleSubmit, watch } = useForm();
 // 서버로 form 데이터 보내기
     const navigate = useNavigate();
     const onSubmit = (data) => {
-        data.recipeImg = recipeImgURL;
+        data.recipeImg = image;
         data.recipeFile = recipeFileURL;
         data.menues = inputItems;
         fetch("http://localhost:3010/comments", {
@@ -125,11 +115,24 @@ const { register, handleSubmit, watch } = useForm();
 // ImageCropper 구현
     const [image, setImage] = useState(null)
     const onCrop = (croppedImage) => {
-        setImage(croppedImage);
+        // base64 -> blob url로 변환
+        const byteString = atob(croppedImage.split(",")[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ia], {
+        type: "image/*"
+        });
+        const blobURL = URL.createObjectURL(blob);
+        setImage(blobURL);
     }
     useEffect(() =>{
         setImage(image);
     }, [image])
+    
+
 
 
 
@@ -143,12 +146,6 @@ const { register, handleSubmit, watch } = useForm();
 
         <Form onSubmit={handleSubmit(onSubmit)}>
             <FormDiv>
-            {/* 데이터가 비동기적으로 로드되는 경우: 데이터를 서버에서 비동기적으로 가져오는 경우, 
-            데이터가 로드되기 전에 컴포넌트가 렌더링될 수 있습니다. 
-            이 경우 recipeInfo 배열이 초기값인 null 또는 undefined일 수 있으므로 
-            map 함수를 호출할 때 오류가 발생할 수 있습니다. 
-            이 문제를 해결하기 위해서는 조건부 렌더링을 사용하여 데이터 로드 후에만 map 함수를 호출하도록 할 수 있습니다: */}
-
                 <RowDiv>
                     <Title>작성자</Title>
                     <DivisionLine />
@@ -157,8 +154,11 @@ const { register, handleSubmit, watch } = useForm();
                 <RowDiv>
                     <Title>급식일</Title>
                     <DivisionLine />
-                    <input {...register("date")} type={"date"} style={{fontSize:18, marginRight:10}}/>
+                    <input {...register("date",{
+                        required : '급식일을 입력해주세요.'
+                    })} type={"date"} style={{fontSize:18, marginRight:10}}/>
                 </RowDiv>
+                <Em>{errors?.date?.message}</Em>
             </FormDiv>
             <FormDiv>
                 <RowDiv>
@@ -166,9 +166,13 @@ const { register, handleSubmit, watch } = useForm();
                     <DivisionLine style={{height:100}}/>
                     <ColDiv>
                         <RowDiv style={{paddingBottom:50}}>
-                            <input {...register("institute")} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
+                            <input {...register("institute",{
+                                required : "해당되는 기관에 체크해주세요."
+                            })} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
                             { watch("institute") === "school" && (
-                                <select {...register("whichSchool")} style={{fontSize: 18, marginLeft:10}}>
+                                <select {...register("whichSchool", {
+                                    required : "학교 급을 선택해주세요."
+                                })} style={{fontSize: 18, marginLeft:10}}>
                                     <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
                                     <option value={"유치원"} >유치원</option>
                                     <option value={"초등학교"} >초등학교</option>
@@ -177,34 +181,41 @@ const { register, handleSubmit, watch } = useForm();
                                 </select>
                             )}
                         </RowDiv>
+                        <Em>{errors?.whichSchool?.message}</Em>
                         <RowDiv>
                             <input {...register("institute")} type={"radio"} value={"산업체"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
                         </RowDiv>
+                        <Em>{errors?.institute?.message}</Em>
                     </ColDiv>
                 </RowDiv>
                 <ColDiv style={{paddingRight:95}}>
                     <RowDiv style={{paddingBottom:50}}>
                         <Title>식수</Title>
                         <DivisionLine />
-                        <Input {...register("peopleNum")} type={"number"} name={"peopleNum"}/>명
+                        <Input {...register("peopleNum", {
+                            required : "식수를 입력해주세요."
+                        })} type={"number"} name={"peopleNum"}/>명
                     </RowDiv>
+                    <Em>{errors?.peopleNum?.message}</Em>
                     <RowDiv>
                         <Title>식단가</Title>
                         <DivisionLine />
-                        <Input {...register("price")} type={"number"} name={"price"}/>원
+                        <Input {...register("price", {
+                            required:"식단가를 입력해주세요."
+                        })} type={"number"} name={"price"}/>원
                     </RowDiv>
+                    <Em>{errors?.price?.message}</Em>
                 </ColDiv>
             </FormDiv>
             
             <ImageCropper onCrop={onCrop}>
                 <UploadImg>
                     {image ? <img src={image} alt="식단 이미지" style={{width:800, height:500}}/>
-                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 </>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 {image ?  "" : <Em>식단 이미지를 업로드해주세요.</Em>} </>
                     }
                 </UploadImg>
             </ImageCropper>
             
-
             <MenuTitleDiv>
                 <MenuTitle style={{marginLeft:20}}>구분</MenuTitle>
                 <MenuTitle style={{marginLeft:110}}>메뉴명</MenuTitle>
@@ -243,8 +254,11 @@ const { register, handleSubmit, watch } = useForm();
                 <RowDiv>
                     <Title>레시피 업로드</Title>
                     <DivisionLine />
-                    <input {...register("recipeFile")}  type="file" />
+                    <input {...register("recipeFile", {
+                        required: "레시피 파일을 업로드해주세요."
+                    })}  type="file" />
                 </RowDiv>
+                <Em>{errors?.recipeFile?.message}</Em>
             </FormDiv>
             <RowDivisionLine />
         <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
@@ -256,6 +270,12 @@ const { register, handleSubmit, watch } = useForm();
 }
 
 export default RecipeWrite;
+
+const Em = styled.p`
+    color: red;
+    font-size: 15px;
+`
+
 
 const Modal = styled.div`
     display: flex;

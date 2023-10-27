@@ -39,6 +39,7 @@ const ImageCropper = ({ children, onCrop }) => {
     }
   };
 
+
   return (
     <>
       <input
@@ -47,7 +48,9 @@ const ImageCropper = ({ children, onCrop }) => {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-      <span onClick={handleChildrenClick}>{children}</span>
+      <span onClick={handleChildrenClick}>
+        {children}
+      </span>
       {image && (
         <ModalBox>
           <Modal>
