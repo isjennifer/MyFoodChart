@@ -65,7 +65,7 @@ function RecipeSchool() {
  
                 <Div>
                     <Div style={{fontSize: 16, padding:10}}>
-                        {/* 아이콘 바꿔야됨 */}
+                        {/* 작성자아이콘으로 바꿔야됨 */}
                         <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
                         작성자닉네임
                     </Div>
@@ -75,25 +75,7 @@ function RecipeSchool() {
                     </Div>
                 </Div>
             </RecipeCompo>
-            <RecipeCompo>
-                <Title>
-                    <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
-                    {recipeInfo?.join(" - ")}
-
-                </Title>
-                <Img>식단이미지</Img>
-                <Div>
-                    <Div style={{fontSize: 16, padding:10}}>
-                        {/* 아이콘 바꿔야됨 */}
-                        <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
-                        작성자닉네임
-                    </Div>
-                    <Div style={{fontSize: 16, padding:10}}>
-                        <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
-                        좋아요수
-                    </Div>
-                </Div>
-            </RecipeCompo>
+        
         </RecipeList>
         <Footer/>
         </>

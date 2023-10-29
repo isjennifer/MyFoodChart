@@ -43,7 +43,7 @@ function RecipeDetail () {
     }, []);
 
     const menues = recipeInfo?.menues.map((data)=>{return data})
-
+   
 
 
 // 서버로 댓글 보내기
