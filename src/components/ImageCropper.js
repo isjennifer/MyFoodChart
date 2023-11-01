@@ -32,6 +32,7 @@ const ImageCropper = ({ children, onCrop }) => {
     reader.readAsDataURL(files[0]);
   };
 
+
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       onCrop(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
@@ -86,6 +87,7 @@ const ImageCropper = ({ children, onCrop }) => {
 };
 
 export default ImageCropper;
+
 
 
 

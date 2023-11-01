@@ -6,7 +6,8 @@ import { faPencil,faTriangleExclamation,faArrowRight,faMagnifyingGlass, faImage,
 import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
-import { Navigate, useNavigate } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
+
 
 
 function RecipeDetail () {
@@ -18,20 +19,32 @@ function RecipeDetail () {
 
     const { register, handleSubmit, watch } = useForm();
 
+const params = useParams();
 
 
 // 서버에서 메뉴이름들 가져오기
     const [recipeInfo, setRecipeInfo] = useState(null);
     
     useEffect(() => {
+        const {id} = params;
         fetch("http://localhost:3010/comments")
         .then((response) => response.json())
         .then((data) => data.find((data) => {
-            return data.id === 2;
+            return data.id == id;
         }))
-        .then((data) => setRecipeInfo(data))
+        .then((data) => {setRecipeInfo(data)})
     }, []);
 
+    console.log(recipeInfo?.recipeImg)
+
+    const reader = new FileReader();
+    const blob = recipeInfo?.recipeImg; // blob or file
+    reader.readAsDataURL(blob); 
+    reader.onloadend = () => {
+        const base64data = reader.result;
+        // base64 converted!
+        console.log(base64data);
+    }
 
 // 서버에서 데이터 가져오기
     const [userName, setUserName] = useState(null);
@@ -44,6 +57,7 @@ function RecipeDetail () {
 
     const menues = recipeInfo?.menues.map((data)=>{return data})
    
+
 
 
 // 서버로 댓글 보내기
@@ -72,15 +86,14 @@ function RecipeDetail () {
 
     }
 
-
 // 서버에서 댓글 가져오기
-    const [comment, setComment] = useState(null);
+    // const [comment, setComment] = useState(null);
             
-    useEffect(() => {
-        fetch("http://localhost:3010/profile")
-        .then((response) => response.json())
-        .then((data) => setComment(data))
-    }, [comment]);
+    // useEffect(() => {
+    //     fetch("http://localhost:3010/profile")
+    //     .then((response) => response.json())
+    //     .then((data) => setComment(data))
+    // }, [comment]);
 
 
 
@@ -184,7 +197,7 @@ function RecipeDetail () {
                     </RowDiv>
 
                 <RowDivisionLine />
-                    {comment?.map((data) => {
+                    {/* {comment?.map((data) => {
                         return (
                             <>
                             <RowDiv>
@@ -200,7 +213,7 @@ function RecipeDetail () {
                         <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
                         </button>
                     </CommentBox>
-                   
+                    */}
                 <RowDivisionLine />
                     <RowDiv>
                     <FontAwesomeIcon icon={faPenToSquare} />

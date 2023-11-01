@@ -20,14 +20,13 @@ function RecipeWrite () {
 
 
 // 파일 업로드
-    const [recipeFileURL, setRecipeFileURL] = useState("");
-    const recipeFile = watch('recipeFile');
+    const [recipeFile, setRecipeFile] = useState("");
+    const file = watch('recipeFile');
     useEffect(() => {
-        if (recipeFile && recipeFile.length > 0) {
-            const file = recipeFile[0];
-            setRecipeFileURL(URL.createObjectURL(file));
+        if (file && file.length > 0) {
+            setRecipeFile(file[0]);
         }
-    },[recipeFile])
+    },[file])
 
 
     
@@ -81,17 +80,23 @@ function RecipeWrite () {
 
 
 // 서버로 form 데이터 보내기
+    const formData = new FormData();
     const navigate = useNavigate();
-    const onSubmit = (data) => {
-        data.recipeImg = image;
-        data.recipeFile = recipeFileURL;
-        data.menues = inputItems;
+    const onSubmit = () => {
+        formData.append('recipeImg', imageBlob);
+        formData.append('recipeFile', recipeFile);
+        const jsonMenuList = JSON.stringify(inputItems)
+        formData.append('menuList', new Blob([jsonMenuList], { type: 'application/json' }));
+        //   FormData의 value 확인
+          for (let value of formData.values()) {
+            console.log(value);
+          }
         fetch("http://localhost:3010/comments", {
             method: "POST",
             headers:{
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
             },
-            body: JSON.stringify(data),
+            body: formData,
         }).then((response) => {
             if (response.ok === true) {
                 return response.json();
@@ -113,25 +118,28 @@ function RecipeWrite () {
     }
 
 // ImageCropper 구현
+    const [imageBlob, setImageBlob] = useState(null)
     const [image, setImage] = useState(null)
     const onCrop = (croppedImage) => {
+        setImage(croppedImage);
         // base64 -> blob url로 변환
-        const byteString = atob(croppedImage.split(",")[1]);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-        }
-        const blob = new Blob([ia], {
-        type: "image/*"
-        });
-        const blobURL = URL.createObjectURL(blob);
-        setImage(blobURL);
+        // const byteString = atob(croppedImage.split(",")[1]);
+        // const ab = new ArrayBuffer(byteString.length);
+        // const ia = new Uint8Array(ab);
+        // for (let i = 0; i < byteString.length; i++) {
+        // ia[i] = byteString.charCodeAt(i);
+        // }
+        // const blob = new Blob([ia], {
+        // type: "image/*"
+        // });
+        // setImageBlob(blob);
+        // const blobURL = URL.createObjectURL(blob);
+        // setImage(blobURL);
     }
     useEffect(() =>{
         setImage(image);
     }, [image])
-    
+
 
 
 
@@ -157,8 +165,9 @@ function RecipeWrite () {
                     <input {...register("date",{
                         required : '급식일을 입력해주세요.'
                     })} type={"date"} style={{fontSize:18, marginRight:10}}/>
+                    <Em>{errors?.date?.message}</Em>
                 </RowDiv>
-                <Em>{errors?.date?.message}</Em>
+                
             </FormDiv>
             <FormDiv>
                 <RowDiv>
@@ -211,7 +220,7 @@ function RecipeWrite () {
             <ImageCropper onCrop={onCrop}>
                 <UploadImg>
                     {image ? <img src={image} alt="식단 이미지" style={{width:800, height:500}}/>
-                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드 {image ?  "" : <Em>식단 이미지를 업로드해주세요.</Em>} </>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드</>
                     }
                 </UploadImg>
             </ImageCropper>

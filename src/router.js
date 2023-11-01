@@ -59,8 +59,8 @@ export const RouterInfo = [
         label: 'recipe_write',
     },
     {
-        path: "/recipe_detail",
+        path: "/recipe_detail/:id",
         element: <RecipeDetail/>,
-        label: 'recipe_detail',
+        label: 'recipe_detail/:id',
     },
 ]

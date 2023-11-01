@@ -11,20 +11,16 @@ import Recipe from "./Recipe.js"
 
 function RecipeSchool() {
 
-    // 서버에서 메뉴이름들 가져오기
-    const [recipeInfo, setRecipeInfo] = useState(null);
+    // 서버에서 레시피 목록들 가져오기
+    const [recipeInfoList, setRecipeInfo] = useState(null);
     
     
     useEffect(() => {
         fetch("http://localhost:3010/comments")
         .then((response) => response.json())
-        .then((data) => data.find((data) => {
-            return data.id === 2;
-        }))
-        .then((data) => data.menues)
-        .then((data) => data.map((item) => {return item.menuName}))
         .then((data) => setRecipeInfo(data))
     }, []);
+    console.log(recipeInfoList)
 
  
 
@@ -55,27 +51,34 @@ function RecipeSchool() {
         </Div>
 
         <RecipeList>
-            <RecipeCompo>
-                <Title>
-                    <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
-                    {recipeInfo?.join(" - ")}
+            {recipeInfoList?.map((recipeInfo) => {
+                return(
+                <Link to={`/recipe_detail/${recipeInfo.id}`}>
+                <RecipeCompo>
+                    <Title>
+                        <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
+                        {recipeInfo?.menues.map((menu) => {
+                            return menu.menuName
+                        }).join("-")}
+                    </Title>
+                    <Img>식단이미지</Img>
+                    <Div>
+                        <Div style={{fontSize: 16, padding:10}}>
+                            {/* 작성자아이콘으로 바꿔야됨 */}
+                            <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
+                            작성자닉네임
+                        </Div>
+                        <Div style={{fontSize: 16, padding:10}}>
+                            <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
+                            좋아요수
+                        </Div>
+                    </Div>
+                </RecipeCompo>
+                </Link>
+                )
+            })}
 
-                </Title>
-                <Img>식단이미지</Img>
- 
-                <Div>
-                    <Div style={{fontSize: 16, padding:10}}>
-                        {/* 작성자아이콘으로 바꿔야됨 */}
-                        <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
-                        작성자닉네임
-                    </Div>
-                    <Div style={{fontSize: 16, padding:10}}>
-                        <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
-                        좋아요수
-                    </Div>
-                </Div>
-            </RecipeCompo>
-        
+            
         </RecipeList>
         <Footer/>
         </>
