@@ -72,7 +72,9 @@ function RecipeWrite () {
     const [userName, setUserName] = useState(null);
     
     useEffect(() => {
-        fetch("http://localhost:3010/posts")
+        fetch("http://localhost:3010/posts",{
+            method: 'GET'
+        })
         .then((response) => response.json())
         .then((data) => setUserName(data))
     }, []);
@@ -151,7 +153,212 @@ function RecipeWrite () {
             <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             내 식단 공유하기
         </HeadDiv>
+        
 
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <HeaderGrid>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>작성자</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {userName?.map((data) => (<div key={data.name}>{data.name}</div>))}
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>급식일</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    <input {...register("date",{
+                        required : '급식일을 입력해주세요.'
+                    })} type={"date"} 
+                        style={{fontSize:18, marginRight:10}}
+                        />
+                    <Em>{errors?.date?.message}</Em>
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>구{"\u00a0\u00a0\u00a0"}분</Title>
+                    <DivisionLine style={{height:100}}/>
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    <input {...register("institute",{
+                        required : "해당되는 기관에 체크해주세요."
+                    })} type={"radio"} 
+                        name={"institute"} 
+                        value={"school"} 
+                        style={{width:20, height:20}}
+                        /> 학교
+                    { watch("institute") === "school" && (
+                        <select {...register("whichSchool", {
+                            required : "학교 급을 선택해주세요."
+                        })} style={{fontSize: 18, marginLeft:10}}
+                        >
+                            <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
+                            <option value={"유치원"} >유치원</option>
+                            <option value={"초등학교"} >초등학교</option>
+                            <option value={"중학교"} >중학교</option>
+                            <option value={"고등학교"} >고등학교</option>
+                        </select>
+                    )}
+                    <Em>{errors?.whichSchool?.message}</Em>
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>식{"\u00a0\u00a0\u00a0"}수</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    <Input {...register("peopleNum", {
+                        required : "식수를 입력해주세요."
+                    })} type={"number"} 
+                        name={"peopleNum"}
+                    /> 명
+                    <Em>{errors?.peopleNum?.message}</Em>
+                </HeaderItem>
+                <HeaderItem>
+                    <input {...register("institute")} 
+                        type={"radio"} 
+                        value={"산업체"} 
+                        style={{width:20, height:20}} 
+                        name={"institute"}
+                    /> 산업체
+                    <Em>{errors?.institute?.message}</Em>
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>식단가</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    <Input {...register("price", {
+                        required:"식단가를 입력해주세요."
+                    })} type={"number"} 
+                        name={"price"}
+                    /> 원
+                    <Em>{errors?.price?.message}</Em>
+                </HeaderItem>
+            </HeaderGrid>
+
+            <ImageCropper onCrop={onCrop}>
+                <UploadImg>
+                    {image ? <img src={image} alt="식단 이미지" style={{width:800, height:500}}/>
+                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드</>
+                    }
+                </UploadImg>
+            </ImageCropper>
+
+            <BodyGrid>
+                <BodyItem/>
+                <BodyItem>
+                    <Title>메뉴명</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title style={{textAlign:"center", fontSize:17}}>공산품<br/>사용여부</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title>제품명</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title>브랜드</Title>
+                </BodyItem>
+                <BodyItem/>
+            </BodyGrid>
+            <RowDivisionLine />
+            <BodyGrid>
+                {inputItems.map((item,index) =>(
+                <>
+                <BodyItem>
+                    <RowDiv>
+                    <Title>메뉴 {index + 1}</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </BodyItem>
+                <BodyItem>
+                    <Input 
+                        onChange={e => handleChange(e, index, 'menuName')} 
+                        value={item.menuName} 
+                        style={{width:170}} 
+                    />
+                </BodyItem>
+                <BodyItem>
+                    <input 
+                        type={"checkbox"} 
+                        onChange={e => handleChange(e, index, 'isProductUsed')} 
+                        checked={item.isProductUsed} 
+                        style={{width:20, height:20}}
+                    />
+                </BodyItem>
+                <BodyItem>
+                    <Input 
+                        onChange={e => handleChange(e, index, 'productName')} 
+                        value={item.productName} 
+                        style={{width:170}}
+                    />
+                </BodyItem>
+                <BodyItem>
+                    <RowDiv>
+                    <Input 
+                        onChange={e => handleChange(e, index, 'productBrand')} 
+                        value={item.productBrand} 
+                        style={{width:170}}
+                    />
+                    </RowDiv>
+                </BodyItem>
+                <BodyItem>
+                    <div onClick={() => deleteMenu(item.id)}>
+                        <FontAwesomeIcon icon={faSquareMinus} style={{cursor:"pointer"}}/>
+                    </div>
+                </BodyItem>
+                </>
+                ))}
+                <BtnDiv onClick={addMenu}>
+                    <FontAwesomeIcon icon={faPlus} style={{marginRight:10}} />메뉴 추가
+                </BtnDiv>
+            </BodyGrid>
+            <FooterGrid>
+                <FooterItem>
+                    <RowDiv>
+                        <Title>메뉴설명</Title>
+                        <DivisionLine />
+                    </RowDiv>
+                </FooterItem>
+                <FooterItem>
+                    <textarea {...register("explanation")} 
+                        style={{width: 680, height:200, resize:"none", fontSize:18}}
+                        placeholder="식단의 레시피 및 설명을 작성해주세요."
+                    />
+                </FooterItem>
+                <FooterItem>
+                    <RowDiv>
+                        <Title>레시피 업로드</Title>
+                        <DivisionLine />
+                    </RowDiv>
+                    
+                </FooterItem>
+                <FooterItem>
+                    <input {...register("recipeFile", {
+                        required: "레시피 파일을 업로드해주세요."
+                    })}  type="file" 
+                    />
+                    <Em>{errors?.recipeFile?.message}</Em>
+                </FooterItem>
+            </FooterGrid>
+            <RowDivisionLine />
+            <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
+        </Form>
+
+        <Footer/>
+
+
+{/* 
         <Form onSubmit={handleSubmit(onSubmit)}>
             <FormDiv>
                 <RowDiv>
@@ -272,8 +479,8 @@ function RecipeWrite () {
             <RowDivisionLine />
         <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
 
-        </Form>
-        <Footer/>
+        </Form> */}
+
         </>
     );
 }
@@ -311,6 +518,7 @@ const FormSubmitBtn = styled.button`
     color: white;
     border: none;
     font-size: 20px;
+    margin-top: 50px;
     &:hover {
         cursor: pointer;
         box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -318,16 +526,17 @@ const FormSubmitBtn = styled.button`
 
 
 `
-const Button = styled.div`
+const BtnDiv = styled.div`
     display: flex;
-    width: 160px;
-    height: 60px;
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
     background-color: #F97F51;
     color: white;
     justify-content: center;
     align-items: center;
     border-radius: 40px;
-    margin-bottom: 40px;
+    margin: 20px 0px 50px 320px;
     &:hover{
         cursor: pointer;
     }
@@ -337,7 +546,7 @@ const Button = styled.div`
 const UploadImg = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 30px 0px 80px 0px;
+    margin: 30px 0px 50px 0px;
     width: 800px;
     height: 500px;
     background-color: #DEDEDE;
@@ -362,7 +571,7 @@ const Title = styled.p`
 const Input = styled.input`
     width: 70px;
     font-size: 18px;
-    margin: 0px 10px;
+
 `
 
 
@@ -374,27 +583,24 @@ const DivisionLine = styled.div`
 `
 const RowDivisionLine = styled.div`
   width: 100%;
-  border: solid #DEDEDE 1px;
-  margin: 20px 0px 40px 0px;
+  border: solid #7B7B7B 1px;
+  margin: 20px 0px;
+
 `;
 
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  /* position: relative; */
   width: 70%;
   height: auto;
   padding: 100px 100px;
   margin-inline: auto;
-  justify-content: center;
-  align-items: center;
   color: #505050;
   border-radius: 50px;
   font-size: 20px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-`;
+`
+
 
 
 const HeadDiv = styled.div`
@@ -446,3 +652,76 @@ const ColDiv = styled.div`
     
 
 ` 
+
+const FooterItem = styled.div`
+    width: auto;
+    height: auto;
+    /* border: solid 2px black; */
+    &:nth-child(2){
+        grid-column: 2 / 4;
+        grid-row: 1 / 2;
+    }
+    &:nth-child(3){
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+    }
+
+`
+
+
+const FooterGrid = styled.div`
+    display: grid;
+    grid-template-columns: 120px 30px auto;
+    grid-template-rows: minmax(50px, auto);
+    gap: 30px 10px;
+    margin-bottom: 50px;
+
+` 
+
+
+const BodyItem = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 50px;
+    /* border: solid 2px black; */
+
+`
+
+const BodyGrid = styled.div`
+    display: grid;
+    grid-template-columns: 100px 1fr 0.5fr 1fr 1fr 0.2fr;
+    /* grid-template-rows: 1fr; */
+    gap: 10px;
+    /* margin-bottom: 50px; */
+
+` 
+
+
+const HeaderItem = styled.div`
+    /* display: flex;
+    align-items: center; */
+    width: auto;
+    height: 50px;
+    /* border: solid 2px black; */
+    &:nth-child(5){
+        height: auto;
+        grid-column: 1 / 2;
+        grid-row: 2 / 4;
+    }
+    &:nth-child(5){
+        height: auto;
+        grid-column: 1 / 2;
+        grid-row: 2 / 4;
+    }
+`
+
+const HeaderGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 100px 1fr);
+    grid-auto-rows: minmax(50px, auto);
+    gap: 10px;
+    margin-bottom: 50px;
+
+`
