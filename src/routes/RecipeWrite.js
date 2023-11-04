@@ -18,7 +18,6 @@ function RecipeWrite () {
 // react-hook-form
     const { register, handleSubmit, watch, formState: { errors }, setError,} = useForm({mode: 'onBlur'});
 
-
 // 파일 업로드
     const [recipeFile, setRecipeFile] = useState("");
     const file = watch('recipeFile');
@@ -27,9 +26,6 @@ function RecipeWrite () {
             setRecipeFile(file[0]);
         }
     },[file])
-
-
-    
 
 // 메뉴 리스트 추가 삭제 부분
     const nextID = useRef(1);
@@ -72,28 +68,38 @@ function RecipeWrite () {
     const [userName, setUserName] = useState(null);
     
     useEffect(() => {
-        fetch("http://localhost:3010/posts",{
+        fetch("http://localhost:3010/users",{
             method: 'GET'
         })
         .then((response) => response.json())
         .then((data) => setUserName(data))
     }, []);
  
-
-
 // 서버로 form 데이터 보내기
     const formData = new FormData();
     const navigate = useNavigate();
-    const onSubmit = () => {
+    const onSubmit = (recipeInfo) => {
+        const jsonRecipeInfo = JSON.stringify(recipeInfo);
+        formData.append('reciepInfo', jsonRecipeInfo);
         formData.append('recipeImg', imageBlob);
         formData.append('recipeFile', recipeFile);
         const jsonMenuList = JSON.stringify(inputItems)
-        formData.append('menuList', new Blob([jsonMenuList], { type: 'application/json' }));
+        formData.append('menuList', jsonMenuList);
         //   FormData의 value 확인
           for (let value of formData.values()) {
-            console.log(value);
+            console.log(value)
           }
-        fetch("http://localhost:3010/comments", {
+          if (imageBlob === null) {
+            window.alert("식단 이미지를 업로드해주세요.")
+            return;
+          }
+          for (let value of inputItems) {
+            if (value.menuName === "") {
+              window.alert("메뉴를 작성해주세요.");
+              return;
+            }
+          }
+        fetch("http://localhost:3010/recipes", {
             method: "POST",
             headers:{
                 'Content-Type': 'multipart/form-data',
@@ -104,19 +110,18 @@ function RecipeWrite () {
                 return response.json();
                 }
             throw new Error("에러 발생!");
+            
         }).catch((error) => {
             alert(error);
         }).then((data) => {
             if(window.confirm("포스팅 하시겠습니까?")){
-                console.log("포스팅 되었습니다.")
-                console.log(data)
+                window.alert("포스팅 되었습니다.")
                 navigate('/recipe')
                 
             } else {
-                console.log("취소 되었습니다.")
+                window.alert("취소 되었습니다.")
             };
         });
-
     }
 
 // ImageCropper 구현
@@ -125,36 +130,38 @@ function RecipeWrite () {
     const onCrop = (croppedImage) => {
         setImage(croppedImage);
         // base64 -> blob url로 변환
-        // const byteString = atob(croppedImage.split(",")[1]);
-        // const ab = new ArrayBuffer(byteString.length);
-        // const ia = new Uint8Array(ab);
-        // for (let i = 0; i < byteString.length; i++) {
-        // ia[i] = byteString.charCodeAt(i);
-        // }
-        // const blob = new Blob([ia], {
-        // type: "image/*"
-        // });
-        // setImageBlob(blob);
-        // const blobURL = URL.createObjectURL(blob);
-        // setImage(blobURL);
+        const byteString = atob(croppedImage.split(",")[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ia], {
+        type: "image/*"
+        });
+        setImageBlob(blob);
     }
     useEffect(() =>{
         setImage(image);
     }, [image])
 
-
-
-
+// 오늘 날짜 간편하게 받아오기 : Moment.js 
+    const moment = require('moment');
 
     return(
         <>
-        <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
+        <Navbar 
+            toggleMenu={toggleMenu} 
+            setToggleMenu={setToggleMenu} 
+            toggleProfile={toggleProfile} 
+            setToggleProfile={setToggleProfile}
+        />
+        
         <HeadDiv style={{fontWeight:600}}>
             <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             내 식단 공유하기
         </HeadDiv>
         
-
         <Form onSubmit={handleSubmit(onSubmit)}>
             <HeaderGrid>
                 <HeaderItem>
@@ -174,7 +181,10 @@ function RecipeWrite () {
                 </HeaderItem>
                 <HeaderItem>
                     <input {...register("date",{
-                        required : '급식일을 입력해주세요.'
+                        required : '급식일을 입력해주세요.',
+                        validate: {
+                            dateValid: value => value <= moment().format('YYYY-MM-DD') || '급식일은 오늘 날짜와 같거나 과거여야 합니다.'
+                        } 
                     })} type={"date"} 
                         style={{fontSize:18, marginRight:10}}
                         />
@@ -271,7 +281,9 @@ function RecipeWrite () {
                 </BodyItem>
                 <BodyItem/>
             </BodyGrid>
+
             <RowDivisionLine />
+
             <BodyGrid>
                 {inputItems.map((item,index) =>(
                 <>
@@ -323,6 +335,7 @@ function RecipeWrite () {
                     <FontAwesomeIcon icon={faPlus} style={{marginRight:10}} />메뉴 추가
                 </BtnDiv>
             </BodyGrid>
+
             <FooterGrid>
                 <FooterItem>
                     <RowDiv>
@@ -351,161 +364,28 @@ function RecipeWrite () {
                     <Em>{errors?.recipeFile?.message}</Em>
                 </FooterItem>
             </FooterGrid>
+
             <RowDivisionLine />
+
             <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
         </Form>
 
         <Footer/>
-
-
-{/* 
-        <Form onSubmit={handleSubmit(onSubmit)}>
-            <FormDiv>
-                <RowDiv>
-                    <Title>작성자</Title>
-                    <DivisionLine />
-                    {userName?.map((data) => (<div key={data.name}>{data.name}</div>))}
-                </RowDiv>
-                <RowDiv>
-                    <Title>급식일</Title>
-                    <DivisionLine />
-                    <input {...register("date",{
-                        required : '급식일을 입력해주세요.'
-                    })} type={"date"} style={{fontSize:18, marginRight:10}}/>
-                    <Em>{errors?.date?.message}</Em>
-                </RowDiv>
-                
-            </FormDiv>
-            <FormDiv>
-                <RowDiv>
-                    <Title>구분</Title>
-                    <DivisionLine style={{height:100}}/>
-                    <ColDiv>
-                        <RowDiv style={{paddingBottom:50}}>
-                            <input {...register("institute",{
-                                required : "해당되는 기관에 체크해주세요."
-                            })} type={"radio"} name={"institute"} value={"school"} style={{width:20, height:20, marginRight:10}} />학교
-                            { watch("institute") === "school" && (
-                                <select {...register("whichSchool", {
-                                    required : "학교 급을 선택해주세요."
-                                })} style={{fontSize: 18, marginLeft:10}}>
-                                    <option value={""} disabled selected style={{display:"none"}}>학교선택</option>
-                                    <option value={"유치원"} >유치원</option>
-                                    <option value={"초등학교"} >초등학교</option>
-                                    <option value={"중학교"} >중학교</option>
-                                    <option value={"고등학교"} >고등학교</option>
-                                </select>
-                            )}
-                        </RowDiv>
-                        <Em>{errors?.whichSchool?.message}</Em>
-                        <RowDiv>
-                            <input {...register("institute")} type={"radio"} value={"산업체"} style={{width:20, height:20, marginRight:10}} name={"institute"}/>산업체
-                        </RowDiv>
-                        <Em>{errors?.institute?.message}</Em>
-                    </ColDiv>
-                </RowDiv>
-                <ColDiv style={{paddingRight:95}}>
-                    <RowDiv style={{paddingBottom:50}}>
-                        <Title>식수</Title>
-                        <DivisionLine />
-                        <Input {...register("peopleNum", {
-                            required : "식수를 입력해주세요."
-                        })} type={"number"} name={"peopleNum"}/>명
-                    </RowDiv>
-                    <Em>{errors?.peopleNum?.message}</Em>
-                    <RowDiv>
-                        <Title>식단가</Title>
-                        <DivisionLine />
-                        <Input {...register("price", {
-                            required:"식단가를 입력해주세요."
-                        })} type={"number"} name={"price"}/>원
-                    </RowDiv>
-                    <Em>{errors?.price?.message}</Em>
-                </ColDiv>
-            </FormDiv>
-            
-            <ImageCropper onCrop={onCrop}>
-                <UploadImg>
-                    {image ? <img src={image} alt="식단 이미지" style={{width:800, height:500}}/>
-                            : <> <FontAwesomeIcon icon={faImage} /> 클릭하여 식단 이미지 업로드</>
-                    }
-                </UploadImg>
-            </ImageCropper>
-            
-            <MenuTitleDiv>
-                <MenuTitle style={{marginLeft:20}}>구분</MenuTitle>
-                <MenuTitle style={{marginLeft:110}}>메뉴명</MenuTitle>
-                <MenuTitle style={{marginLeft:85, textAlign:'center', fontSize:18}}>공산품<br/>사용</MenuTitle>
-                <MenuTitle style={{marginLeft:85}}>사용 제품명</MenuTitle>
-                <MenuTitle style={{marginLeft:135}}>브랜드</MenuTitle>
-            </MenuTitleDiv>
-
-            {inputItems.map((item,index) =>(
-                <>
-                <FormDiv key={index}>
-                    <Title>메뉴 {index + 1}</Title>
-                    <DivisionLine />
-                    <Input onChange={e => handleChange(e, index, 'menuName')} value={item.menuName} style={{width:170}}/>
-                    <input type={"checkbox"} onChange={e => handleChange(e, index, 'isProductUsed')} checked={item.isProductUsed} style={{width:20, height:20, marginInline:30}}/>
-                    <Input onChange={e => handleChange(e, index, 'productName')} value={item.productName} style={{width:200}}/>
-                    <Input onChange={e => handleChange(e, index, 'productBrand')} value={item.productBrand} style={{width:170}}/>
-                    <div onClick={() => deleteMenu(item.id)}><FontAwesomeIcon icon={faSquareMinus} style={{cursor:"pointer"}}/></div>
-                </FormDiv>
-                </>
-                )
-            )}
-
-            <Button onClick={addMenu}>
-                <FontAwesomeIcon icon={faPlus} style={{marginRight:10}} />메뉴 추가
-            </Button>
-
-            <FormDiv>
-                <RowDiv>
-                    <Title>설명</Title>
-                    <DivisionLine />
-                    <textarea {...register("explanation")} style={{width:720, height:200, resize:"none", fontSize:18}}/>
-                </RowDiv>
-            </FormDiv>
-            <FormDiv style={{marginTop: 30}}>
-                <RowDiv>
-                    <Title>레시피 업로드</Title>
-                    <DivisionLine />
-                    <input {...register("recipeFile", {
-                        required: "레시피 파일을 업로드해주세요."
-                    })}  type="file" />
-                </RowDiv>
-                <Em>{errors?.recipeFile?.message}</Em>
-            </FormDiv>
-            <RowDivisionLine />
-        <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
-
-        </Form> */}
-
         </>
     );
 }
 
 export default RecipeWrite;
 
+
+
+
+// styled components
+
 const Em = styled.p`
     color: red;
     font-size: 15px;
 `
-
-
-const Modal = styled.div`
-    display: flex;
-    position: absolute;
-    z-index: 1000;
-    width: 650px;
-    height: 500px;
-    top: 75%;
-    left: 27%;
-    background-color: green;
-    border-radius: 10px;
-
-`
-
 
 const FormSubmitBtn = styled.button`
     display: flex;
@@ -523,8 +403,6 @@ const FormSubmitBtn = styled.button`
         cursor: pointer;
         box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     }
-
-
 `
 const BtnDiv = styled.div`
     display: flex;
@@ -558,11 +436,6 @@ const UploadImg = styled.div`
     
 `
 
-const MenuTitle = styled.div`
-    font-weight: 600;
-
-`
-
 const Title = styled.p`
     font-weight: 600;
 
@@ -573,7 +446,6 @@ const Input = styled.input`
     font-size: 18px;
 
 `
-
 
 const DivisionLine = styled.div`
     height: 25px;
@@ -588,7 +460,6 @@ const RowDivisionLine = styled.div`
 
 `;
 
-
 const Form = styled.form`
   width: 70%;
   height: auto;
@@ -601,8 +472,6 @@ const Form = styled.form`
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `
 
-
-
 const HeadDiv = styled.div`
     display: inline-flex;
     width: 100%;
@@ -613,43 +482,9 @@ const HeadDiv = styled.div`
 
 `
 
-const MenuTitleDiv = styled.div`
-    display: inline-flex;
-    align-items: center;
-    color: #505050;
-    width: 100%;
-    margin-bottom: 30px;
-
-
-`
-
-const FormDiv = styled.div`
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #505050;
-    width: 100%;
-    padding-bottom: 50px;
-
-
-`
-
-
 const RowDiv = styled.div`
     display: inline-flex;
     color: #505050;
-
-` 
-
-
-const ColDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    color: #505050;
-    
-
-    
-    
 
 ` 
 
@@ -668,7 +503,6 @@ const FooterItem = styled.div`
 
 `
 
-
 const FooterGrid = styled.div`
     display: grid;
     grid-template-columns: 120px 30px auto;
@@ -677,7 +511,6 @@ const FooterGrid = styled.div`
     margin-bottom: 50px;
 
 ` 
-
 
 const BodyItem = styled.div`
     display: flex;
@@ -697,7 +530,6 @@ const BodyGrid = styled.div`
     /* margin-bottom: 50px; */
 
 ` 
-
 
 const HeaderItem = styled.div`
     /* display: flex;

@@ -8,7 +8,7 @@ import RecipeSchool from "./routes/RecipeSchool"
 import RecipeCompany from "./routes/RecipeCompany"
 import RecipeWrite from "./routes/RecipeWrite"
 import RecipeDetail from "./routes/RecipeDetail"
-import RecipeWriteTest from "./routes/RecipeWriteTest"
+
 
 
 
@@ -64,9 +64,5 @@ export const RouterInfo = [
         element: <RecipeDetail/>,
         label: 'recipe_detail/:id',
     },
-    {
-        path: "/recipe_write_test",
-        element: <RecipeWriteTest/>,
-        label: 'recipe_write_test',
-    },
+
 ]

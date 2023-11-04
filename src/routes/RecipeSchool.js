@@ -16,7 +16,9 @@ function RecipeSchool() {
     
     
     useEffect(() => {
-        fetch("http://localhost:3010/comments")
+        fetch("http://localhost:3010/recipes",{
+            method:"GET"
+        })
         .then((response) => response.json())
         .then((data) => setRecipeInfo(data))
     }, []);
