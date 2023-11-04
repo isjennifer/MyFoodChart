@@ -46,7 +46,8 @@ function RecipeWrite () {
     }
 
     // 삭제
-    function deleteMenu(id) {    // 인덱스 값을 받아서
+    function deleteMenu(id) {// 인덱스 값을 받아서
+        if (inputItems.length === 1) return;
         setInputItems(prevInputItems => prevInputItems.filter(item => item.id !== id)); // 인덱스 값과 같지 않은 애들만 남겨둔다
     }
 
@@ -110,7 +111,6 @@ function RecipeWrite () {
                 return response.json();
                 }
             throw new Error("에러 발생!");
-            
         }).catch((error) => {
             alert(error);
         }).then((data) => {
