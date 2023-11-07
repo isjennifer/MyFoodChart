@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
 import RecipeSchool from "./RecipeSchool.js";
 import RecipeCompany from "./RecipeCompany.js";
-
+import Footer from "../components/Footer.js";
 
 
 
@@ -18,34 +18,45 @@ function Recipe() {
 
     return (
         <>
-        <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
-        <RowDiv>
-            <div style={{display:"inline-flex"}}>
-                <NavLinkStlye
-                    to={"/recipe/recipe_school"} 
-                    activeClassName="active"
-                >
-                    <Button>학교</Button>
-                </NavLinkStlye>
-                <NavLinkStlye
-                    to={"/recipe/recipe_company"} 
-                    activeClassName="active"
-                >
-                    <Button>산업체</Button>
-                </NavLinkStlye> 
-            </div>
-            <SearchBox>
-                <FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize:20, margin:10}}/>
-                <Input placeholder="통합검색..."/>
-                <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
-            </SearchBox>
-        </RowDiv>
-        <Routes>
-                <Route path="/recipe_school" element={<RecipeSchool />}></Route>
-        </Routes>
-        <Routes>
-                <Route path="/recipe_company" element={<RecipeCompany />}></Route>
-        </Routes>
+        <Navbar 
+            toggleMenu={toggleMenu} 
+            setToggleMenu={setToggleMenu} 
+            toggleProfile={toggleProfile} 
+            setToggleProfile={setToggleProfile}
+        />
+        <Container>
+            <RowDiv>
+                <div style={{display:"flex"}}>
+                    <NavLinkStlye
+                        to={"/recipe/recipe_school"} 
+                        activeClassName="active"
+                    >
+                        <Button>학교</Button>
+                    </NavLinkStlye>
+                    <NavLinkStlye
+                        to={"/recipe/recipe_company"} 
+                        activeClassName="active"
+                    >
+                        <Button>산업체</Button>
+                    </NavLinkStlye> 
+                </div>
+                <SearchBox>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize:20, margin:10}}/>
+                    <Input placeholder="통합검색..."/>
+                    <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
+                </SearchBox>
+            </RowDiv>
+        </Container>
+        <Container>
+            <Routes>
+                    <Route path="/recipe_school" element={<RecipeSchool />}></Route>
+            </Routes>
+            <Routes>
+                    <Route path="/recipe_company" element={<RecipeCompany />}></Route>
+            </Routes>
+        </Container>
+
+        <Footer/>
         </>
     );
 };
@@ -53,11 +64,22 @@ function Recipe() {
 export default Recipe;
 
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 1100px;
+    margin-inline: auto;
+    border: solid 1px black;
+
+`
 
 const RowDiv = styled.div`
     display: inline-flex;
+    /* position: absolute;
+    z-index: 1; */
+
     width: 100%;
-    padding: 0px 100px 50px 100px;
+    /* margin: ; */
     justify-content: space-between;
     align-items: center;
 

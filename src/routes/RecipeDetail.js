@@ -6,7 +6,7 @@ import { faPencil,faTriangleExclamation,faArrowRight,faMagnifyingGlass, faImage,
 import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams, Link } from "react-router-dom"
 
 
 
@@ -16,75 +16,76 @@ function RecipeDetail () {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
 
-
-    const { register, handleSubmit, watch } = useForm();
-
-const params = useParams();
-
-
 // 서버에서 메뉴이름들 가져오기
-    const [recipeInfo, setRecipeInfo] = useState(null);
-    
+    const [recipePosts, setRecipePosts] = useState(null);
+    const params = useParams();
+    const {id} = params;
     useEffect(() => {
-        const {id} = params;
-        fetch("http://localhost:3010/comments")
+        fetch("http://localhost:3010/recipePosts")
         .then((response) => response.json())
         .then((data) => data.find((data) => {
             return data.id == id;
         }))
-        .then((data) => {setRecipeInfo(data)})
+        .then((data) => {setRecipePosts(data)})
     }, []);
 
-    console.log(recipeInfo?.recipeImg)
+    console.log(recipePosts)
+    
 
-    const reader = new FileReader();
-    const blob = recipeInfo?.recipeImg; // blob or file
-    reader.readAsDataURL(blob); 
-    reader.onloadend = () => {
-        const base64data = reader.result;
-        // base64 converted!
-        console.log(base64data);
+// 삭제 기능
+    const navigate = useNavigate();
+    const recipePostsDelete = () => {
+            fetch(`http://localhost:3010/recipePosts/${id}`, {
+                method: "DELETE",
+            }).then((response) => {
+                if (response.ok === true) {
+                    return response.json();
+                    }
+                throw new Error("에러 발생!");
+            }).catch((error) => {
+                alert(error);
+            }).then(() => {
+                if(window.confirm("삭제 하시겠습니까?")){
+                    navigate('/recipe/recipe_school')
+                    window.alert("삭제 되었습니다.")
+                } else {
+                    window.alert("취소 되었습니다.")
+                };
+            });
     }
 
-// 서버에서 데이터 가져오기
-    const [userName, setUserName] = useState(null);
-        
-    useEffect(() => {
-        fetch("http://localhost:3010/posts")
-        .then((response) => response.json())
-        .then((data) => setUserName(data))
-    }, []);
 
-    const menues = recipeInfo?.menues.map((data)=>{return data})
+
+// const menues = recipePosts?.menues.map((data)=>{return data})
    
 
 
 
 // 서버로 댓글 보내기
-    const onSubmit = (data) => {
-        fetch("http://localhost:3010/profile",{
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then((response) => {
-            if (response.ok === true) {
-                return response.json();
-                }
-            throw new Error("에러 발생!");
-        }).catch((error) => {
-            alert(error);
-        }).then((data) => {
-            if(window.confirm("댓글을 남기시겠습니까?")){
-                console.log("댓글이 등록되었습니다.")
-                console.log(data)
-            } else {
-                console.log("취소 되었습니다.")
-            };
-        });
+    // const onSubmit = (data) => {
+    //     fetch("http://localhost:3010/profile",{
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     }).then((response) => {
+    //         if (response.ok === true) {
+    //             return response.json();
+    //             }
+    //         throw new Error("에러 발생!");
+    //     }).catch((error) => {
+    //         alert(error);
+    //     }).then((data) => {
+    //         if(window.confirm("댓글을 남기시겠습니까?")){
+    //             console.log("댓글이 등록되었습니다.")
+    //             console.log(data)
+    //         } else {
+    //             console.log("취소 되었습니다.")
+    //         };
+    //     });
 
-    }
+    // }
 
 // 서버에서 댓글 가져오기
     // const [comment, setComment] = useState(null);
@@ -102,88 +103,130 @@ const params = useParams();
 
     return(
         <>
-        <Navbar toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} toggleProfile={toggleProfile} setToggleProfile={setToggleProfile}/>
+        <Navbar 
+            toggleMenu={toggleMenu} 
+            setToggleMenu={setToggleMenu} 
+            toggleProfile={toggleProfile} 
+            setToggleProfile={setToggleProfile}
+        />
+
         <HeadDiv style={{fontWeight:600}}>
         <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             식단 상세정보
         </HeadDiv>
-        <Form>
-            <FormDiv>
-                    <RowDiv>
-                        <Title>작성자</Title>
-                        <DivisionLine />
-                        {userName?.map((data) => (<div key={data.name}>{data.name}</div>))}
-                    </RowDiv>
-                    <RowDiv>
-                        <Title>급식일</Title>
-                        <DivisionLine />
-                        {recipeInfo?.date}
-                    </RowDiv>
-                </FormDiv>
-                <FormDiv>
-                    <RowDiv>
-                        <Title>구분</Title>
-                        <DivisionLine style={{height:100}}/>
-                        {recipeInfo?.institute == 'school' ? recipeInfo.whichSchool : recipeInfo?.institute}
-                    </RowDiv>
-                    <ColDiv style={{paddingRight:95}}>
-                        <RowDiv style={{paddingBottom:50}}>
-                            <Title>식수</Title>
-                            <DivisionLine />
-                            {recipeInfo?.peopleNum}명
-                        </RowDiv>
-                        <RowDiv>
-                            <Title>식단가</Title>
-                            <DivisionLine />
-                            {recipeInfo?.price}원
-                        </RowDiv>
-                    </ColDiv>
-                </FormDiv>
-                <UploadImg>
-                     <img src={recipeInfo?.recipeImg} alt="식단 이미지"/>
-                </UploadImg>
 
-                <MenuTitleDiv>
-                    <MenuTitle style={{marginLeft:20}}>구분</MenuTitle>
-                    <MenuTitle style={{marginLeft:110}}>메뉴명</MenuTitle>
-                    <MenuTitle style={{marginLeft:85, textAlign:'center', fontSize:18}}>공산품<br/>사용</MenuTitle>
-                    <MenuTitle style={{marginLeft:85}}>사용 제품명</MenuTitle>
-                    <MenuTitle style={{marginLeft:135}}>브랜드</MenuTitle>
-                </MenuTitleDiv>
-                
-            
-                {menues?.map((data)=>{
+        <Form>
+            <HeaderGrid>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>작성자</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {recipePosts?.user.name}
+                </HeaderItem>
+                <HeaderItem/>
+                <HeaderItem/>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>급식일</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {recipePosts?.date}
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>구{"\u00a0\u00a0\u00a0"}분</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {recipePosts?.institute == 'school' ? recipePosts.whichSchool : recipePosts?.institute}
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>식{"\u00a0\u00a0\u00a0"}수</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {recipePosts?.peopleNum}명
+                </HeaderItem>
+                <HeaderItem>
+                    <RowDiv>
+                    <Title>식단가</Title>
+                    <DivisionLine />
+                    </RowDiv>
+                </HeaderItem>
+                <HeaderItem>
+                    {recipePosts?.price}원
+                </HeaderItem>
+            </HeaderGrid>
+
+            <UploadImg src={recipePosts?.recipeImg} alt="식단 이미지"/>
+
+            <BodyGrid>
+                <BodyItem/>
+                <BodyItem>
+                    <Title>메뉴명</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title style={{textAlign:"center", fontSize:17}}>공산품<br/>사용여부</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title>제품명</Title>
+                </BodyItem>
+                <BodyItem>
+                    <Title>브랜드</Title>
+                </BodyItem>
+                <BodyItem/>
+            </BodyGrid>
+
+            <RowDivisionLine />
+
+                {recipePosts?.menues.map((data)=>{
                     return (
                         <>
-                        <FormDiv>
-                            <RowDiv>
-                                <Title>메뉴</Title>{data.id + 1}<DivisionLine />
-                            </RowDiv>
-                            <div>{data.menuName}</div>
-                            <div>{data.isProductUsed ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}</div>
-                            <div>{data.productName}</div>
-                            <div>{data.productBrand}</div>
-                        </FormDiv>
+                        <BodyGrid>
+                            <BodyItem>
+                                <Title>메뉴 {data.id + 1}</Title><DivisionLine />
+                            </BodyItem>
+                            <BodyItem>{data.menuName}</BodyItem>
+                            <BodyItem>{data.isProductUsed ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}</BodyItem>
+                            <BodyItem>{data.productName}</BodyItem>
+                            <BodyItem>{data.productBrand}</BodyItem>
+                        </BodyGrid>
                         </>
                     )
                 })}
-                    
-                
 
-                <FormDiv>
+
+            <FooterGrid>
+                <FooterItem>
                     <RowDiv>
-                        <Title>설명</Title>
+                        <Title>메뉴설명</Title>
                         <DivisionLine />
-                        {recipeInfo?.explanation}
                     </RowDiv>
-                </FormDiv>
-                <FormDiv style={{marginTop: 30}}>
+                </FooterItem>
+                <FooterItem>
+                    {recipePosts?.explanation}
+                </FooterItem>
+                <FooterItem>
                     <RowDiv>
-                        <Title>레시피 정보</Title>
+                        <Title>레시피 파일</Title>
                         <DivisionLine />
-                        {recipeInfo?.recipeFile}
                     </RowDiv>
-                </FormDiv>
+                </FooterItem>
+                <FooterItem>
+                    <a href={recipePosts?.recipeFile} download={`recipe_${recipePosts?.user.name}`}>
+                            클릭하여 다운로드
+                    </a>
+                </FooterItem>
+            </FooterGrid>
+        
 
                     <RowDiv>
                         <FontAwesomeIcon icon={faCommentDots} />
@@ -195,7 +238,7 @@ const params = useParams();
                         <FontAwesomeIcon icon={faTriangleExclamation} />
                         신고
                     </RowDiv>
-
+                {/* 
                 <RowDivisionLine />
                     {/* {comment?.map((data) => {
                         return (
@@ -214,12 +257,17 @@ const params = useParams();
                         </button>
                     </CommentBox>
                     */}
+
                 <RowDivisionLine />
                     <RowDiv>
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                        수정
-                        <FontAwesomeIcon icon={faTrashCan} />
-                        삭제
+                        <Link to={`/recipe_edit/${recipePosts?.id}`}>
+                            <Button>
+                                <FontAwesomeIcon icon={faPenToSquare} />수정
+                            </Button>
+                        </Link>
+                        <Button onClick={recipePostsDelete}>
+                            <FontAwesomeIcon icon={faTrashCan} />삭제
+                        </Button>
                     </RowDiv>
                 
                 
@@ -295,7 +343,7 @@ const Button = styled.div`
     
 `
 
-const UploadImg = styled.div`
+const UploadImg = styled.img`
     display: flex;
     flex-direction: column;
     margin: 30px 0px 80px 0px;
@@ -341,15 +389,10 @@ const RowDivisionLine = styled.div`
 
 
 const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* position: relative; */
   width: 70%;
   height: auto;
   padding: 100px 100px;
   margin-inline: auto;
-  justify-content: center;
-  align-items: center;
   color: #505050;
   border-radius: 50px;
   font-size: 20px;
@@ -404,3 +447,63 @@ const ColDiv = styled.div`
 
 
 ` 
+const FooterItem = styled.div`
+    width: auto;
+    height: auto;
+    /* border: solid 2px black; */
+    &:nth-child(2){
+        grid-column: 2 / 4;
+        grid-row: 1 / 2;
+    }
+    &:nth-child(3){
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+    }
+
+`
+
+const FooterGrid = styled.div`
+    display: grid;
+    grid-template-columns: 120px 30px auto;
+    grid-template-rows: minmax(50px, auto);
+    gap: 30px 10px;
+    margin-top: 50px;
+
+` 
+
+const BodyItem = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 50px;
+    margin-bottom: 10px; 
+    /* border: solid 2px black; */
+
+`
+
+const BodyGrid = styled.div`
+    display: grid;
+    grid-template-columns: 100px 1fr 0.5fr 1fr 1fr 0.2fr;
+    /* grid-template-rows: 1fr; */
+    gap: 10px;
+
+` 
+
+const HeaderItem = styled.div`
+    /* display: flex;
+    align-items: center; */
+    width: auto;
+    height: 50px;
+    /* border: solid 2px black; */
+
+`
+
+const HeaderGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 100px 1fr);
+    grid-auto-rows: minmax(50px, auto);
+    gap: 10px;
+    margin-bottom: 50px;
+
+`

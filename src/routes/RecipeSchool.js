@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import Navbar from "../components/Navbar.js"
 import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
-import Footer from "../components/Footer.js"
-import Recipe from "./Recipe.js"
 
 
 
@@ -14,15 +11,13 @@ function RecipeSchool() {
     // 서버에서 레시피 목록들 가져오기
     const [recipeInfoList, setRecipeInfo] = useState(null);
     
-    
     useEffect(() => {
-        fetch("http://localhost:3010/recipes",{
+        fetch("http://localhost:3010/recipePosts",{
             method:"GET"
         })
         .then((response) => response.json())
         .then((data) => setRecipeInfo(data))
     }, []);
-    console.log(recipeInfoList)
 
  
 
@@ -43,51 +38,77 @@ function RecipeSchool() {
                 <FontAwesomeIcon icon={faFilter} style={{fontSize:25, margin:10}}/>
             </Div>
         </RowDiv>
-        <Div style={{width: 450, fontSize:16, paddingLeft:120}}>
+        <RowDiv style={{width: 350, fontSize:16, marginLeft:20}}>
             <div style={{fontWeight:600}}>학교급별</div>
             <DivisionLine />
             <School>유치원</School>
             <School>초등학교</School>
             <School>중학교</School>
             <School>고등학교</School>
-        </Div>
+        </RowDiv>
 
-        <RecipeList>
+        <BodyGrid>
             {recipeInfoList?.map((recipeInfo) => {
-                return(
+                const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
+                console.log(recipeInfo)
+                return (
                 <Link to={`/recipe_detail/${recipeInfo.id}`}>
-                <RecipeCompo>
+                <BodyItem>
                     <Title>
-                        <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, margin:5}} />
-                        {recipeInfo?.menues.map((menu) => {
-                            return menu.menuName
-                        }).join("-")}
+                        <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, marginRight:15}} />
+                        {recipeTitle.length >= 23 && `${recipeTitle.slice(0,23)}...`}
                     </Title>
-                    <Img>식단이미지</Img>
-                    <Div>
+                    <Img src="http://localhost:3000/img/background_img.jpg" alt="식단 이미지"/>
+                    <RowDiv style={{marginTop:0}}>
                         <Div style={{fontSize: 16, padding:10}}>
                             {/* 작성자아이콘으로 바꿔야됨 */}
-                            <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
+                            <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, marginRight:5}} />
                             작성자닉네임
                         </Div>
                         <Div style={{fontSize: 16, padding:10}}>
-                            <FontAwesomeIcon icon={faHeart} style={{fontSize:20, margin:5, color: "#FC427B"}}  />
+                            <FontAwesomeIcon icon={faHeart} style={{fontSize:20, color: "#FC427B", marginRight:5}}  />
                             좋아요수
                         </Div>
-                    </Div>
-                </RecipeCompo>
+                    </RowDiv>
+                </BodyItem>
                 </Link>
                 )
             })}
+        </BodyGrid>
 
-            
-        </RecipeList>
-        <Footer/>
         </>
     );
 };
 
 export default RecipeSchool;
+
+
+
+const BodyItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    /* border: solid 2px black; */
+    position: relative;
+
+`
+
+const BodyGrid = styled.div`
+    display: grid;
+    /* position: relative; */
+    z-index: 1;
+    width: auto;
+    height: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-template-rows: 1fr; */
+    gap: 20px;
+    margin-top: 50px;
+
+` 
+
 
 
 const Title = styled.div`
@@ -100,10 +121,10 @@ const Title = styled.div`
 
 `
 
-const Img = styled.div`
+const Img = styled.img`
     display: flex;
     width: 100%;
-    height: 100%;
+    height: auto;
     background-color: gray;
 
 `
@@ -144,19 +165,33 @@ const School = styled.div`
 
 const RowDiv = styled.div`
     display: inline-flex;
+    position: relative;
     width: 100%;
-    padding: 50px 100px;
+    margin: 30px 0px 0px 0px;
     justify-content: space-between;
     align-items: center;
 
 `
 
-const Div = styled.div`
-    display: inline-flex;
+const ColDiv = styled.div`
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     font-size: 30px;
     color: #505050;
+
+
+` 
+
+const Div = styled.div`
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 30px;
+    color: #505050;
+
 
 ` 
 

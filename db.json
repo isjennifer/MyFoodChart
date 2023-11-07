@@ -5,20 +5,26 @@
       "name": "dundun"
     }
   ],
-  "recipes": [
+  "recipePosts": [
     {
+      "user": {
+        "id": 1,
+        "email": "test@test.com",
+        "name": "dundun"
+      },
+      "createdAt": "2023-11-04",
       "date": "2023-10-12",
       "institute": "school",
       "peopleNum": "300",
       "price": "1000",
-      "recipeImg": "blob:http://localhost:3000/e1bea7e7-4ba9-43c0-83a0-37fc58fbab52",
+      "recipeImg": "http://localhost:3000/img/background_img.jpg",
       "explanation": "레시피 설명 입니다.",
-      "recipeFile": "blob:http://localhost:3000/fa984c10-3dec-4a96-b029-e6534020d578",
+      "recipeFile": "http://localhost:3000/recipeFile/레시피_샘플파일.xlsx",
       "whichSchool": "중학교",
       "menues": [
         {
           "id": 0,
-          "menuName": "쌀밥",
+          "menuName": "1번밥",
           "isProductUsed": true,
           "productName": "김포금쌀",
           "productBrand": "김포산"
@@ -60,116 +66,6 @@
         }
       ],
       "id": 1
-    },
-    {
-      "date": "2023-10-12",
-      "institute": "school",
-      "peopleNum": "300",
-      "price": "1000",
-      "recipeImg": "blob:http://localhost:3000/e1bea7e7-4ba9-43c0-83a0-37fc58fbab52",
-      "explanation": "레시피 설명 입니다.",
-      "recipeFile": "blob:http://localhost:3000/fa984c10-3dec-4a96-b029-e6534020d578",
-      "whichSchool": "중학교",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "쌀밥",
-          "isProductUsed": true,
-          "productName": "김포금쌀",
-          "productBrand": "김포산"
-        },
-        {
-          "id": 1,
-          "menuName": "된장국",
-          "isProductUsed": true,
-          "productName": "된장",
-          "productBrand": "풀무원"
-        },
-        {
-          "id": 2,
-          "menuName": "두부구이",
-          "isProductUsed": true,
-          "productName": "두부",
-          "productBrand": "청정원"
-        },
-        {
-          "id": 3,
-          "menuName": "시금치무침",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
-        },
-        {
-          "id": 4,
-          "menuName": "배추김치",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
-        },
-        {
-          "id": 5,
-          "menuName": "초코우유",
-          "isProductUsed": true,
-          "productName": "맛있는초코우유",
-          "productBrand": "서울우유"
-        }
-      ],
-      "id": 2
-    },
-    {
-      "date": "2023-10-12",
-      "institute": "school",
-      "peopleNum": "300",
-      "price": "1000",
-      "recipeImg": "blob:http://localhost:3000/e1bea7e7-4ba9-43c0-83a0-37fc58fbab52",
-      "explanation": "레시피 설명 입니다.",
-      "recipeFile": "blob:http://localhost:3000/fa984c10-3dec-4a96-b029-e6534020d578",
-      "whichSchool": "중학교",
-      "menues": [
-        {
-          "id": 0,
-          "menuName": "쌀밥",
-          "isProductUsed": true,
-          "productName": "김포금쌀",
-          "productBrand": "김포산"
-        },
-        {
-          "id": 1,
-          "menuName": "된장국",
-          "isProductUsed": true,
-          "productName": "된장",
-          "productBrand": "풀무원"
-        },
-        {
-          "id": 2,
-          "menuName": "두부구이",
-          "isProductUsed": true,
-          "productName": "두부",
-          "productBrand": "청정원"
-        },
-        {
-          "id": 3,
-          "menuName": "시금치무침",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
-        },
-        {
-          "id": 4,
-          "menuName": "배추김치",
-          "isProductUsed": false,
-          "productName": "",
-          "productBrand": ""
-        },
-        {
-          "id": 5,
-          "menuName": "초코우유",
-          "isProductUsed": true,
-          "productName": "맛있는초코우유",
-          "productBrand": "서울우유"
-        }
-      ],
-      "id": 3
     }
   ],
   "comments": [

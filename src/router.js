@@ -8,6 +8,7 @@ import RecipeSchool from "./routes/RecipeSchool"
 import RecipeCompany from "./routes/RecipeCompany"
 import RecipeWrite from "./routes/RecipeWrite"
 import RecipeDetail from "./routes/RecipeDetail"
+import RecipeEdit from "./routes/RecipeEdit"
 
 
 
@@ -63,6 +64,11 @@ export const RouterInfo = [
         path: "/recipe_detail/:id",
         element: <RecipeDetail/>,
         label: 'recipe_detail/:id',
+    },
+    {
+        path: "/recipe_edit/:id",
+        element: <RecipeEdit/>,
+        label: 'recipe_edit/:id',
     },
 
 ]
