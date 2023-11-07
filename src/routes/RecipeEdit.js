@@ -15,16 +15,13 @@ function RecipeEdit () {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleProfile, setToggleProfile] = useState(false);
     
-    // 서버에서 데이터 가져오기
+// 서버에서 데이터 가져오기
     const [recipePosts, setRecipePosts] = useState(null);
     const params = useParams();
+    const {id} = params;
     useEffect(() => {
-        const {id} = params;
-        fetch("http://localhost:3010/recipePosts")
+        fetch(`http://localhost:3010/recipePosts/${id}`)
         .then((response) => response.json())
-        .then((data) => data.find((data) => {
-            return data.id == id;
-        }))
         .then((data) => {
             setRecipePosts(data);
             setImage(data.recipeImg);
@@ -42,7 +39,6 @@ function RecipeEdit () {
         })
     }, []);
 
-    console.log(recipePosts)
 
     // react-hook-form
     const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm({
@@ -119,7 +115,7 @@ function RecipeEdit () {
               return;
             }
           }
-        fetch("http://localhost:3010/recipes", {
+        fetch(`http://localhost:3010/recipePosts/${id}`, {
             method: "PUT",
             headers:{
                 'Content-Type': 'multipart/form-data',

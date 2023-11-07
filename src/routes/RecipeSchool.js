@@ -19,6 +19,7 @@ function RecipeSchool() {
         .then((data) => setRecipeInfo(data))
     }, []);
 
+
  
 
     return (
@@ -46,7 +47,9 @@ function RecipeSchool() {
             <School>중학교</School>
             <School>고등학교</School>
         </RowDiv>
-
+        <Div style={{justifyContent: "center", marginTop: 150, display: recipeInfoList?.length === 0 ? "flex":"none"}}>
+            여러분의 식단을 공유 해주세요!
+        </Div>
         <BodyGrid>
             {recipeInfoList?.map((recipeInfo) => {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
@@ -217,3 +220,4 @@ const Button = styled.button`
     }
     
 `
+
