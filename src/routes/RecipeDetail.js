@@ -29,9 +29,6 @@ function RecipeDetail () {
         .then((data) => {setRecipePosts(data)})
     }, []);
 
-    console.log(recipePosts)
-    
-
 // 삭제 기능
     const navigate = useNavigate();
     const recipePostsDelete = () => {
@@ -53,17 +50,10 @@ function RecipeDetail () {
                 };
             });
     }
-
-
-
-// const menues = recipePosts?.menues.map((data)=>{return data})
    
-
-
-
 // 서버로 댓글 보내기
     // const onSubmit = (data) => {
-    //     fetch("http://localhost:3010/profile",{
+    //     fetch("http://localhost:3010/comments",{
     //         method: "POST",
     //         headers: {
     //             'Content-Type': 'application/json',
@@ -257,6 +247,7 @@ function RecipeDetail () {
                         </button>
                     </CommentBox>
                     */}
+                <RowDivisionLine />
 
                 <RowDivisionLine />
                     <RowDiv>
