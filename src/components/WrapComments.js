@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import CommentLists from "./CommentLists";
 
 
-export default function WrapComments() {
+export default function WrapComments({comments}) {
     const [input, setInput] = useState('')
-    const [commentLists, setCommentLists] = useState(data)
+    const [commentLists, setCommentLists] = useState(comments)
     const params = useParams();
     const {id} = params;
     const date = new Date();
-    console.log(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + '-' + date.getTime())
+
 
     const addComment = () => {
       if (input !== '') {
@@ -16,27 +17,28 @@ export default function WrapComments() {
           id: id,
           username: 'dundun',
           content: input,
-          createdAt: date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + '-' + date.getTime()
+          createdAt: date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay()
         };
         setCommentLists([...commentLists, newComment]);
         setInput('');
       }
     };
     
+    const editComment = (commentId, editValue) => {
+      let newCommentLists = commentLists?.map((item) =>{
+        if (item.id==commentId) {
+          item.content = editValue;
+        }
+        return item;
+      });
+
+      setCommentLists(newCommentLists);
+    }
+
+
     return (
       <>
-        <ul>
-          {commentLists.map(comment => {
-            const commentId = comment.id;
-            return (
-              <Comment
-                key={createdAt}
-                comment={comment}
-              />
-            );
-          })}
-        </ul>
-            
+        <CommentLists commentLists={commentLists} editComment={editComment} />
         <div>
           <input
             type="text"

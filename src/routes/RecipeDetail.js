@@ -7,6 +7,7 @@ import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPe
 import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
 import { Navigate, useNavigate, useParams, Link } from "react-router-dom"
+import WrapComments from "../components/WrapComments.js"
 
 
 
@@ -180,7 +181,7 @@ function RecipeDetail () {
                 {recipePosts?.menues.map((data)=>{
                     return (
                         <>
-                        <BodyGrid>
+                        <BodyGrid key={data.id}>
                             <BodyItem>
                                 <Title>메뉴 {data.id + 1}</Title><DivisionLine />
                             </BodyItem>
@@ -248,7 +249,7 @@ function RecipeDetail () {
                     </CommentBox>
                     */}
                 <RowDivisionLine />
-
+                    <WrapComments />
                 <RowDivisionLine />
                     <RowDiv>
                         <Link to={`/recipe_edit/${recipePosts?.id}`}>
