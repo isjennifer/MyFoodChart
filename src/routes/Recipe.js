@@ -1,44 +1,28 @@
-import { BrowserRouter as Router, Routes, Route, Link, NavLink} from "react-router-dom"
-import styled, {css} from "styled-components"
-import Navbar from "../components/Navbar.js"
-import { useState } from "react";
+import { Link } from "react-router-dom"
+import styled from "styled-components"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
-import RecipeSchool from "./RecipeSchool.js";
-import RecipeCompany from "./RecipeCompany.js";
-import Footer from "../components/Footer.js";
+import { faArrowRight, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
 
 function Recipe() {
-    const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleProfile, setToggleProfile] = useState(false);
+
 
 
     return (
         <>
-        <Navbar 
-            toggleMenu={toggleMenu} 
-            setToggleMenu={setToggleMenu} 
-            toggleProfile={toggleProfile} 
-            setToggleProfile={setToggleProfile}
-        />
         <Container>
             <RowDiv>
                 <div style={{display:"flex"}}>
-                    <NavLinkStlye
-                        to={"/recipe/recipe_school"} 
-                        activeClassName="active"
-                    >
+                    <Link to={"/recipes/school"}>
                         <Button>학교</Button>
-                    </NavLinkStlye>
-                    <NavLinkStlye
-                        to={"/recipe/recipe_company"} 
-                        activeClassName="active"
-                    >
+                    </Link>
+                    <Link to={"/recipes/company"}>
                         <Button>산업체</Button>
-                    </NavLinkStlye> 
+                    </Link> 
                 </div>
                 <SearchBox>
                     <FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize:20, margin:10}}/>
@@ -47,16 +31,7 @@ function Recipe() {
                 </SearchBox>
             </RowDiv>
         </Container>
-        <Container>
-            <Routes>
-                    <Route path="/recipe_school" element={<RecipeSchool />}></Route>
-            </Routes>
-            <Routes>
-                    <Route path="/recipe_company" element={<RecipeCompany />}></Route>
-            </Routes>
-        </Container>
 
-        <Footer/>
         </>
     );
 };
@@ -136,11 +111,11 @@ const Button = styled.button`
     
 `
 
-const NavLinkStlye = styled(NavLink)`
-    &.active{
-        ${Button} {
-         background-color: #F97F51;
-      }
-    }
+// // const NavLinkStlye = styled(NavLink)`
+// //     &.active{
+// //         ${Button} {
+// //          background-color: #F97F51;
+// //       }
+// //     }
     
-`
+// `

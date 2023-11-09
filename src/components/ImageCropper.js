@@ -1,7 +1,7 @@
 
 import styled from "styled-components"
 import { useRef, useState } from "react";
-import { Cropper, ReactCropperElement } from "react-cropper";
+import { Cropper } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCrop } from '@fortawesome/free-solid-svg-icons'
@@ -57,22 +57,20 @@ const ImageCropper = ({ children, onCrop }) => {
           <Modal>
           <div>
             <h1 style={{marginBottom:15}}><FontAwesomeIcon icon={faCrop} style={{marginRight:10}}/>이미지 자르기</h1>
-            <div >
-                <div>
-                    <Cropper
-                        ref={cropperRef}
-                        aspectRatio={1.6}
-                        src={image}
-                        viewMode={1}
-                        width={800}
-                        height={500}
-                        background={false}
-                        responsive
-                        autoCropArea={1}
-                        checkOrientation={false}
-                        guides
-                    />
-                </div>
+            <div>
+                <Cropper
+                   ref={cropperRef}
+                   aspectRatio={1.6}
+                   src={image}
+                   viewMode={1}
+                   width={800}
+                   height={500}
+                   background={false}
+                   responsive
+                   autoCropArea={1}
+                   checkOrientation={false}
+                   guides
+                />
             </div>
             <div style={{display:"flex", float:"right"}}>
                 <Button onClick={getCropData} style={{marginRight:15}}>적용하기</Button>

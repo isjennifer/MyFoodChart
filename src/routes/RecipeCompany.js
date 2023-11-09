@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom"
+
 import styled from "styled-components"
-import Navbar from "../components/Navbar.js"
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faMagnifyingGlass, faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faPenToSquare, faFilter} from '@fortawesome/free-solid-svg-icons'
 
 
 

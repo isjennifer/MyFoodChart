@@ -1,34 +1,26 @@
-import Navbar from "../components/Navbar.js"
+
 import styled from "styled-components"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil,faTriangleExclamation,faArrowRight,faMagnifyingGlass, faImage, faPlus,faSquareMinus} from '@fortawesome/free-solid-svg-icons'
+import { faPencil,faTriangleExclamation} from '@fortawesome/free-solid-svg-icons'
 import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import Footer from "../components/Footer.js"
-import { useForm } from "react-hook-form"
-import { Navigate, useNavigate, useParams, Link } from "react-router-dom"
+import { useNavigate, useParams, Link } from "react-router-dom"
 import WrapComments from "../components/WrapComments.js"
 
 
 
 function RecipeDetail () {
 
-// Navbar 모바일 반응형
-    const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleProfile, setToggleProfile] = useState(false);
 
 // 서버에서 메뉴이름들 가져오기
     const [recipePosts, setRecipePosts] = useState(null);
     const params = useParams();
     const {id} = params;
     useEffect(() => {
-        fetch("http://localhost:3010/recipePosts")
+        fetch(`http://localhost:3010/recipePosts/${id}`)
         .then((response) => response.json())
-        .then((data) => data.find((data) => {
-            return data.id == id;
-        }))
         .then((data) => {setRecipePosts(data)})
-    }, []);
+    }, [id]);
 
 // 삭제 기능
     const navigate = useNavigate();
@@ -44,7 +36,7 @@ function RecipeDetail () {
                 alert(error);
             }).then(() => {
                 if(window.confirm("삭제 하시겠습니까?")){
-                    navigate('/recipe/recipe_school')
+                    navigate('/recipes/school')
                     window.alert("삭제 되었습니다.")
                 } else {
                     window.alert("취소 되었습니다.")
@@ -94,13 +86,6 @@ function RecipeDetail () {
 
     return(
         <>
-        <Navbar 
-            toggleMenu={toggleMenu} 
-            setToggleMenu={setToggleMenu} 
-            toggleProfile={toggleProfile} 
-            setToggleProfile={setToggleProfile}
-        />
-
         <HeadDiv style={{fontWeight:600}}>
         <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             식단 상세정보
@@ -135,7 +120,7 @@ function RecipeDetail () {
                     </RowDiv>
                 </HeaderItem>
                 <HeaderItem>
-                    {recipePosts?.institute == 'school' ? recipePosts.whichSchool : recipePosts?.institute}
+                    {recipePosts?.institute === 'school' ? recipePosts.whichSchool : recipePosts?.institute}
                 </HeaderItem>
                 <HeaderItem>
                     <RowDiv>
@@ -252,7 +237,7 @@ function RecipeDetail () {
                     <WrapComments />
                 <RowDivisionLine />
                     <RowDiv>
-                        <Link to={`/recipe_edit/${recipePosts?.id}`}>
+                        <Link to={`/recipes/edit/${recipePosts?.id}`}>
                             <Button>
                                 <FontAwesomeIcon icon={faPenToSquare} />수정
                             </Button>
@@ -266,7 +251,6 @@ function RecipeDetail () {
 
         </Form>
 
-        <Footer/>
         </>
     );
 }
@@ -274,51 +258,7 @@ function RecipeDetail () {
 export default RecipeDetail;
 
 
-const CommentBox = styled.form`
-    display: inline-flex;
-    background-color: white;
-    border: #7B7B7B solid 1px;
-    padding: 0px 10px;
-    border-radius: 40px;
-    width: 100%;
-    height: 45px;
-    align-items: center;
-    justify-content: space-between;
 
-
-`
-const CommentInput = styled.input`
-    border: none; // 검색창 border 을 없앰으로써 자연스러워짐
-    -webkit-appearance: none; // 기본 search 디자인을 없앰
-    width: 100%;
-    height: 40px;
-    margin: 0px 10px;
-    overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
-    font-size: 18px;
-    &:focus{
-        outline: none;
-    };
-`
-
-
-const FormSubmitBtn = styled.button`
-    display: flex;
-    width: 100%;
-    height: 80px;
-    border-radius: 40px;
-    justify-content: center;
-    align-items: center;
-    background-color: #F97F51;
-    color: white;
-    border: none;
-    font-size: 20px;
-    &:hover {
-        cursor: pointer;
-        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    }
-
-
-`
 const Button = styled.div`
     display: flex;
     width: 160px;
@@ -350,20 +290,10 @@ const UploadImg = styled.img`
     
 `
 
-const MenuTitle = styled.div`
-    font-weight: 600;
-
-`
 
 const Title = styled.p`
     font-weight: 600;
 
-`
-
-const Input = styled.input`
-    width: 70px;
-    font-size: 18px;
-    margin: 0px 10px;
 `
 
 
@@ -403,27 +333,6 @@ const HeadDiv = styled.div`
 
 `
 
-const MenuTitleDiv = styled.div`
-    display: inline-flex;
-    align-items: center;
-    color: #505050;
-    width: 100%;
-    margin-bottom: 30px;
-
-
-`
-
-const FormDiv = styled.div`
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #505050;
-    width: 100%;
-    padding-bottom: 50px;
-
-
-`
-
 
 const RowDiv = styled.div`
     display: inline-flex;
@@ -432,13 +341,6 @@ const RowDiv = styled.div`
 ` 
 
 
-const ColDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    color: #505050;
-
-
-` 
 const FooterItem = styled.div`
     width: auto;
     height: auto;

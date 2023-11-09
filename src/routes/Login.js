@@ -1,17 +1,13 @@
-import { Link } from "react-router-dom";
+
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import Navbar from "../components/Navbar.js";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import axios from "axios";
-import Footer from "../components/Footer.js";
+
 
 
 function Login() {
-  const [toggleMenu, setToggleMenu] = useState(false);
-  const [toggleProfile, setToggleProfile] = useState(false);
 
   function getUser(platform) {
     // 리다이렉트 방식으로 변경
@@ -20,12 +16,7 @@ function Login() {
 
   return (
     <>
-      <Navbar
-        toggleMenu={toggleMenu}
-        setToggleMenu={setToggleMenu}
-        toggleProfile={toggleProfile}
-        setToggleProfile={setToggleProfile}
-      />
+
       <LoginForm>
         <Logo>모두의 식판</Logo>
         <span style={{ margin: 20 }}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
@@ -33,6 +24,7 @@ function Login() {
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
             style={{ width: 35, marginRight: 10 }}
+            alt="네이버로그인"
           />
           NAVER 로그인
           <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
@@ -41,6 +33,7 @@ function Login() {
           <img
             src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png"
             style={{ width: 35, marginRight: 10 }}
+            alt="카카오로그인"
           />
           KAKAO 로그인
           <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
@@ -48,7 +41,7 @@ function Login() {
         <DivisionLine></DivisionLine>
         <span style={{ fontSize: 12 }}>© 2023. 모두의식판. all rights reserved.</span>
       </LoginForm>
-      <Footer/>
+
     </>
   );
 }

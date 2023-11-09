@@ -32,7 +32,7 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
             </NavMobile>
             {toggleMenu ? (
                     <NavMobileMenu>
-                        <Link to={"/recipe"}><li>식단공유</li></Link>
+                        <Link to={"/recipes/school"}><li>식단공유</li></Link>
                         <Link to={"/community"}><li>커뮤니티</li></Link>
                         <Link to={"/event"}><li>이벤트</li></Link>
                         <Link to={"/how_to_use"}><li>이용방법</li></Link>
@@ -45,10 +45,10 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
                     </NavMobileMenu>
                 ) : null }
             <NavHome>
-                <Link to={"/"}><li>모두의 식판</li></Link>
+                <Link to={"/home"}><li>모두의 식판</li></Link>
             </NavHome>
             <NavMenu>
-                <Link to={"/recipe"}><li>식단공유</li></Link>
+                <Link to={"/recipes/school"}><li>식단공유</li></Link>
                 <Link to={"/community"}><li>커뮤니티</li></Link>
                 <Link to={"/event"}><li>이벤트</li></Link>
                 <Link to={"/how_to_use"}><li>이용방법</li></Link>

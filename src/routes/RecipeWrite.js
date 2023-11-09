@@ -1,22 +1,17 @@
-import Navbar from "../components/Navbar.js"
+
 import styled from "styled-components"
 import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencil, faImage, faPlus,faSquareMinus } from '@fortawesome/free-solid-svg-icons'
-import Footer from "../components/Footer.js"
 import { useForm } from "react-hook-form"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import ImageCropper from "../components/ImageCropper.js"
 
 
 function RecipeWrite () {
 
-// Navbar 모바일 반응형
-    const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleProfile, setToggleProfile] = useState(false);
-
 // react-hook-form
-    const { register, handleSubmit, watch, formState: { errors }, setError,} = useForm({mode: 'onBlur'});
+    const { register, handleSubmit, watch, formState: { errors }} = useForm({mode: 'onBlur'});
 
 // 파일 업로드
     const [recipeFile, setRecipeFile] = useState("");
@@ -116,7 +111,7 @@ function RecipeWrite () {
         }).then((data) => {
             if(window.confirm("포스팅 하시겠습니까?")){
                 window.alert("포스팅 되었습니다.")
-                navigate('/recipe')
+                navigate('/recipes/school')
                 
             } else {
                 window.alert("취소 되었습니다.")
@@ -150,13 +145,6 @@ function RecipeWrite () {
 
     return(
         <>
-        <Navbar 
-            toggleMenu={toggleMenu} 
-            setToggleMenu={setToggleMenu} 
-            toggleProfile={toggleProfile} 
-            setToggleProfile={setToggleProfile}
-        />
-        
         <HeadDiv style={{fontWeight:600}}>
             <FontAwesomeIcon icon={faPencil} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
             내 식단 공유하기
@@ -370,7 +358,6 @@ function RecipeWrite () {
             <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
         </Form>
 
-        <Footer/>
         </>
     );
 }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRight, faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import { faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -24,13 +24,14 @@ function RecipeSchool() {
 
     return (
         <>
+        <Container>
         <RowDiv>
             <Div style={{fontWeight:600}}>
                 <FontAwesomeIcon icon={faUsers} style={{fontSize:40, margin:20, color: "#F97F51"}}/>
                 식단을 공유해요!
             </Div>
             <Div>
-                <Link to={"/recipe_write"}>
+                <Link to={"/recipes/write"}>
                     <Button style={{width: 130, padding:10}}>
                         <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, margin:5}} />
                         글쓰기
@@ -55,7 +56,7 @@ function RecipeSchool() {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
                 console.log(recipeInfo)
                 return (
-                <Link to={`/recipe_detail/${recipeInfo.id}`}>
+                <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
                     <Title>
                         <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, marginRight:15}} />
@@ -78,7 +79,7 @@ function RecipeSchool() {
                 )
             })}
         </BodyGrid>
-
+        </Container>
         </>
     );
 };
@@ -86,6 +87,14 @@ function RecipeSchool() {
 export default RecipeSchool;
 
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 1100px;
+    margin-inline: auto;
+    border: solid 1px black;
+
+`
 
 const BodyItem = styled.div`
     display: flex;
@@ -132,25 +141,6 @@ const Img = styled.img`
 
 `
 
-const RecipeCompo = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 46%;
-    height: 400px;
-    margin: 10px;
-
-`
-
-const RecipeList = styled.div`
-    display: flex;
-    width: 100%;
-    padding: 50px 100px;
-    align-items: center;
-    justify-content: space-evenly;
-
-
-`
-
 
 const DivisionLine = styled.div`
     height: 25px;
@@ -176,16 +166,6 @@ const RowDiv = styled.div`
 
 `
 
-const ColDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 30px;
-    color: #505050;
-
-
-` 
 
 const Div = styled.div`
     display: flex;
