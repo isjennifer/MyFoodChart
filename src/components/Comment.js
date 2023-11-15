@@ -8,7 +8,7 @@ export default function Comment({
     setSelectedCommentIndex,
     editComment,
 }) {
-    const [editValue, seteEditValue] = useState(content);
+    const [editValue, seteEditValue] = useState('');
 
     const handleEditInput = () => {
         editComment(id, editValue);
@@ -18,7 +18,7 @@ export default function Comment({
     const editInput = (
         <input
             type="text"
-            value={editValue}
+            value={editValue||''}
             onChange={e=>seteEditValue(e.target.value)}
             onKeyDown={e=>(e.key==="Enter"? handleEditInput():null)}
         />
@@ -28,10 +28,11 @@ export default function Comment({
         <li>
             <span>
                 <span>{username}</span>
-                {isEditing? editInput : <span>{content}</span>}
+                {isEditing? editInput : <span><br />내용:{content}<br /></span>}
             </span>
             <span>{createdAt}</span>
-            <button onClick={isEditing? handleEditInput() : setSelectedCommentIndex(id)}>
+            {/* <button> */}
+            <button onClick={isEditing? () => handleEditInput() : () => setSelectedCommentIndex(id)}>
                 수정
             </button>
         </li>

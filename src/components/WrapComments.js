@@ -5,7 +5,8 @@ import CommentLists from "./CommentLists";
 
 export default function WrapComments() {
     const [input, setInput] = useState('')
-    const [commentLists, setCommentLists] = useState([{ id: 0, username: '', content: '', createdAt: '' }])
+    const [commentLists, setCommentLists] = useState([])
+
     // const params = useParams();
     // const {id} = params;
     const nextID = useRef(1);
@@ -23,7 +24,11 @@ export default function WrapComments() {
           content: input,
           createdAt: date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay()
         };
-        setCommentLists([...commentLists, newComment]);
+        let newCommentList = [...commentLists]
+        console.log(newCommentList);
+        newCommentList.push(newComment);
+        console.log(newCommentList);
+        setCommentLists(newCommentList);
         setInput('');
         nextID.current += 1; 
       }
@@ -49,7 +54,7 @@ export default function WrapComments() {
           <input
             type="text"
             placeholder="댓글 달기..."
-            value={input}
+            value={input||''}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => (e.key === 'Enter' ? addComment() : null)}
             />
