@@ -16,6 +16,7 @@ function RecipeSchool() {
             method:"GET"
         })
         .then((response) => response.json())
+        .then((data) => data.filter((v) => v.institute === "school"))
         .then((data) => setRecipeInfo(data))
     }, []);
 

@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CommentLists from "./CommentLists";
 import styled from "styled-components"
+import { useParams } from "react-router-dom";
 
 export default function WrapComments() {
     const [input, setInput] = useState('')
     const [commentLists, setCommentLists] = useState([])
     const nextID = useRef(1);
+    const params = useParams();
+    const recipeId = params;
     // 오늘 날짜 간편하게 받아오기 : Moment.js 
     const moment = require('moment');
     
@@ -13,18 +16,37 @@ export default function WrapComments() {
       if (input !== '') {
         const newComment = {
           id: nextID.current,
+          recipeId: recipeId,
           username: 'dundun',
           content: input,
           createdAt: moment().format('YYYY-MM-DD')
         };
-        let newCommentList = [...commentLists]
-        newCommentList.push(newComment);
-        setCommentLists(newCommentList);
+        // let newCommentList = [...commentLists]
+        // newCommentList.push(newComment);
+        setCommentLists([...commentLists,newComment]);
         setInput('');
-        nextID.current += 1; 
-      }
+        nextID.current += 1;
     };
-    
+  }
+
+    useEffect(() => {
+        fetch(`http://localhost:3010/comments`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json',},
+          body: JSON.stringify(commentLists),
+        }).then((response) => {
+            if (response.ok === true) {
+                return response.json();
+                }
+            throw new Error("에러 발생!");
+        }).catch((error) => {
+            alert(error);
+        });
+      },[commentLists])
+
+  console.log(commentLists);
+
+
 
     const editComment = (commentId, editValue) => {
       let newCommentLists = commentLists?.map((item) =>{
@@ -37,6 +59,7 @@ export default function WrapComments() {
       setCommentLists(newCommentLists);
     }
 
+    
 
     return (
       <>
