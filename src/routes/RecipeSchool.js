@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import ReactPaginate from "react-paginate";
 
 
 
@@ -17,9 +18,21 @@ function RecipeSchool() {
         })
         .then((response) => response.json())
         .then((data) => data.filter((v) => v.institute === "school"))
-        .then((data) => setRecipeInfo(data))
+        .then((data) => setRecipeInfo(data.reverse()))
     }, []);
 
+    // 페이지네이션 react-paginate
+    const [page, setPage] = useState(0);
+    const [filterData, setFilterData] = useState();
+    const n = 9;
+
+    useEffect(() => {
+        setFilterData(
+          recipeInfoList?.filter((item, index) => {
+            return (index >= page * n) & (index < (page + 1) * n);
+          })
+        );
+      }, [page, recipeInfoList]);
 
  
 
@@ -53,6 +66,47 @@ function RecipeSchool() {
             여러분의 식단을 공유 해주세요!
         </Div>
         <BodyGrid>
+            {filterData?.map((recipeInfo) => {
+                const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
+                console.log(recipeInfo)
+                return (
+                <Link to={`/recipes/detail/${recipeInfo.id}`}>
+                <BodyItem>
+                    <Title>
+                        <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, marginRight:15}} />
+                        {recipeTitle.length >= 23 && `${recipeTitle.slice(0,23)}...`}
+                    </Title>
+                    <Img src="http://localhost:3000/img/background_img.jpg" alt="식단 이미지"/>
+                    <RowDiv style={{marginTop:0}}>
+                        <Div style={{fontSize: 16, padding:10}}>
+                            <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, marginRight:5}} />
+                            작성자닉네임
+                        </Div>
+                        <Div style={{fontSize: 16, padding:10}}>
+                            <FontAwesomeIcon icon={faHeart} style={{fontSize:20, color: "#FC427B", marginRight:5}}  />
+                            좋아요수
+                        </Div>
+                    </RowDiv>
+                </BodyItem>
+                </Link>
+                )
+            })}
+            </BodyGrid>
+            <ReactPaginate
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                pageClassName={"page-item"}
+                onPageChange={(event) => setPage(event.selected)}
+                breakLabel="..."
+                pageCount={Math.ceil(recipeInfoList?.length / n)}
+                previousLabel={
+                "<"
+                }
+                nextLabel={
+                ">"
+                }
+            />
+        {/* <BodyGrid>
             {recipeInfoList?.map((recipeInfo) => {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
                 console.log(recipeInfo)
@@ -66,7 +120,6 @@ function RecipeSchool() {
                     <Img src="http://localhost:3000/img/background_img.jpg" alt="식단 이미지"/>
                     <RowDiv style={{marginTop:0}}>
                         <Div style={{fontSize: 16, padding:10}}>
-                            {/* 작성자아이콘으로 바꿔야됨 */}
                             <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, marginRight:5}} />
                             작성자닉네임
                         </Div>
@@ -79,7 +132,7 @@ function RecipeSchool() {
                 </Link>
                 )
             })}
-        </BodyGrid>
+        </BodyGrid> */}
         </Container>
         </>
     );
@@ -188,16 +241,12 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     letter-spacing: 1px;
-    background-color: #7B7B7B;
+    background-color: #F97F51;
     color: white;
     font-size: 15px;
     border: none;
     &:hover{
         cursor: pointer;
-        background-color: #F97F51;
-    }
-    &:focus{
-        background-color: #F97F51;
     }
     
 `

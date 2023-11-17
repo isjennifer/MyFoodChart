@@ -3,6 +3,7 @@ import CommentLists from "./CommentLists";
 import styled from "styled-components"
 import { useParams } from "react-router-dom";
 
+
 export default function WrapComments() {
     const [input, setInput] = useState('')
     const [commentLists, setCommentLists] = useState([])

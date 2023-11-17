@@ -46,7 +46,7 @@ function RecipeCompany() {
         <BodyGrid>
             {recipeInfoList?.map((recipeInfo) => {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
-                console.log(recipeInfo)
+                {/* console.log(recipeInfo) */}
                 return (
                 <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
@@ -137,20 +137,6 @@ const Img = styled.img`
 `
 
 
-const DivisionLine = styled.div`
-    height: 25px;
-    border: solid #7B7B7B 1px;
-
-`
-
-const School = styled.div`
-    &:hover {
-        font-weight: 600;
-        color: #F97F51;
-        cursor: pointer;
-    };
-`
-
 const RowDiv = styled.div`
     display: inline-flex;
     position: relative;
@@ -182,16 +168,12 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     letter-spacing: 1px;
-    background-color: #7B7B7B;
+    background-color: #F97F51;
     color: white;
     font-size: 15px;
     border: none;
     &:hover{
         cursor: pointer;
-        background-color: #F97F51;
-    }
-    &:focus{
-        background-color: #F97F51;
     }
     
 `
