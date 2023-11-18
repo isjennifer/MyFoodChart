@@ -4,6 +4,8 @@ import styled from "styled-components"
 import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import ReactPaginate from "react-paginate";
+import "../css/paginationStyle.css";
 
 
 
@@ -20,6 +22,18 @@ function RecipeCompany() {
         .then((data) => setRecipeInfo(data))
     }, []);
 
+        // 페이지네이션 react-paginate
+        const [page, setPage] = useState(0);
+        const [filterData, setFilterData] = useState();
+        const n = 9;
+    
+        useEffect(() => {
+            setFilterData(
+              recipeInfoList?.filter((item, index) => {
+                return (index >= page * n) & (index < (page + 1) * n);
+              })
+            );
+          }, [page, recipeInfoList]);
 
 
     return (
@@ -44,9 +58,8 @@ function RecipeCompany() {
             여러분의 식단을 공유 해주세요!
         </Div>
         <BodyGrid>
-            {recipeInfoList?.map((recipeInfo) => {
+            {filterData?.map((recipeInfo) => {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
-                {/* console.log(recipeInfo) */}
                 return (
                 <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
@@ -71,6 +84,18 @@ function RecipeCompany() {
                 )
             })}
         </BodyGrid>
+        <ReactPaginate
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                pageClassName={"page-item"}
+                onPageChange={(event) => setPage(event.selected)}
+                breakLabel="..."
+                pageCount={Math.ceil(recipeInfoList?.length / n)}
+                previousLabel={"<"}
+                previousClassName={"previous"}
+                nextLabel={">"}
+                nextClassName={"next"}
+            />
         </Container>
         </>
     );

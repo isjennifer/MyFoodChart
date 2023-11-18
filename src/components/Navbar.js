@@ -27,7 +27,7 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
         <Nav>
             <NavMobile>
                 <FontAwesomeIcon icon={faBars} onClick={onClickMenu} />
-                <li>모두의 식판</li>
+                <li>레시피숲</li>
                 <FontAwesomeIcon icon={faUser} onClick={onClickProfile}/>
             </NavMobile>
             {toggleMenu ? (
@@ -45,7 +45,7 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
                     </NavMobileMenu>
                 ) : null }
             <NavHome>
-                <Link to={"/home"}><li>모두의 식판</li></Link>
+                <Link to={"/home"}><li>레시피숲</li></Link>
             </NavHome>
             <NavMenu>
                 <Link to={"/recipes/school"}><li>식단공유</li></Link>

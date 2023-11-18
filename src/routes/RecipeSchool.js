@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
 import ReactPaginate from "react-paginate";
+import "../css/paginationStyle.css";
 
 
 
@@ -99,40 +100,11 @@ function RecipeSchool() {
                 onPageChange={(event) => setPage(event.selected)}
                 breakLabel="..."
                 pageCount={Math.ceil(recipeInfoList?.length / n)}
-                previousLabel={
-                "<"
-                }
-                nextLabel={
-                ">"
-                }
+                previousLabel={"<"}
+                previousClassName={"previous"}
+                nextLabel={">"}
+                nextClassName={"next"}
             />
-        {/* <BodyGrid>
-            {recipeInfoList?.map((recipeInfo) => {
-                const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
-                console.log(recipeInfo)
-                return (
-                <Link to={`/recipes/detail/${recipeInfo.id}`}>
-                <BodyItem>
-                    <Title>
-                        <FontAwesomeIcon icon={faBowlFood} style={{fontSize:20, marginRight:15}} />
-                        {recipeTitle.length >= 23 && `${recipeTitle.slice(0,23)}...`}
-                    </Title>
-                    <Img src="http://localhost:3000/img/background_img.jpg" alt="식단 이미지"/>
-                    <RowDiv style={{marginTop:0}}>
-                        <Div style={{fontSize: 16, padding:10}}>
-                            <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, marginRight:5}} />
-                            작성자닉네임
-                        </Div>
-                        <Div style={{fontSize: 16, padding:10}}>
-                            <FontAwesomeIcon icon={faHeart} style={{fontSize:20, color: "#FC427B", marginRight:5}}  />
-                            좋아요수
-                        </Div>
-                    </RowDiv>
-                </BodyItem>
-                </Link>
-                )
-            })}
-        </BodyGrid> */}
         </Container>
         </>
     );
