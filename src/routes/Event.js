@@ -6,7 +6,7 @@ function Event() {
 
     return (
         <>
-        <span>이벤트</span>
+        <span>준비중입니다.</span>
         </>
     );
 };

@@ -118,7 +118,7 @@ const Container = styled.div`
     flex-direction: column;
     width: 1100px;
     margin-inline: auto;
-    border: solid 1px black;
+    /* border: solid 1px black; */
 
 `
 

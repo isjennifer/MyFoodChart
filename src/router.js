@@ -12,6 +12,7 @@ import RecipeEdit from "./routes/RecipeEdit"
 import { Outlet } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import Profile from "./routes/Profile"
 
 
 
@@ -35,6 +36,10 @@ export const RouterInfo = [
             {
                 path: "/login",
                 element: <Login/>,
+            },
+            {
+                path: "/profile",
+                element: <Profile />
             },
             {
                 element: (

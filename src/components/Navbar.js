@@ -81,7 +81,7 @@ const Nav = styled.nav`
     color: white;
     justify-content: space-between;
     /* position: relative; */
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     list-style: none;
     /* z-index: 1000; */
     width: 100%;

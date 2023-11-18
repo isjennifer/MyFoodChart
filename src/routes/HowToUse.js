@@ -8,7 +8,7 @@ function HowToUse() {
 
     return (
         <>
-        <span>이용방법</span>
+        <span>준비중입니다.</span>
         </>
     );
 };
