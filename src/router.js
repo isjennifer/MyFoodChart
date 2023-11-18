@@ -19,6 +19,10 @@ import Footer from "./components/Footer"
 
 export const RouterInfo = [
     {
+        path: "/home",
+        element: <Home />
+    },
+    {
         element: (
             <div>
                 <Navbar/>
@@ -26,12 +30,8 @@ export const RouterInfo = [
                 <Footer/>
             </div>
         ),
-        errorElement: <div>이상한 주소로 이동했네요.</div>,
+        errorElement: <div>이상한 주소로 이동했네요. <a href="http://localhost:3000/home">http://localhost:3000/home</a> 으로 이동해주세요.</div>,
         children: [
-            {
-                path: "/home",
-                element: <Home />
-            },
             {
                 path: "/login",
                 element: <Login/>,

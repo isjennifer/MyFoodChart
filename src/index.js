@@ -39,7 +39,7 @@ footer, header, hgroup, main, menu, nav, section {
 body {
   font-weight: 400;
   font-family: 'Open Sans', sans-serif;
-  background-color: rgba(249, 127, 81, 0.2);
+  background-color: none;
   color: none;
   line-height: 1.2;
 }

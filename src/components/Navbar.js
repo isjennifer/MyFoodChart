@@ -77,7 +77,7 @@ export default Navbar;
 const Nav = styled.nav`
     display: flex;
     height: 60px;
-    background-color: #F97F51;
+    background-color: #2c3e50;
     color: white;
     justify-content: space-between;
     /* position: relative; */
