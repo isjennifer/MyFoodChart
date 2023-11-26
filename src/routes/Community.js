@@ -7,7 +7,7 @@ function Community() {
     return (
         <>
 
-        <span>커뮤니티</span>
+        <span>준비중입니다.</span>
         </>
     );
 };

@@ -4,7 +4,7 @@ function Footer() {
     return(
         <FootDiv>
             <DivisionLine />
-            <Contents>© 2023. 모두의식판. all rights reserved.</Contents>
+            <Contents>© 2023. 레시피숲. all rights reserved.</Contents>
         </FootDiv>
     );
 
@@ -28,7 +28,7 @@ const DivisionLine = styled.div`
 `;
 
 const Contents = styled.div`
-    font-size: 15px;
+    font-size: 13px;
     padding: 50px;
     color: #7B7B7B;
 `

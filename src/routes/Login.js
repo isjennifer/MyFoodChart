@@ -18,8 +18,8 @@ function Login() {
     <>
 
       <LoginForm>
-        <Logo>모두의 식판</Logo>
-        <span style={{ margin: 20 }}>소셜 로그인으로 모두의 식판을 이용해보세요!</span>
+        <Logo>레시피숲</Logo>
+        <span style={{ margin: 20 }}>소셜 로그인으로 레시피숲을 이용해보세요!</span>
         <Button onClick={() => getUser("naver")} style={{ backgroundColor: "#4cd137" }}>
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
@@ -38,8 +38,8 @@ function Login() {
           KAKAO 로그인
           <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
         </Button>
-        <DivisionLine></DivisionLine>
-        <span style={{ fontSize: 12 }}>© 2023. 모두의식판. all rights reserved.</span>
+        {/* <DivisionLine></DivisionLine>
+        <span style={{ fontSize: 12 }}>© 2023. 레시피숲. all rights reserved.</span> */}
       </LoginForm>
 
     </>
@@ -59,13 +59,15 @@ const LoginForm = styled.div`
   flex-direction: column;
   /* position: relative; */
   width: 430px;
-  height: 500px;
+  height: 400px;
   padding: 30px;
   margin-inline: auto;
+  margin-top: 100px;
   justify-content: center;
   align-items: center;
   color: #505050;
   border-radius: 50px;
+  border: solid 1px #2c3e50;
   font-size: 18px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -94,6 +96,6 @@ const Logo = styled.span`
   font-family: "Sunflower", sans-serif;
   font-size: 40px;
   font-weight: bold;
-  color: #f97f51;
+  color: #2c3e50;
   margin: 20px;
 `;

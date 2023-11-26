@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 
 
 
@@ -8,7 +9,7 @@ export default function Comment({
     setSelectedCommentIndex,
     editComment,
 }) {
-    const [editValue, seteEditValue] = useState(content);
+    const [editValue, seteEditValue] = useState('');
 
     const handleEditInput = () => {
         editComment(id, editValue);
@@ -18,7 +19,7 @@ export default function Comment({
     const editInput = (
         <input
             type="text"
-            value={editValue}
+            value={editValue||''}
             onChange={e=>seteEditValue(e.target.value)}
             onKeyDown={e=>(e.key==="Enter"? handleEditInput():null)}
         />
@@ -26,15 +27,60 @@ export default function Comment({
 
     return(
         <li>
-            <span>
-                <span>{username}</span>
-                {isEditing? editInput : <span>{content}</span>}
-            </span>
-            <span>{createdAt}</span>
-            <button onClick={isEditing? handleEditInput() : setSelectedCommentIndex(id)}>
-                수정
-            </button>
+            <CommentGrid>
+                <CommentItem>{username}</CommentItem>
+                {isEditing? editInput : <CommentItem>{content}</CommentItem>}
+                <CommentItem>{createdAt}</CommentItem>
+                <Button onClick={isEditing? () => handleEditInput() : () => setSelectedCommentIndex(id)}>
+                    수정
+                </Button>
+            </CommentGrid>
         </li>
     )
 
 }
+
+
+const Button = styled.button`
+    display: flex;
+    width: 60px;
+    height: 30px;
+    background-color: #F97F51;
+    color: white;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    &:hover{
+        cursor: pointer;
+    }
+    
+    
+`
+
+
+const CommentItem = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 50px;
+    margin-bottom: 10px; 
+    /* border: solid 2px black; */
+    &:nth-child(1){
+        font-size: 16px;
+    }
+    &:nth-child(3){
+        font-size: 16px;
+    }
+
+`
+
+const CommentGrid = styled.div`
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr 3fr 1fr 0.5fr;
+    gap: 10px;
+
+` 

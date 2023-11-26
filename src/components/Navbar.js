@@ -27,7 +27,7 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
         <Nav>
             <NavMobile>
                 <FontAwesomeIcon icon={faBars} onClick={onClickMenu} />
-                <li>모두의 식판</li>
+                <li>레시피숲</li>
                 <FontAwesomeIcon icon={faUser} onClick={onClickProfile}/>
             </NavMobile>
             {toggleMenu ? (
@@ -45,7 +45,7 @@ function Navbar({toggleMenu, setToggleMenu, toggleProfile, setToggleProfile}) {
                     </NavMobileMenu>
                 ) : null }
             <NavHome>
-                <Link to={"/home"}><li>모두의 식판</li></Link>
+                <Link to={"/home"}><li>레시피숲</li></Link>
             </NavHome>
             <NavMenu>
                 <Link to={"/recipes/school"}><li>식단공유</li></Link>
@@ -77,11 +77,11 @@ export default Navbar;
 const Nav = styled.nav`
     display: flex;
     height: 60px;
-    background-color: #F97F51;
+    background-color: #2c3e50;
     color: white;
     justify-content: space-between;
     /* position: relative; */
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     list-style: none;
     /* z-index: 1000; */
     width: 100%;

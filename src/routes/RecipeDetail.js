@@ -2,8 +2,8 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil,faTriangleExclamation} from '@fortawesome/free-solid-svg-icons'
-import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { faPencil,faTriangleExclamation,faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import { faSquareCheck,faSquare,faCommentDots,faHeart,faBookmark,faTrashCan,faPenToSquare, } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate, useParams, Link } from "react-router-dom"
 import WrapComments from "../components/WrapComments.js"
 
@@ -162,7 +162,6 @@ function RecipeDetail () {
             </BodyGrid>
 
             <RowDivisionLine />
-
                 {recipePosts?.menues.map((data)=>{
                     return (
                         <>
@@ -178,7 +177,6 @@ function RecipeDetail () {
                         </>
                     )
                 })}
-
 
             <FooterGrid>
                 <FooterItem>
@@ -202,55 +200,39 @@ function RecipeDetail () {
                     </a>
                 </FooterItem>
             </FooterGrid>
-        
 
-                    <RowDiv>
-                        <FontAwesomeIcon icon={faCommentDots} />
-                        댓글
-                        <FontAwesomeIcon icon={faHeart} />
-                        좋아요
-                        <FontAwesomeIcon icon={faBookmark} />
-                        북마크
-                        <FontAwesomeIcon icon={faTriangleExclamation} />
-                        신고
-                    </RowDiv>
-                {/* 
-                <RowDivisionLine />
-                    {/* {comment?.map((data) => {
-                        return (
-                            <>
-                            <RowDiv>
-                            <div>{data.id}</div>
-                            <div>{data.comment}</div>
-                            </RowDiv>
-                            </>
-                        )
-                    })}
-                    <CommentBox onSubmit={handleSubmit(onSubmit)}>
-                        <CommentInput {...register("comment")} name="comment" placeholder="댓글 남기기..."/>
-                        <button type="submit" style={{border:"none", backgroundColor:"transparent"}}>
-                        <FontAwesomeIcon icon={faArrowRight} style={{fontSize:20, margin:10}}/>
-                        </button>
-                    </CommentBox>
-                    */}
-                <RowDivisionLine />
-                    <WrapComments />
-                <RowDivisionLine />
-                    <RowDiv>
-                        <Link to={`/recipes/edit/${recipePosts?.id}`}>
-                            <Button>
-                                <FontAwesomeIcon icon={faPenToSquare} />수정
-                            </Button>
-                        </Link>
-                        <Button onClick={recipePostsDelete}>
-                            <FontAwesomeIcon icon={faTrashCan} />삭제
+            <FuncDiv>
+                <div style={{width:60, display:"flex", justifyContent:"space-between"}}>
+                    <FontAwesomeIcon icon={faCommentDots} /><Title>댓글</Title>
+                </div>
+                <div style={{width:220, display:"flex", justifyContent:"space-between"}}>
+                    <FontAwesomeIcon icon={faHeart} />좋아요
+                    <FontAwesomeIcon icon={faBookmark} />북마크
+                    <FontAwesomeIcon icon={faTriangleExclamation} />신고
+                </div>
+            </FuncDiv>
+            <RowDivisionLine />
+                <WrapComments />
+            <RowDivisionLine />
+            <FuncDiv>
+                <Link to={`/recipes/school`}>
+                    <Button>
+                        <FontAwesomeIcon icon={faArrowLeft} />목록으로
+                    </Button>
+                </Link>
+                {/* 수정 삭제 부분은 토큰을 가진 유저(해당 글을 작성한 유저만 보이게 구현하기) */}
+                <RowDiv>
+                    <Link to={`/recipes/edit/${recipePosts?.id}`}>
+                        <Button>
+                            <FontAwesomeIcon icon={faPenToSquare} />수정
                         </Button>
-                    </RowDiv>
-                
-                
-
+                    </Link>
+                    <Button onClick={recipePostsDelete}>
+                        <FontAwesomeIcon icon={faTrashCan} />삭제
+                    </Button>
+                </RowDiv>
+            </FuncDiv>
         </Form>
-
         </>
     );
 }
@@ -258,6 +240,15 @@ function RecipeDetail () {
 export default RecipeDetail;
 
 
+
+
+const FuncDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+
+
+`
 
 const Button = styled.div`
     display: flex;
@@ -268,7 +259,7 @@ const Button = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 40px;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     &:hover{
         cursor: pointer;
     }
@@ -306,7 +297,7 @@ const DivisionLine = styled.div`
 const RowDivisionLine = styled.div`
   width: 100%;
   border: solid #DEDEDE 1px;
-  margin: 20px 0px 40px 0px;
+  margin: 20px 0px 20px 0px;
 `;
 
 

@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import styled from "styled-components"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,18 +9,21 @@ import { faArrowRight, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-ic
 
 function Recipe() {
 
+    const location = useLocation();
 
+    const schoolButtonStyle = location.pathname === "/recipes/school" ? { backgroundColor: '#F97F51' } : {};
+    const companyButtonStyle = location.pathname === "/recipes/company" ? { backgroundColor: '#F97F51' } : {};
 
     return (
         <>
         <Container>
             <RowDiv>
                 <div style={{display:"flex"}}>
-                    <Link to={"/recipes/school"}>
-                        <Button>학교</Button>
+                    <Link to={"/recipes/school"} >
+                        <Button style={schoolButtonStyle}>학교</Button>
                     </Link>
-                    <Link to={"/recipes/company"}>
-                        <Button>산업체</Button>
+                    <Link to={"/recipes/company"} >
+                        <Button style={companyButtonStyle}>산업체</Button>
                     </Link> 
                 </div>
                 <SearchBox>
@@ -39,28 +41,25 @@ function Recipe() {
 export default Recipe;
 
 
+
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 1100px;
     margin-inline: auto;
-    border: solid 1px black;
+    margin-top: 100px;
+    /* border: solid 1px black; */
 
 `
 
 const RowDiv = styled.div`
     display: inline-flex;
-    /* position: absolute;
-    z-index: 1; */
-
     width: 100%;
-    /* margin: ; */
     justify-content: space-between;
     align-items: center;
 
 `
-
-
 
 const SearchBox = styled.div`
     display: inline-flex;
@@ -74,8 +73,8 @@ const SearchBox = styled.div`
     align-items: center;
     justify-content: space-between;
 
-
 `
+
 const Input = styled.input`
     border: none; // 검색창 border 을 없앰으로써 자연스러워짐
     -webkit-appearance: none; // 기본 search 디자인을 없앰
@@ -103,19 +102,6 @@ const Button = styled.button`
     border: none;
     &:hover{
         cursor: pointer;
-        background-color: #F97F51;
-    }
-    &:active{
-        background-color: #F97F51;
     }
     
 `
-
-// // const NavLinkStlye = styled(NavLink)`
-// //     &.active{
-// //         ${Button} {
-// //          background-color: #F97F51;
-// //       }
-// //     }
-    
-// `

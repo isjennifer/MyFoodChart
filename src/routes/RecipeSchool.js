@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBowlFood, faUsers, faPenToSquare, faFilter, faHeart} from '@fortawesome/free-solid-svg-icons'
+import ReactPaginate from "react-paginate";
+import "../css/paginationStyle.css";
 
 
 
@@ -16,9 +18,22 @@ function RecipeSchool() {
             method:"GET"
         })
         .then((response) => response.json())
-        .then((data) => setRecipeInfo(data))
+        .then((data) => data.filter((v) => v.institute === "school"))
+        .then((data) => setRecipeInfo(data.reverse()))
     }, []);
 
+    // 페이지네이션 react-paginate
+    const [page, setPage] = useState(0);
+    const [filterData, setFilterData] = useState();
+    const n = 9;
+
+    useEffect(() => {
+        setFilterData(
+          recipeInfoList?.filter((item, index) => {
+            return (index >= page * n) & (index < (page + 1) * n);
+          })
+        );
+      }, [page, recipeInfoList]);
 
  
 
@@ -52,7 +67,7 @@ function RecipeSchool() {
             여러분의 식단을 공유 해주세요!
         </Div>
         <BodyGrid>
-            {recipeInfoList?.map((recipeInfo) => {
+            {filterData?.map((recipeInfo) => {
                 const recipeTitle = recipeInfo?.menues.map((menu) => {return menu.menuName}).join(", ")
                 console.log(recipeInfo)
                 return (
@@ -65,7 +80,6 @@ function RecipeSchool() {
                     <Img src="http://localhost:3000/img/background_img.jpg" alt="식단 이미지"/>
                     <RowDiv style={{marginTop:0}}>
                         <Div style={{fontSize: 16, padding:10}}>
-                            {/* 작성자아이콘으로 바꿔야됨 */}
                             <FontAwesomeIcon icon={faPenToSquare} style={{fontSize:20, marginRight:5}} />
                             작성자닉네임
                         </Div>
@@ -78,7 +92,19 @@ function RecipeSchool() {
                 </Link>
                 )
             })}
-        </BodyGrid>
+            </BodyGrid>
+            <ReactPaginate
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                pageClassName={"page-item"}
+                onPageChange={(event) => setPage(event.selected)}
+                breakLabel="..."
+                pageCount={Math.ceil(recipeInfoList?.length / n)}
+                previousLabel={"<"}
+                previousClassName={"previous"}
+                nextLabel={">"}
+                nextClassName={"next"}
+            />
         </Container>
         </>
     );
@@ -92,7 +118,7 @@ const Container = styled.div`
     flex-direction: column;
     width: 1100px;
     margin-inline: auto;
-    border: solid 1px black;
+    /* border: solid 1px black; */
 
 `
 
@@ -187,16 +213,12 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     letter-spacing: 1px;
-    background-color: #7B7B7B;
+    background-color: #F97F51;
     color: white;
     font-size: 15px;
     border: none;
     &:hover{
         cursor: pointer;
-        background-color: #F97F51;
-    }
-    &:focus{
-        background-color: #F97F51;
     }
     
 `
