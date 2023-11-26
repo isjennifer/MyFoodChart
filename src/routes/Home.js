@@ -16,7 +16,7 @@ function Home() {
         </NavDiv>
         <Div>
             <SubTitle>전문가의 식단공유 플랫폼</SubTitle>
-            <Title>레시피숲, recipe:SOUP</Title>
+            <Title>레시피숲, Recipe:SOUP</Title>
         </Div>
         </Background>
         </>

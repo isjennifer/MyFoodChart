@@ -923,25 +923,77 @@
     }
   ],
   "comments": [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
+    {
+      "0": {
+        "id": 1,
+        "recipeId": {
+          "id": "14"
+        },
+        "username": "dundun",
+        "content": "ddd",
+        "createdAt": "2023-11-19"
+      },
+      "id": 1
+    },
+    {
+      "0": {
+        "id": 2,
+        "recipeId": {
+          "id": "14"
+        },
+        "username": "dundun",
+        "content": "ggg",
+        "createdAt": "2023-11-19"
+      },
+      "id": 2
+    },
+    {
+      "0": {
+        "id": 3,
+        "recipeId": {
+          "id": "14"
+        },
+        "username": "dundun",
+        "content": "qqq",
+        "createdAt": "2023-11-19"
+      },
+      "id": 3
+    },
+    {
+      "id": 4,
+      "recipeId": {
+        "id": "14"
+      },
+      "username": "dundun",
+      "content": "ggg",
+      "createdAt": "2023-11-19"
+    },
+    {
+      "id": "2023-11-19T07:08:01.474Z",
+      "recipeId": {
+        "id": "14"
+      },
+      "username": "dundun",
+      "content": "aaa",
+      "createdAt": "2023-11-19"
+    },
+    {
+      "id": "2023-11-19T07:08:03.296Z",
+      "recipeId": {
+        "id": "14"
+      },
+      "username": "dundun",
+      "content": "ewe",
+      "createdAt": "2023-11-19"
+    },
+    {
+      "id": "2023-11-19T07:08:05.242Z",
+      "recipeId": {
+        "id": "14"
+      },
+      "username": "dundun",
+      "content": "ggg",
+      "createdAt": "2023-11-19"
+    }
   ]
 }

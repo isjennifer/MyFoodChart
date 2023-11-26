@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser,faGem,faPencil,faCommentDots,faHeart,faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 
@@ -13,17 +13,17 @@ function Profile() {
         <Container>
             <SideBar>
                 <MyProfile>
-                    <FontAwesomeIcon icon={faCircleUser} className="icon"/>
+                    <IconStyle icon={faCircleUser} className="icon"/>
                     내 프로필
                 </MyProfile>
                 <MyLog>
                     <MyLogUl>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>개인정보수정</li>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>포인트 관리</li>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>내 게시글</li>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>내 댓글</li>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>좋아요한 글</li>
-                        <li><FontAwesomeIcon icon={faCircleUser} className="icon"/>북마크한 글</li>
+                        <li><IconStyle icon={faCircleUser} className="icon"/>개인정보수정</li>
+                        <li><IconStyle icon={faGem} className="icon"/>포인트 관리</li>
+                        <li><IconStyle icon={faPencil} className="icon"/>내 게시글</li>
+                        <li><IconStyle icon={faCommentDots} className="icon"/>내 댓글</li>
+                        <li><IconStyle icon={faHeart} className="icon"/>좋아요한 글</li>
+                        <li><IconStyle icon={faBookmark} className="icon"/>북마크한 글</li>
                     </MyLogUl>
                 </MyLog>    
             </SideBar>
@@ -46,6 +46,11 @@ const DivisionLine = styled.div`
 `;
 
 
+const IconStyle = styled(FontAwesomeIcon)`
+    margin-right: 10px;
+
+`
+
 const MyLogUl =  styled.ul`
     display: flex;
     flex-direction: column;
@@ -59,7 +64,7 @@ const MyLog = styled.div`
     justify-content: space-between;
     height: 300px;
     border: solid 1px #2c3e50;
-    letter-spacing: 1px;
+    font-weight: 600;
     
 `
 
@@ -69,6 +74,8 @@ const MyProfile = styled.div`
     border: solid 1px #2c3e50;
     justify-content: center;
     align-items: center;
+    font-weight: 600;
+
 
 
 `
