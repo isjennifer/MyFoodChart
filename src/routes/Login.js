@@ -1,26 +1,30 @@
-
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-
-
 function Login() {
-
   function getUser(platform) {
     // 리다이렉트 방식으로 변경
-    window.location.href = `http://localhost:3001/auth/login/${platform}`;
+    window.location.href = `http://localhost:5000/auth/login/${platform}`;
   }
 
   return (
     <>
-
       <LoginForm>
-        <Logo>레시피숲</Logo>
-        <span style={{ margin: 20 }}>소셜 로그인으로 레시피숲을 이용해보세요!</span>
-        <Button onClick={() => getUser("naver")} style={{ backgroundColor: "#4cd137" }}>
+        <img
+          src="http://localhost:3000/img/대나무흰바탕한글로고.png"
+          alt="흰바탕한글로고"
+          style={{ width: 150 }}
+        />
+        <span style={{ margin: 20 }}>
+          소셜 로그인으로 레시피숲을 이용해보세요!
+        </span>
+        <Button
+          onClick={() => getUser("naver")}
+          style={{ backgroundColor: "#4cd137" }}
+        >
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJjAvpt6-Z981z6LFyIgBeYfp-kONUE3xtA&usqp=CAU"
             style={{ width: 35, marginRight: 10 }}
@@ -29,7 +33,10 @@ function Login() {
           NAVER 로그인
           <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
         </Button>
-        <Button onClick={() => getUser("kakao")} style={{ backgroundColor: "#f9ca24" }}>
+        <Button
+          onClick={() => getUser("kakao")}
+          style={{ backgroundColor: "#f9ca24" }}
+        >
           <img
             src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png"
             style={{ width: 35, marginRight: 10 }}
@@ -41,7 +48,6 @@ function Login() {
         {/* <DivisionLine></DivisionLine>
         <span style={{ fontSize: 12 }}>© 2023. 레시피숲. all rights reserved.</span> */}
       </LoginForm>
-
     </>
   );
 }
@@ -88,7 +94,8 @@ const Button = styled.button`
   border: none;
   &:hover {
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
 `;
 
