@@ -28,7 +28,7 @@ function RecipeEdit() {
   const params = useParams();
   const { id } = params;
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/boards/diet/${id}`)
+    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setRecipePosts(data);
@@ -125,7 +125,7 @@ function RecipeEdit() {
         return;
       }
     }
-    fetch(`${process.env.REACT_APP_DOMAIN}/boards/diet/${id}`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "multipart/form-data",
