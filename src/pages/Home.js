@@ -39,7 +39,7 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url("process.env.REACT_APP_DOMAIN/img/background_img.jpg");
+  background-image: url("/img/background_img.jpg");
   width: 100vw;
   height: 100vh;
   background-repeat: no-repeat;

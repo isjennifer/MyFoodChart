@@ -17,9 +17,9 @@
       "institute": "school",
       "peopleNum": "300",
       "price": "1000",
-      "recipeImg": "process.env.REACT_APP_DOMAIN/img/background_img.jpg",
+      "recipeImg": "${process.env.REACT_APP_DOMAIN}/img/background_img.jpg",
       "explanation": "레시피 설명 입니다.",
-      "recipeFile": "process.env.REACT_APP_DOMAIN/recipeFile/레시피_샘플파일.xlsx",
+      "recipeFile": "${process.env.REACT_APP_DOMAIN}/recipeFile/레시피_샘플파일.xlsx",
       "whichSchool": "중학교",
       "menues": [
         {

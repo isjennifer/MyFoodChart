@@ -29,11 +29,9 @@ export const RouterInfo = [
     ),
     errorElement: (
       <div>
-        이상한 주소로 이동했네요.{" "}
-        <a href="process.env.REACT_APP_DOMAIN/home">
-          process.env.REACT_APP_DOMAIN/home
-        </a>{" "}
-        으로 이동해주세요.
+        이상한 주소로 이동했네요.
+        http://recipesoup.koreacentral.cloudapp.azure.com/home 으로
+        이동해주세요.
       </div>
     ),
     children: [

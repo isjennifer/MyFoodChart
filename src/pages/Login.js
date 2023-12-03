@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 // import { useIsLoginState } from "../components/IsLoginContext";
-import REACT_APP_DOMAIN from "react";
 import { motion } from "framer-motion";
 
 function Login() {
@@ -15,7 +14,7 @@ function Login() {
     <>
       <LoginForm initial="start" animate="end" variants={easeDown}>
         <img
-          src="process.env.REACT_APP_DOMAIN/img/대나무흰바탕한글로고.png"
+          src="/img/대나무흰바탕한글로고.png"
           alt="흰바탕한글로고"
           style={{ width: 150 }}
         />
