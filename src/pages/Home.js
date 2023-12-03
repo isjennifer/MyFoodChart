@@ -1,8 +1,22 @@
 import styled from "styled-components";
 import Navbar from "../components/common/Navbar";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { IsLoginContext } from "../contexts/IsLoginContext";
 
 function Home() {
+  const { setIsLogin } = useContext(IsLoginContext);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/auth/status`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setIsLogin(data.isLogin));
+  }, []);
+
   return (
     <>
       <Background>
