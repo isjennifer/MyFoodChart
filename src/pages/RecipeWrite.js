@@ -83,7 +83,7 @@ function RecipeWrite() {
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3010/users", {
+    fetch(`${process.env.REACT_APP_DOMAIN}/users`, {
       method: "GET",
     })
       .then((response) => response.json())

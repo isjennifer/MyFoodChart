@@ -67,7 +67,7 @@ function Navbar({
         <NavHome>
           <Link to={"/home"}>
             <img
-              src="/img/대나무초록바탕한글로고가로.png"
+              src="/img/green_korean_row.png"
               alt="초록바탕한글로고"
               style={{ width: 160 }}
             />

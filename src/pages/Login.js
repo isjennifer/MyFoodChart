@@ -14,7 +14,7 @@ function Login() {
     <>
       <LoginForm initial="start" animate="end" variants={easeDown}>
         <img
-          src="/img/대나무흰바탕한글로고.png"
+          src="/img/white_korean_soup.png"
           alt="흰바탕한글로고"
           style={{ width: 150 }}
         />
