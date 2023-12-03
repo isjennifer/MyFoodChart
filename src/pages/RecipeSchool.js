@@ -4,20 +4,20 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBowlFood,
-  faUsers,
   faPenToSquare,
   faFilter,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import ReactPaginate from "react-paginate";
 import "../css/paginationStyle.css";
+import { motion } from "framer-motion";
 
 function RecipeSchool() {
   // 서버에서 레시피 목록들 가져오기
   const [recipeInfoList, setRecipeInfo] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:${process.env.REACT_APP_SERVER_PORT}/recipePosts`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/boards/diet`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -40,7 +40,7 @@ function RecipeSchool() {
 
   return (
     <>
-      <Container>
+      <Container initial="start" animate="end" variants={easeDown}>
         <RowDiv>
           <Div style={{ fontWeight: 800, color: "#1A2136", fontSize: 35 }}>
             {/* <FontAwesomeIcon
@@ -135,18 +135,22 @@ function RecipeSchool() {
             );
           })}
         </BodyGrid>
-        <ReactPaginate
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-          pageClassName={"page-item"}
-          onPageChange={(event) => setPage(event.selected)}
-          breakLabel="..."
-          pageCount={Math.ceil(recipeInfoList?.length / n)}
-          previousLabel={"<"}
-          previousClassName={"previous"}
-          nextLabel={">"}
-          nextClassName={"next"}
-        />
+        <div
+          style={{ display: recipeInfoList?.length === 0 ? "none" : "flex" }}
+        >
+          <ReactPaginate
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            onPageChange={(event) => setPage(event.selected)}
+            breakLabel="..."
+            pageCount={Math.ceil(recipeInfoList?.length / n)}
+            previousLabel={"<"}
+            previousClassName={"previous"}
+            nextLabel={">"}
+            nextClassName={"next"}
+          />
+        </div>
       </Container>
     </>
   );
@@ -154,7 +158,22 @@ function RecipeSchool() {
 
 export default RecipeSchool;
 
-const Container = styled.div`
+//////////// framer-motion (animation)
+
+const easeDown = {
+  start: { opacity: 0, y: -20 },
+  end: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
+/////////// styled-component
+
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 1100px;
@@ -208,7 +227,7 @@ const DivisionLine = styled.div`
 const School = styled.div`
   &:hover {
     font-weight: 600;
-    color: #d3d930;
+    color: #fc8153;
     cursor: pointer;
   }
 `;

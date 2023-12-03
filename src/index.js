@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createGlobalStyle } from 'styled-components';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { RouterInfo } from './router';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createGlobalStyle } from "styled-components";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterInfo } from "./router";
+import { IsLoginProvider } from "./contexts/IsLoginContext";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -69,15 +69,19 @@ a {
 
 const RouterObject = createBrowserRouter(RouterInfo);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <RouterProvider router={RouterObject} fallbackElement={<div>Loading...</div>}/>
+    <IsLoginProvider>
+      <RouterProvider
+        router={RouterObject}
+        fallbackElement={<div>Loading...</div>}
+      />
+    </IsLoginProvider>
   </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-

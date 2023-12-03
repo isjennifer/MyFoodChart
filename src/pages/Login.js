@@ -1,18 +1,19 @@
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+// import { useIsLoginState } from "../components/IsLoginContext";
+import REACT_APP_DOMAIN from "react";
+import { motion } from "framer-motion";
 
 function Login() {
   function getUser(platform) {
     // 리다이렉트 방식으로 변경
-    window.location.href = `http://localhost:5000/auth/login/${platform}`;
+    window.location.href = `${REACT_APP_DOMAIN}/auth/login/${platform}`;
   }
 
   return (
     <>
-      <LoginForm>
+      <LoginForm initial="start" animate="end" variants={easeDown}>
         <img
           src="http://localhost:3000/img/대나무흰바탕한글로고.png"
           alt="흰바탕한글로고"
@@ -54,13 +55,22 @@ function Login() {
 
 export default Login;
 
-const DivisionLine = styled.div`
-  width: 350px;
-  border: solid #dedede 1px;
-  margin: 30px;
-`;
+//////////// framer-motion (animation)
 
-const LoginForm = styled.div`
+const easeDown = {
+  start: { opacity: 0, y: -20 },
+  end: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
+/////////// styled-component
+
+const LoginForm = styled(motion.div)`
   display: flex;
   flex-direction: column;
   /* position: relative; */
@@ -97,12 +107,4 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
       rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
-`;
-
-const Logo = styled.span`
-  font-family: "Sunflower", sans-serif;
-  font-size: 40px;
-  font-weight: bold;
-  color: #2c3e50;
-  margin: 20px;
 `;

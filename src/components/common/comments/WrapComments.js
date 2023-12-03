@@ -28,7 +28,7 @@ export default function WrapComments() {
       nextID.current += 1;
       console.log(nextID.current);
       // 댓글 서버 보내기
-      fetch(`http://localhost:3010/comments`, {
+      fetch(`${process.env.REACT_APP_DOMAIN}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment),
@@ -46,7 +46,7 @@ export default function WrapComments() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3010/comments", {
+    fetch(`${process.env.REACT_APP_DOMAIN}/comments`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -67,12 +67,12 @@ export default function WrapComments() {
     });
     setCommentLists(newCommentLists);
 
-    const updateComment = commentLists?.filter((comment) => {
-      return comment.id === commentId;
-    });
+    const updateComment = newCommentLists.find(
+      (comment) => comment.id === commentId
+    );
     console.log(updateComment);
     // 댓글 서버에 업데이트
-    fetch(`http://localhost:3010/comments/${commentId}`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/comments/${commentId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updateComment),
@@ -98,7 +98,11 @@ export default function WrapComments() {
           placeholder="댓글 달기..."
           value={input || ""}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => (e.key === "Enter" ? addComment() : null)}
+          onKeyDown={(e) =>
+            e.key === "Enter" && e.nativeEvent.isComposing === false
+              ? addComment()
+              : null
+          }
         />
         <Button disabled="" onClick={addComment}>
           게시

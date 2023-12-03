@@ -7,6 +7,7 @@ import {
   faCircleUser,
   faGem,
 } from "@fortawesome/free-solid-svg-icons";
+import { useIsLoginState } from "../../contexts/IsLoginContext";
 
 function Navbar({
   toggleMenu,
@@ -28,9 +29,12 @@ function Navbar({
     setToggleProfile(!toggleProfile);
   };
 
+  const isLogin = useIsLoginState();
+
   return (
     <>
       <Nav>
+        {/* 모바일 내비게이션 반응형 */}
         <NavMobile>
           <FontAwesomeIcon icon={faBars} onClick={onClickMenu} />
           <li>레시피숲</li>
@@ -69,6 +73,7 @@ function Navbar({
             />
           </Link>
         </NavHome>
+        {/* 웹용 내비게이션 */}
         <NavMenu>
           <Link to={"/recipes/school"}>
             <li>식단공유</li>
@@ -84,12 +89,21 @@ function Navbar({
           </Link>
         </NavMenu>
         <NavRight>
-          <Link to={"/login"}>
-            <div>
-              <FontAwesomeIcon icon={faCircleUser} className="icon" />
-              프로필
-            </div>
-          </Link>
+          {isLogin === true ? (
+            <Link to={"/profile"}>
+              <div>
+                <FontAwesomeIcon icon={faCircleUser} className="icon" />
+                프로필
+              </div>
+            </Link>
+          ) : (
+            <Link to={"/login"}>
+              <div>
+                <FontAwesomeIcon icon={faCircleUser} className="icon" />
+                로그인
+              </div>
+            </Link>
+          )}
           <div>
             <FontAwesomeIcon icon={faGem} className="icon" />
             포인트
