@@ -14,7 +14,10 @@ function Home() {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => setIsLogin(data.isLogin));
+      .then((data) => {
+        console.log(data.isLogin);
+        setIsLogin(data.isLogIn);
+      });
   }, []);
 
   return (
