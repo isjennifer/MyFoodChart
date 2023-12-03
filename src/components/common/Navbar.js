@@ -30,6 +30,7 @@ function Navbar({
   };
 
   const isLogin = useIsLoginState();
+  console.log(isLogin);
 
   return (
     <>
