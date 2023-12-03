@@ -16,7 +16,7 @@ function RecipeCompany() {
   const [recipeInfoList, setRecipeInfo] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/boards/diet`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "GET",
     })
       .then((response) => response.json())

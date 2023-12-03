@@ -114,7 +114,7 @@ function RecipeWrite() {
         return;
       }
     }
-    fetch(`${process.env.REACT_APP_DOMAIN}/boards/diet`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",

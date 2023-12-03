@@ -1,6 +1,6 @@
 {
-    "/boards/diet": "/diet",
-    "/boards/diet/:id": "/diet/:id",
+    "/posts/diet": "/diet",
+    "/posts/diet/:id": "/diet/:id",
     "/comments/:commentId": "/comments/:commentId"
 
   }
