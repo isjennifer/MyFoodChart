@@ -67,7 +67,7 @@ function Navbar({
         <NavHome>
           <Link to={"/home"}>
             <img
-              src="http://localhost:3000/img/대나무초록바탕한글로고가로.png"
+              src="process.env.REACT_APP_DOMAIN/img/대나무초록바탕한글로고가로.png"
               alt="초록바탕한글로고"
               style={{ width: 160 }}
             />

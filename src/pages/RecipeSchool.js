@@ -48,7 +48,7 @@ function RecipeSchool() {
               style={{ fontSize: 40, margin: 20, color: "#3b7339" }}
             /> */}
             <img
-              src="http://localhost:3000/img/흰색바탕토끼귀.png"
+              src="process.env.REACT_APP_DOMAIN/img/흰색바탕토끼귀.png"
               alt="흰바탕토끼귀로고"
               style={{ width: 60, marginRight: 10 }}
             />
@@ -107,7 +107,7 @@ function RecipeSchool() {
                       `${recipeTitle.slice(0, 23)}...`}
                   </Title>
                   <Img
-                    src="http://localhost:3000/img/background_img.jpg"
+                    src="process.env.REACT_APP_DOMAIN/img/background_img.jpg"
                     alt="식단 이미지"
                   />
                   <RowDiv style={{ marginTop: 0 }}>
