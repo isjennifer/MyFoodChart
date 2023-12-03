@@ -56,41 +56,6 @@ function RecipeDetail() {
       });
   };
 
-  // 서버로 댓글 보내기
-  // const onSubmit = (data) => {
-  //     fetch("http://localhost:3010/comments",{
-  //         method: "POST",
-  //         headers: {
-  //             'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(data),
-  //     }).then((response) => {
-  //         if (response.ok === true) {
-  //             return response.json();
-  //             }
-  //         throw new Error("에러 발생!");
-  //     }).catch((error) => {
-  //         alert(error);
-  //     }).then((data) => {
-  //         if(window.confirm("댓글을 남기시겠습니까?")){
-  //             console.log("댓글이 등록되었습니다.")
-  //             console.log(data)
-  //         } else {
-  //             console.log("취소 되었습니다.")
-  //         };
-  //     });
-
-  // }
-
-  // 서버에서 댓글 가져오기
-  // const [comment, setComment] = useState(null);
-
-  // useEffect(() => {
-  //     fetch("http://localhost:3010/profile")
-  //     .then((response) => response.json())
-  //     .then((data) => setComment(data))
-  // }, [comment]);
-
   return (
     <>
       <HeadDiv style={{ fontWeight: 600 }}>

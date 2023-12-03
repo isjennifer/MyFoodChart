@@ -2,20 +2,19 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 // import { useIsLoginState } from "../components/IsLoginContext";
-import REACT_APP_DOMAIN from "react";
 import { motion } from "framer-motion";
 
 function Login() {
   function getUser(platform) {
     // 리다이렉트 방식으로 변경
-    window.location.href = `${REACT_APP_DOMAIN}/auth/login/${platform}`;
+    window.location.href = `${process.env.REACT_APP_DOMAIN}/auth/login/${platform}`;
   }
 
   return (
     <>
       <LoginForm initial="start" animate="end" variants={easeDown}>
         <img
-          src="http://localhost:3000/img/대나무흰바탕한글로고.png"
+          src="/img/white_korean_soup.png"
           alt="흰바탕한글로고"
           style={{ width: 150 }}
         />
