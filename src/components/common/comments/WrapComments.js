@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 export default function WrapComments() {
   const [input, setInput] = useState("");
   const [commentLists, setCommentLists] = useState([]);
+  const [userName, setUserName] = useState("");
   const nextID = useRef(1);
   const dateNow = new Date();
   const params = useParams();
@@ -17,9 +18,8 @@ export default function WrapComments() {
     // 댓글 리스트 생성
     if (input !== "") {
       const newComment = {
-        id: dateNow,
-        recipeId: recipeId,
-        username: "dundun",
+        username: userName,
+        commentedAt: recipeId.id,
         content: input,
         createdAt: moment().format("YYYY-MM-DD"),
       };
@@ -28,7 +28,7 @@ export default function WrapComments() {
       nextID.current += 1;
       console.log(nextID.current);
       // 댓글 서버 보내기
-      fetch(`${process.env.REACT_APP_DOMAIN}/comments`, {
+      fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment),
@@ -46,14 +46,20 @@ export default function WrapComments() {
   };
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/comments`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => setCommentLists(data));
   }, []);
 
-  console.log(commentLists);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => setUserName(data.name));
+  }, []);
 
   const editComment = (commentId, editValue) => {
     console.log(commentId);
@@ -72,7 +78,7 @@ export default function WrapComments() {
     );
     console.log(updateComment);
     // 댓글 서버에 업데이트
-    fetch(`${process.env.REACT_APP_DOMAIN}/comments/${commentId}`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet/${commentId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updateComment),

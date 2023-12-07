@@ -66,7 +66,7 @@ function Navbar({
           </NavMobileMenu>
         ) : null}
         <NavHome>
-          <Link to={"/home"}>
+          <Link to={"/"}>
             <img
               src="/img/green_korean_row.png"
               alt="초록바탕한글로고"

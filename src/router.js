@@ -13,10 +13,11 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Profile from "./pages/Profile";
+import ProfileEdit from "./pages/ProfileEdit";
 
 export const RouterInfo = [
   {
-    path: "/home",
+    path: "/",
     element: <Home />,
   },
   {
@@ -29,7 +30,7 @@ export const RouterInfo = [
     ),
     errorElement: (
       <div>
-        {`이상한 주소로 이동했네요. ${process.env.REACT_APP_DOMAIN}/home 으로 이동해주세요.`}
+        {`이상한 주소로 이동했네요. ${process.env.REACT_APP_DOMAIN}/ 으로 이동해주세요.`}
       </div>
     ),
     children: [
@@ -39,7 +40,17 @@ export const RouterInfo = [
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <Profile>
+            <Outlet />
+          </Profile>
+        ),
+        children: [
+          {
+            path: "edit",
+            element: <ProfileEdit />,
+          },
+        ],
       },
       {
         element: (

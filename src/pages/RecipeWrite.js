@@ -8,7 +8,7 @@ import {
   faSquareMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ImageCropper from "../components/recipe/ImageCropper.js";
 
 function RecipeWrite() {
@@ -80,14 +80,13 @@ function RecipeWrite() {
   }
 
   // 서버에서 데이터 가져오기
-  const [userName, setUserName] = useState(null);
-
+  const [userName, setUserName] = useState("");
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/users`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((data) => setUserName(data));
+      .then((data) => setUserName(data.name));
   }, []);
 
   // 서버로 form 데이터 보내기
@@ -182,11 +181,7 @@ function RecipeWrite() {
               <DivisionLine />
             </RowDiv>
           </HeaderItem>
-          <HeaderItem>
-            {userName?.map((data) => (
-              <div key={data.name}>{data.name}</div>
-            ))}
-          </HeaderItem>
+          <HeaderItem>{userName}</HeaderItem>
           <HeaderItem>
             <RowDiv>
               <Title>급식일</Title>
