@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import Navbar from "../components/common/Navbar";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { IsLoginContext } from "../contexts/IsLoginContext";
+import { useIsLoginState } from "../contexts/IsLoginContext";
 
 function Home() {
   const { setIsLogin } = useContext(IsLoginContext);
+  const userLoginStatus = useIsLoginState();
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/status`, {
@@ -15,9 +18,20 @@ function Home() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.isLogin);
         setIsLogin(data.isLogIn);
       });
+  }, []);
+
+  useEffect(() => {
+    if (userLoginStatus === true) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUserName(data.name);
+        });
+    }
   }, []);
 
   return (
@@ -27,8 +41,17 @@ function Home() {
           <Navbar />
         </NavDiv>
         <Div initial="start" animate="end" variants={easeDown}>
-          <SubTitle>전문가의 식단공유 플랫폼</SubTitle>
-          <Title>레시피숲, Recipe:SOUP</Title>
+          {userName ? (
+            <>
+              <SubTitle>레시피숲에 오신 것을 환영합니다!</SubTitle>
+              <Title>{userName}님의 식단을 함께 공유해요!</Title>
+            </>
+          ) : (
+            <>
+              <SubTitle>전문가의 식단공유 플랫폼</SubTitle>
+              <Title>레시피숲, Recipe:SOUP</Title>
+            </>
+          )}
         </Div>
       </Background>
     </>

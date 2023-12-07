@@ -1,6 +1,12 @@
 {
     "/posts/diet": "/diet",
     "/posts/diet/:id": "/diet/:id",
-    "/comments/:commentId": "/comments/:commentId"
+    "/comments/:commentId": "/comments/:commentId",
+    "/auth/status": "/status",
+    "/comments/diet": "/comments_diet",
+    "/comments/diet/:id": "/comments_diet/:id",
+    "/comments/free": "/comments_free",
+    "/comments/free/:id": "/comments_free/:id",
+    "/users/aboutme": "/aboutme"
 
   }

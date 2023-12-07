@@ -9,25 +9,36 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { useIsLoginState } from "../contexts/IsLoginContext";
+import { useEffect } from "react";
 
 function Profile() {
+  const userLoginStatus = useIsLoginState();
+  const location = useLocation();
+  const { pathname } = location;
+  console.log(userLoginStatus);
+  const logout = useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
+      method: "GET",
+    }).then((response) => response.json());
+  }, []);
+
   return (
     <>
       <Container initial="start" animate="end" variants={easeDown}>
         <SideBar>
           <MyProfile>
-            <IconStyle icon={faCircleUser} className="icon" />내 프로필
+            <Link to={""}>
+              <IconStyle icon={faCircleUser} className="icon" />내 프로필
+            </Link>
           </MyProfile>
           <MyLog>
             <MyLogUl>
-              <li>
+              <Link to={"edit"}>
                 <IconStyle icon={faCircleUser} className="icon" />
                 개인정보수정
-              </li>
-              <li>
-                <IconStyle icon={faGem} className="icon" />
-                포인트 관리
-              </li>
+              </Link>
               <li>
                 <IconStyle icon={faPencil} className="icon" />내 게시글
               </li>
@@ -42,10 +53,28 @@ function Profile() {
                 <IconStyle icon={faBookmark} className="icon" />
                 북마크한 글
               </li>
+              <li>
+                <IconStyle icon={faGem} className="icon" />
+                포인트 관리
+              </li>
             </MyLogUl>
           </MyLog>
         </SideBar>
-        <ProfileForm></ProfileForm>
+        <ProfileForm>
+          <OutletContainer>
+            {pathname === "/profile" ? (
+              <>
+                {userLoginStatus === true ? (
+                  <Button onClick={logout}>로그아웃</Button>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Outlet />
+            )}
+          </OutletContainer>
+        </ProfileForm>
       </Container>
     </>
   );
@@ -111,14 +140,17 @@ const SideBar = styled.div`
   border: solid 1px #2c3e50;
 `;
 
+const OutletContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: solid 1px black;
+  overflow-y: auto;
+`;
+
 const ProfileForm = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 800px;
   height: 600px;
   padding: 30px;
-  justify-content: center;
-  align-items: center;
   color: #505050;
   border-radius: 50px;
   border: solid 1px #2c3e50;
@@ -138,20 +170,19 @@ const Container = styled(motion.div)`
 
 const Button = styled.button`
   display: flex;
-  width: 95%;
-  margin: 10px 0px;
+  width: 100px;
+  margin: 10px 20px;
   padding: 10px 20px;
   border-radius: 40px;
   justify-content: center;
   align-items: center;
   letter-spacing: 1px;
-  background-color: #7b7b7b;
+  background-color: #3b7339;
   color: white;
-  font-size: 18px;
+  font-size: 15px;
   border: none;
   &:hover {
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    background-color: #fc8153;
   }
 `;

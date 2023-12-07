@@ -1,17 +1,7 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "name": "dundun"
-    }
-  ],
   "diet": [
     {
-      "user": {
-        "id": 1,
-        "email": "test@test.com",
-        "name": "dundun"
-      },
+      "id": "1",
       "createdAt": "2023-11-04",
       "date": "2023-10-12",
       "institute": "school",
@@ -21,6 +11,12 @@
       "explanation": "레시피 설명 입니다.",
       "recipeFile": "${process.env.REACT_APP_DOMAIN}/recipeFile/레시피_샘플파일.xlsx",
       "whichSchool": "중학교",
+      "user": {
+        "id": 1,
+        "email": "front@test.com",
+        "name": "dundun",
+        "isNutritionist": "true"
+      },
       "menues": [
         {
           "id": 0,
@@ -64,33 +60,41 @@
           "productName": "맛있는초코우유",
           "productBrand": "서울우유"
         }
-      ],
-      "id": 1
+      ]
     }
   ],
-  "comments": [
+  "comments_diet": [
     {
-      "id": "2023-12-02T17:23:13.591Z",
-      "recipeId": {
-        "id": "1"
-      },
+      "commentedAt": 287,
+      "id": 1,
       "username": "dundun",
-      "content": "수정이 잘되나요? 아주잘되네요",
+      "content": "수정은 잘되나요?",
       "createdAt": "2023-12-03"
     },
     {
-      "id": "2023-12-02T17:23:23.736Z",
-      "recipeId": {
-        "id": "1"
-      },
       "username": "dundun",
-      "content": "hello world!",
+      "commentedAt": "1",
+      "content": "수정을해요",
+      "createdAt": "2023-12-07",
+      "id": 2
+    }
+  ],
+  "comments_free": [
+    {
+      "commentedAt": 100,
+      "id": 1,
+      "username": "dundun",
+      "content": "자유 게시판 댓글입니다!",
       "createdAt": "2023-12-03"
     }
   ],
-  "login" :{
-    "isLogin":true
+  "status": {
+    "isLogIn": true
+  },
+  "aboutme": {
+    "id": 1,
+    "email": "front@test.com",
+    "name": "dundun",
+    "isNutritionist": "true"
   }
-  
-
 }

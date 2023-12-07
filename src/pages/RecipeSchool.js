@@ -94,7 +94,7 @@ function RecipeSchool() {
                 return menu.menuName;
               })
               .join(", ");
-            console.log(recipeInfo);
+            const username = recipeInfo?.user.name;
             return (
               <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
@@ -113,7 +113,7 @@ function RecipeSchool() {
                         icon={faPenToSquare}
                         style={{ fontSize: 20, marginRight: 5 }}
                       />
-                      작성자닉네임
+                      {username}
                     </Div>
                     <Div style={{ fontSize: 16, padding: 10 }}>
                       <FontAwesomeIcon

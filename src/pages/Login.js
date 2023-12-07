@@ -19,7 +19,7 @@ function Login() {
           style={{ width: 150 }}
         />
         <span style={{ margin: 20 }}>
-          소셜 로그인으로 레시피숲을 이용해보세요!
+          네이버 로그인으로 레시피숲을 이용하세요!
         </span>
         <Button
           onClick={() => getUser("naver")}
@@ -33,20 +33,6 @@ function Login() {
           NAVER 로그인
           <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
         </Button>
-        <Button
-          onClick={() => getUser("kakao")}
-          style={{ backgroundColor: "#f9ca24" }}
-        >
-          <img
-            src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png"
-            style={{ width: 35, marginRight: 10 }}
-            alt="카카오로그인"
-          />
-          KAKAO 로그인
-          <FontAwesomeIcon icon={faArrowRight} style={{ marginLeft: 5 }} />
-        </Button>
-        {/* <DivisionLine></DivisionLine>
-        <span style={{ fontSize: 12 }}>© 2023. 레시피숲. all rights reserved.</span> */}
       </LoginForm>
     </>
   );
