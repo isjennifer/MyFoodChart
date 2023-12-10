@@ -24,9 +24,7 @@ function Profile() {
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
       credentials: "include",
-    })
-      .then((response) => response.json())
-      .then(() => navigate("/login"));
+    }).then(() => navigate("/login"));
 
   return (
     <>
@@ -82,6 +80,7 @@ function Profile() {
                         style={{ fontSize: 60 }}
                       />
                       <div>
+                        {/* //추후 변경 필요 */}
                         <Title>dundun</Title>
                         <div>영양사 인증 완료</div>
                       </div>
@@ -111,6 +110,7 @@ function Profile() {
                     <Title>내 게시글</Title>
                     <Contents>
                       <IconStyle icon={faCircleUser} className="icon" />
+                      {/* //추후 변경 필요 */}
                       <div>dundun</div>
                       <div>영양사 인증 완료</div>
                       <FontAwesomeIcon
@@ -123,6 +123,7 @@ function Profile() {
                     <Title>내 댓글</Title>
                     <Contents>
                       <IconStyle icon={faCircleUser} className="icon" />
+                      {/* //추후 변경 필요 */}
                       <div>dundun</div>
                       <div>영양사 인증 완료</div>
                       <FontAwesomeIcon

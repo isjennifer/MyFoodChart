@@ -16,6 +16,7 @@ function ProfileEdit() {
     <>
       <Contents>
         <Title>닉네임</Title>
+        {/* //추후 변경 필요 */}
         <div>dundun</div>
         <Button>수정하기</Button>
       </Contents>
