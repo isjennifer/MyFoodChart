@@ -14,7 +14,11 @@ import { Link, Outlet } from "react-router-dom";
 function ProfileEdit() {
   return (
     <>
-      <Contents>개인정보수정페이지입니다.</Contents>
+      <Contents>
+        <Title>닉네임</Title>
+        <div>dundun</div>
+        <Button>수정하기</Button>
+      </Contents>
       <Contents>개인정보수정페이지입니다.</Contents>
       <Contents>개인정보수정페이지입니다.</Contents>
       <Contents>개인정보수정페이지입니다.</Contents>
@@ -24,11 +28,35 @@ function ProfileEdit() {
 
 export default ProfileEdit;
 
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const Button = styled.button`
+  display: flex;
+  width: 120px;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border-radius: 40px;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+  background-color: #3b7339;
+  color: white;
+  font-size: 15px;
+  border: none;
+  &:hover {
+    cursor: pointer;
+    background-color: #fc8153;
+  }
+`;
+
 const Contents = styled.div`
+  display: flex;
   width: 100%;
   height: 300px;
   border: solid 1px red;
-  border-radius: 50px;
   background-color: whitesmoke;
   margin-bottom: 40px;
   padding: 30px;
