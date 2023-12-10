@@ -7,22 +7,25 @@ import {
   faCommentDots,
   faHeart,
   faBookmark,
+  faArrowRightFromBracket,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useIsLoginState } from "../contexts/IsLoginContext";
 import { useEffect } from "react";
 
 function Profile() {
   const userLoginStatus = useIsLoginState();
+  const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
-  console.log(userLoginStatus);
-  const logout = useEffect(() => {
+  const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
-    }).then((response) => response.json());
-  }, []);
+    })
+      .then((response) => response.json())
+      .then(() => navigate("/login"));
 
   return (
     <>
@@ -32,6 +35,10 @@ function Profile() {
             <Link to={""}>
               <IconStyle icon={faCircleUser} className="icon" />내 프로필
             </Link>
+            <Button onClick={logout}>
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              {"\u00a0"}로그아웃
+            </Button>
           </MyProfile>
           <MyLog>
             <MyLogUl>
@@ -64,11 +71,66 @@ function Profile() {
           <OutletContainer>
             {pathname === "/profile" ? (
               <>
-                {userLoginStatus === true ? (
-                  <Button onClick={logout}>로그아웃</Button>
-                ) : (
-                  ""
-                )}
+                <BodyGrid>
+                  <BodyItem>
+                    <Title>개인정보수정</Title>
+                    <Contents>
+                      <IconStyle
+                        icon={faCircleUser}
+                        className="icon"
+                        style={{ fontSize: 60 }}
+                      />
+                      <div>
+                        <Title>dundun</Title>
+                        <div>영양사 인증 완료</div>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        style={{ fontSize: 40 }}
+                      />
+                    </Contents>
+                  </BodyItem>
+                  <BodyItem>
+                    <Title>포인트 관리</Title>
+                    <Contents>
+                      <div>
+                        <div>현재까지 적립한 포인트</div>
+                        <Title>
+                          <IconStyle icon={faGem} className="icon" />
+                          3,000 P
+                        </Title>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        style={{ fontSize: 40 }}
+                      />
+                    </Contents>
+                  </BodyItem>
+                  <BodyItem>
+                    <Title>내 게시글</Title>
+                    <Contents>
+                      <IconStyle icon={faCircleUser} className="icon" />
+                      <div>dundun</div>
+                      <div>영양사 인증 완료</div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        style={{ fontSize: 40 }}
+                      />
+                    </Contents>
+                  </BodyItem>
+                  <BodyItem>
+                    <Title>내 댓글</Title>
+                    <Contents>
+                      <IconStyle icon={faCircleUser} className="icon" />
+                      <div>dundun</div>
+                      <div>영양사 인증 완료</div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        style={{ fontSize: 40 }}
+                      />
+                    </Contents>
+                  </BodyItem>
+                </BodyGrid>
               </>
             ) : (
               <Outlet />
@@ -96,6 +158,37 @@ const easeDown = {
 };
 
 /////////// styled-component
+
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const BodyItem = styled.div`
+  width: auto;
+  height: 250px;
+  border: solid 2px black;
+`;
+
+const BodyGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+`;
+
+const Contents = styled.div`
+  display: flex;
+  width: 100%;
+  height: 200px;
+  justify-content: space-evenly;
+  align-items: center;
+  border: solid 1px red;
+  border-radius: 30px;
+  background-color: whitesmoke;
+  margin-top: 10px;
+  padding: 30px;
+`;
 
 const DivisionLine = styled.div`
   width: 350px;
@@ -125,6 +218,7 @@ const MyLog = styled.div`
 
 const MyProfile = styled.div`
   display: flex;
+  flex-direction: column;
   height: 150px;
   border: solid 1px #2c3e50;
   justify-content: center;
@@ -170,7 +264,7 @@ const Container = styled(motion.div)`
 
 const Button = styled.button`
   display: flex;
-  width: 100px;
+  width: 120px;
   margin: 10px 20px;
   padding: 10px 20px;
   border-radius: 40px;
