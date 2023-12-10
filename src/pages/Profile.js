@@ -23,6 +23,7 @@ function Profile() {
   const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
       .then(() => navigate("/login"));
