@@ -26,6 +26,7 @@ function Home() {
     if (userLoginStatus === true) {
       fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
         method: "GET",
+        credentials: "include",
       })
         .then((response) => response.json())
         .then((data) => {

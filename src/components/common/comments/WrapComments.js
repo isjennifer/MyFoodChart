@@ -56,6 +56,7 @@ export default function WrapComments() {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => setUserName(data.name));
