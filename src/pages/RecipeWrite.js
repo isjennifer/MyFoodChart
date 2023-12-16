@@ -116,9 +116,6 @@ function RecipeWrite() {
     }
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
     })
       .then((response) => {
@@ -174,7 +171,7 @@ function RecipeWrite() {
         내 식단 공유하기
       </HeadDiv>
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <HeaderGrid>
           <HeaderItem>
             <RowDiv>
