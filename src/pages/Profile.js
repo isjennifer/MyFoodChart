@@ -26,7 +26,6 @@ function Profile() {
       credentials: "include",
     }).then(() => {
       navigate("/login");
-      window.location.reload();
     });
 
   return (
@@ -77,20 +76,13 @@ function Profile() {
                   <BodyItem>
                     <Title>개인정보수정</Title>
                     <Contents>
-                      <IconStyle
-                        icon={faCircleUser}
-                        className="icon"
-                        style={{ fontSize: 60 }}
-                      />
+                      <IconStyle icon={faCircleUser} className="icon" style={{ fontSize: 60 }} />
                       <div>
                         {/* //추후 변경 필요 */}
                         <Title>dundun</Title>
                         <div>영양사 인증 완료</div>
                       </div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        style={{ fontSize: 40 }}
-                      />
+                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
                     </Contents>
                   </BodyItem>
                   <BodyItem>
@@ -103,10 +95,7 @@ function Profile() {
                           3,000 P
                         </Title>
                       </div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        style={{ fontSize: 40 }}
-                      />
+                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
                     </Contents>
                   </BodyItem>
                   <BodyItem>
@@ -116,10 +105,7 @@ function Profile() {
                       {/* //추후 변경 필요 */}
                       <div>dundun</div>
                       <div>영양사 인증 완료</div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        style={{ fontSize: 40 }}
-                      />
+                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
                     </Contents>
                   </BodyItem>
                   <BodyItem>
@@ -129,10 +115,7 @@ function Profile() {
                       {/* //추후 변경 필요 */}
                       <div>dundun</div>
                       <div>영양사 인증 완료</div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        style={{ fontSize: 40 }}
-                      />
+                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
                     </Contents>
                   </BodyItem>
                 </BodyGrid>
