@@ -87,9 +87,11 @@ function RecipeWrite() {
   const formData = new FormData();
   const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
-    recipeInfo?.map((recipeElement) => formData.append(JSON.stringify(recipeElement)));
+    Object.keys(recipeInfo).forEach((key) => {
+      if (recipeInfo[key] == "recipeFile") formData.append("recipeFile", recipeInfo.recipeFile[0]);
+      else formData.append(key, JSON.stringify(recipeInfo[key]));
+    });
     formData.append("recipeImg", imageBlob);
-    formData.append("recipeFile", recipeFile);
     const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
     formData.append("menues", JSON.stringify(jsonMenuList));
     //   FormData의 value 확인
