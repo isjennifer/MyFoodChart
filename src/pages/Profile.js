@@ -24,7 +24,10 @@ function Profile() {
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
       credentials: "include",
-    }).then(() => navigate("/login"));
+    }).then(() => {
+      navigate("/login");
+      window.location.reload();
+    });
 
   return (
     <>
