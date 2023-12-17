@@ -1,43 +1,133 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleUser,
-  faGem,
-  faPencil,
-  faCommentDots,
-  faHeart,
-  faBookmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { motion } from "framer-motion";
-import { Link, Outlet } from "react-router-dom";
 
 function ProfileEdit() {
+  const [userID, setUserID] = useState(0);
+  const [newUserName, setNewUserName] = useState("");
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserID(data.id);
+        setNewUserName(data.name);
+      });
+  }, []);
+
+  const handleInputChange = (event) => {
+    setNewUserName(event.target.value);
+  };
+
+  const userNameEditHandle = () => {
+    if (window.confirm("닉네임을 수정하시겠습니까?")) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userID}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newUserName }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("에러 발생!");
+        })
+        .then(() => {
+          window.alert("수정 되었습니다.");
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      window.alert("취소 되었습니다.");
+    }
+  };
+  const userDeleteHandle = () => {
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: userID }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("에러 발생!");
+        })
+        .then(() => {
+          window.alert("탈퇴 되었습니다.");
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      window.alert("취소 되었습니다.");
+    }
+  };
+
   return (
     <>
+      <Title>개인정보수정</Title>
       <Contents>
-        <Title>닉네임</Title>
+        <Div />
+        <ContentTitle>닉네임</ContentTitle>
         {/* //추후 변경 필요 */}
-        <div>dundun</div>
-        <Button>수정하기</Button>
+        <Input value={newUserName} onChange={handleInputChange}></Input>
+        <Button onClick={userNameEditHandle}>수정하기</Button>
       </Contents>
-      <Contents>개인정보수정페이지입니다.</Contents>
-      <Contents>개인정보수정페이지입니다.</Contents>
-      <Contents>개인정보수정페이지입니다.</Contents>
+      {/* <Contents>
+        <Div />
+        <ContentTitle>프로필 사진</ContentTitle>
+        <Input></Input>
+        <Button>수정하기</Button>
+      </Contents> */}
+      <Contents>
+        <Div />
+        <ContentTitle>영양사 인증</ContentTitle>
+        {/* //추후 변경 필요 */}
+        <Input placeholder="영양사 면허번호를 입력해주세요."></Input>
+        <Button onClick={() => window.alert("준비중인 기능입니다.")}>
+          인증하기
+        </Button>
+      </Contents>
+      <Contents>
+        <Div />
+        <ContentTitle>회원 탈퇴</ContentTitle>
+        <Button onClick={userDeleteHandle}>탈퇴하기</Button>
+      </Contents>
     </>
   );
 }
 
 export default ProfileEdit;
 
-const Title = styled.div`
+const Input = styled.input`
+  width: 200px;
+  height: 30px;
+  margin-right: 30px;
+`;
+
+const ContentTitle = styled.div`
+  display: flex;
   font-size: 20px;
   font-weight: 600;
+  align-items: center;
+  margin-right: 30px;
+`;
+
+const Title = styled.div`
+  font-size: 23px;
+  font-weight: 600;
+  margin-bottom: 20px;
 `;
 
 const Button = styled.button`
   display: flex;
-  width: 120px;
-  margin: 10px 20px;
+  width: 100px;
+  height: 35px;
   padding: 10px 20px;
   border-radius: 40px;
   justify-content: center;
@@ -53,12 +143,21 @@ const Button = styled.button`
   }
 `;
 
+const Div = styled.div`
+  display: flex;
+  width: 10px;
+  height: 30px;
+  background-color: grey;
+  margin-right: 30px;
+`;
+
 const Contents = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
-  height: 300px;
-  border: solid 1px red;
+  height: 100px;
+  /* border: solid 1px black; */
   background-color: whitesmoke;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   padding: 30px;
 `;
