@@ -96,5 +96,19 @@
     "email": "front@test.com",
     "name": "dundun",
     "isNutritionist": "true"
-  }
+  },
+  "users": [
+    {
+      "id": 1,
+      "email": "front@test.com",
+      "name": "dundun",
+      "isNutritionist": "true"
+    },
+    {
+      "id": 2,
+      "email": "back@test.com",
+      "name": "seunam",
+      "isNutritionist": "true"
+    }
+  ]
 }
