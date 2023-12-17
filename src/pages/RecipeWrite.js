@@ -87,7 +87,7 @@ function RecipeWrite() {
   const formData = new FormData();
   const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
-    recipeInfo.map((recipeElement) => formData.append(JSON.stringify(recipeElement)));
+    recipeInfo?.map((recipeElement) => formData.append(JSON.stringify(recipeElement)));
     formData.append("recipeImg", imageBlob);
     formData.append("recipeFile", recipeFile);
     const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
