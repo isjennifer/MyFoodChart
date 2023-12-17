@@ -1,12 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPencil,
-  faImage,
-  faPlus,
-  faSquareMinus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faImage, faPlus, faSquareMinus } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageCropper from "../components/recipe/ImageCropper.js";
@@ -60,9 +55,7 @@ function RecipeWrite() {
   function deleteMenu(id) {
     // 인덱스 값을 받아서
     if (inputItems.length === 1) return;
-    setInputItems((prevInputItems) =>
-      prevInputItems.filter((item) => item.id !== id)
-    ); // 인덱스 값과 같지 않은 애들만 남겨둔다
+    setInputItems((prevInputItems) => prevInputItems.filter((item) => item.id !== id)); // 인덱스 값과 같지 않은 애들만 남겨둔다
   }
 
   function handleChange(event, index, field) {
@@ -94,12 +87,11 @@ function RecipeWrite() {
   const formData = new FormData();
   const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
-    const jsonRecipeInfo = JSON.stringify(recipeInfo);
-    formData.append("reciepInfo", jsonRecipeInfo);
+    recipeInfo.map((recipeElement) => formData.append(JSON.stringify(recipeElement)));
     formData.append("recipeImg", imageBlob);
     formData.append("recipeFile", recipeFile);
-    const jsonMenuList = JSON.stringify(inputItems);
-    formData.append("menuList", jsonMenuList);
+    const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
+    formData.append("menues", JSON.stringify(jsonMenuList));
     //   FormData의 value 확인
     for (let value of formData.values()) {
       console.log(value);
@@ -114,6 +106,8 @@ function RecipeWrite() {
         return;
       }
     }
+    console.log(formData);
+
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "POST",
       body: formData,
@@ -124,9 +118,6 @@ function RecipeWrite() {
         }
         throw new Error("에러 발생!");
       })
-      .catch((error) => {
-        alert(error);
-      })
       .then((data) => {
         if (window.confirm("포스팅 하시겠습니까?")) {
           window.alert("포스팅 되었습니다.");
@@ -134,6 +125,9 @@ function RecipeWrite() {
         } else {
           window.alert("취소 되었습니다.");
         }
+      })
+      .catch((error) => {
+        alert(error);
       });
   };
 
@@ -164,11 +158,8 @@ function RecipeWrite() {
   return (
     <>
       <HeadDiv style={{ fontWeight: 600 }}>
-        <FontAwesomeIcon
-          icon={faPencil}
-          style={{ fontSize: 40, margin: 20, color: "#F97F51" }}
-        />
-        내 식단 공유하기
+        <FontAwesomeIcon icon={faPencil} style={{ fontSize: 40, margin: 20, color: "#F97F51" }} />내
+        식단 공유하기
       </HeadDiv>
 
       <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -225,12 +216,7 @@ function RecipeWrite() {
                 })}
                 style={{ fontSize: 18, marginLeft: 10 }}
               >
-                <option
-                  value={""}
-                  disabled
-                  selected
-                  style={{ display: "none" }}
-                >
+                <option value={""} disabled selected style={{ display: "none" }}>
                   학교선택
                 </option>
                 <option value={"유치원"}>유치원</option>
@@ -289,11 +275,7 @@ function RecipeWrite() {
         <ImageCropper onCrop={onCrop}>
           <UploadImg>
             {image ? (
-              <img
-                src={image}
-                alt="식단 이미지"
-                style={{ width: 800, height: 500 }}
-              />
+              <img src={image} alt="식단 이미지" style={{ width: 800, height: 500 }} />
             ) : (
               <>
                 {" "}
@@ -368,10 +350,7 @@ function RecipeWrite() {
               </BodyItem>
               <BodyItem>
                 <div onClick={() => deleteMenu(item.id)}>
-                  <FontAwesomeIcon
-                    icon={faSquareMinus}
-                    style={{ cursor: "pointer" }}
-                  />
+                  <FontAwesomeIcon icon={faSquareMinus} style={{ cursor: "pointer" }} />
                 </div>
               </BodyItem>
             </>
@@ -444,8 +423,7 @@ const FormSubmitBtn = styled.button`
   margin-top: 50px;
   &:hover {
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
 `;
 const BtnDiv = styled.div`
