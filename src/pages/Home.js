@@ -28,7 +28,7 @@ function Home() {
     if (location.pathname === "/") {
       getStatus();
     }
-  }, [location, setIsLogin]);
+  }, [location]);
 
   useEffect(() => {
     if (userLoginStatus === true) {
