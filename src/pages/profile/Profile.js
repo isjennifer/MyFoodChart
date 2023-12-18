@@ -17,80 +17,74 @@ import { useEffect } from "react";
 
 function Profile() {
   const userLoginStatus = useIsLoginState();
-  const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+
   const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
       credentials: "include",
-    }).then(() => {
-      navigate("/login");
+    }).catch((e) => {
+      console.log(e);
     });
 
   return (
-    <>
-      <Container initial="start" animate="end" variants={easeDown}>
-        <SideBar>
-          <MyProfile>
-            <Link to={""}>
-              <IconStyle icon={faCircleUser} className="icon" />내 프로필
+    <Container initial="start" animate="end" variants={easeDown}>
+      <SideBar>
+        <MyProfile>
+          <Link to={""}>
+            <IconStyle icon={faCircleUser} className="icon" />내 프로필
+          </Link>
+          <Button onClick={logout}>
+            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            {"\u00a0"}로그아웃
+          </Button>
+        </MyProfile>
+        <MyLog>
+          <MyLogUl>
+            <Link to={"edit"}>
+              <MyLogLI
+                style={{
+                  backgroundColor: pathname === "/profile/edit" ? "#fc8153" : "",
+                  color: pathname === "/profile/edit" ? "white" : "",
+                }}
+              >
+                <IconStyle icon={faCircleUser} className="icon" />
+                개인정보수정
+              </MyLogLI>
             </Link>
-            <Button onClick={logout}>
-              <FontAwesomeIcon icon={faArrowRightFromBracket} />
-              {"\u00a0"}로그아웃
-            </Button>
-          </MyProfile>
-          <MyLog>
-            <MyLogUl>
-              <Link to={"edit"}>
-                <MyLogLI
-                  style={{
-                    backgroundColor:
-                      pathname === "/profile/edit" ? "#fc8153" : "",
-                    color: pathname === "/profile/edit" ? "white" : "",
-                  }}
-                >
-                  <IconStyle icon={faCircleUser} className="icon" />
-                  개인정보수정
-                </MyLogLI>
-              </Link>
-              <Link to={"myposts"}>
-                <MyLogLI
-                  style={{
-                    backgroundColor:
-                      pathname === "/profile/myposts" ? "#fc8153" : "",
-                    color: pathname === "/profile/myposts" ? "white" : "",
-                  }}
-                >
-                  <IconStyle icon={faPencil} className="icon" />내 게시글
-                </MyLogLI>
-              </Link>
-              <li>
-                <IconStyle icon={faCommentDots} className="icon" />내 댓글
-              </li>
-              <li>
-                <IconStyle icon={faHeart} className="icon" />
-                좋아요한 글
-              </li>
-              <li>
-                <IconStyle icon={faBookmark} className="icon" />
-                북마크한 글
-              </li>
-              <li>
-                <IconStyle icon={faGem} className="icon" />
-                포인트 관리
-              </li>
-            </MyLogUl>
-          </MyLog>
-        </SideBar>
-        <ProfileForm>
-          <OutletContainer>
-            {pathname === "/profile" ? <></> : <Outlet />}
-          </OutletContainer>
-        </ProfileForm>
-      </Container>
-    </>
+            <Link to={"myposts"}>
+              <MyLogLI
+                style={{
+                  backgroundColor: pathname === "/profile/myposts" ? "#fc8153" : "",
+                  color: pathname === "/profile/myposts" ? "white" : "",
+                }}
+              >
+                <IconStyle icon={faPencil} className="icon" />내 게시글
+              </MyLogLI>
+            </Link>
+            <li>
+              <IconStyle icon={faCommentDots} className="icon" />내 댓글
+            </li>
+            <li>
+              <IconStyle icon={faHeart} className="icon" />
+              좋아요한 글
+            </li>
+            <li>
+              <IconStyle icon={faBookmark} className="icon" />
+              북마크한 글
+            </li>
+            <li>
+              <IconStyle icon={faGem} className="icon" />
+              포인트 관리
+            </li>
+          </MyLogUl>
+        </MyLog>
+      </SideBar>
+      <ProfileForm>
+        <OutletContainer>{pathname === "/profile" ? <></> : <Outlet />}</OutletContainer>
+      </ProfileForm>
+    </Container>
   );
 }
 
