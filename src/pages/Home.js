@@ -5,22 +5,30 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { IsLoginContext } from "../contexts/IsLoginContext";
 import { useIsLoginState } from "../contexts/IsLoginContext";
+import { useLocation } from "react-router-dom";
 
 function Home() {
   const { setIsLogin } = useContext(IsLoginContext);
   const userLoginStatus = useIsLoginState();
   const [userName, setUserName] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/auth/status`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsLogin(data.isLogIn);
-      });
-  }, []);
+    const getStatus = () => {
+      fetch(`${process.env.REACT_APP_DOMAIN}/auth/status`, {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setIsLogin(data.isLogIn);
+        });
+    };
+
+    if (location.pathname === "/") {
+      getStatus();
+    }
+  }, [location, setIsLogin]);
 
   useEffect(() => {
     if (userLoginStatus === true) {
@@ -33,7 +41,7 @@ function Home() {
           setUserName(data.name);
         });
     }
-  }, []);
+  }, [userLoginStatus]);
 
   return (
     <>
