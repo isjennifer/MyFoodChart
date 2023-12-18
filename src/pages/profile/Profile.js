@@ -19,14 +19,19 @@ function Profile() {
   const userLoginStatus = useIsLoginState();
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
 
   const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
       credentials: "include",
-    }).catch((e) => {
-      console.log(e);
-    });
+    })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
   return (
     <Container initial="start" animate="end" variants={easeDown}>
