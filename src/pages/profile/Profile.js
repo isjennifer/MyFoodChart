@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useIsLoginState } from "../contexts/IsLoginContext";
+import { useIsLoginState } from "../../contexts/IsLoginContext";
 import { useEffect } from "react";
 
 function Profile() {
@@ -44,12 +44,28 @@ function Profile() {
           <MyLog>
             <MyLogUl>
               <Link to={"edit"}>
-                <IconStyle icon={faCircleUser} className="icon" />
-                개인정보수정
+                <MyLogLI
+                  style={{
+                    backgroundColor:
+                      pathname === "/profile/edit" ? "#fc8153" : "",
+                    color: pathname === "/profile/edit" ? "white" : "",
+                  }}
+                >
+                  <IconStyle icon={faCircleUser} className="icon" />
+                  개인정보수정
+                </MyLogLI>
               </Link>
-              <li>
-                <IconStyle icon={faPencil} className="icon" />내 게시글
-              </li>
+              <Link to={"myposts"}>
+                <MyLogLI
+                  style={{
+                    backgroundColor:
+                      pathname === "/profile/myposts" ? "#fc8153" : "",
+                    color: pathname === "/profile/myposts" ? "white" : "",
+                  }}
+                >
+                  <IconStyle icon={faPencil} className="icon" />내 게시글
+                </MyLogLI>
+              </Link>
               <li>
                 <IconStyle icon={faCommentDots} className="icon" />내 댓글
               </li>
@@ -70,59 +86,7 @@ function Profile() {
         </SideBar>
         <ProfileForm>
           <OutletContainer>
-            {pathname === "/profile" ? (
-              <>
-                <BodyGrid>
-                  <BodyItem>
-                    <Title>개인정보수정</Title>
-                    <Contents>
-                      <IconStyle icon={faCircleUser} className="icon" style={{ fontSize: 60 }} />
-                      <div>
-                        {/* //추후 변경 필요 */}
-                        <Title>dundun</Title>
-                        <div>영양사 인증 완료</div>
-                      </div>
-                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
-                    </Contents>
-                  </BodyItem>
-                  <BodyItem>
-                    <Title>포인트 관리</Title>
-                    <Contents>
-                      <div>
-                        <div>현재까지 적립한 포인트</div>
-                        <Title>
-                          <IconStyle icon={faGem} className="icon" />
-                          3,000 P
-                        </Title>
-                      </div>
-                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
-                    </Contents>
-                  </BodyItem>
-                  <BodyItem>
-                    <Title>내 게시글</Title>
-                    <Contents>
-                      <IconStyle icon={faCircleUser} className="icon" />
-                      {/* //추후 변경 필요 */}
-                      <div>dundun</div>
-                      <div>영양사 인증 완료</div>
-                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
-                    </Contents>
-                  </BodyItem>
-                  <BodyItem>
-                    <Title>내 댓글</Title>
-                    <Contents>
-                      <IconStyle icon={faCircleUser} className="icon" />
-                      {/* //추후 변경 필요 */}
-                      <div>dundun</div>
-                      <div>영양사 인증 완료</div>
-                      <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: 40 }} />
-                    </Contents>
-                  </BodyItem>
-                </BodyGrid>
-              </>
-            ) : (
-              <Outlet />
-            )}
+            {pathname === "/profile" ? <></> : <Outlet />}
           </OutletContainer>
         </ProfileForm>
       </Container>
@@ -186,6 +150,15 @@ const DivisionLine = styled.div`
 
 const IconStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
+`;
+
+const MyLogLI = styled.div`
+  display: flex;
+  width: 180px;
+  height: 50px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MyLogUl = styled.ul`

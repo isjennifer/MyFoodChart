@@ -8,6 +8,8 @@ import {
   faGem,
 } from "@fortawesome/free-solid-svg-icons";
 import { useIsLoginState } from "../../contexts/IsLoginContext";
+import ProfileMenu from "./ProfileMenu";
+import { useState } from "react";
 
 function Navbar({
   toggleMenu,
@@ -30,7 +32,14 @@ function Navbar({
   };
 
   const isLogin = useIsLoginState();
-  console.log(isLogin);
+  // console.log(isLogin);
+
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(isOpen);
+
+  const MenuToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -91,12 +100,10 @@ function Navbar({
         </NavMenu>
         <NavRight>
           {isLogin === true ? (
-            <Link to={"/profile"}>
-              <div>
-                <FontAwesomeIcon icon={faCircleUser} className="icon" />
-                프로필
-              </div>
-            </Link>
+            <button onClick={MenuToggle}>
+              <FontAwesomeIcon icon={faCircleUser} className="icon" />
+              프로필
+            </button>
           ) : (
             <Link to={"/login"}>
               <div>
@@ -109,6 +116,7 @@ function Navbar({
             <FontAwesomeIcon icon={faGem} className="icon" />
             포인트
           </div>
+          {isOpen ? <ProfileMenu /> : null}
         </NavRight>
       </Nav>
     </>

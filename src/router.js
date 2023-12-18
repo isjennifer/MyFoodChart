@@ -12,8 +12,9 @@ import RecipeEdit from "./pages/RecipeEdit";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
-import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit";
+import Profile from "./pages/profile/Profile";
+import ProfileEdit from "./pages/profile/ProfileEdit";
+import ProfileMyPosts from "./pages/profile/ProfileMyPosts";
 
 export const RouterInfo = [
   {
@@ -44,6 +45,10 @@ export const RouterInfo = [
           {
             path: "edit",
             element: <ProfileEdit />,
+          },
+          {
+            path: "myposts",
+            element: <ProfileMyPosts />,
           },
         ],
       },
