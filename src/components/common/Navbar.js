@@ -122,7 +122,7 @@ function Navbar({
             )}
           </NavRight>
         </Nav>
-        <SideBar>{isOpen ? <ProfileMenu /> : null}</SideBar>
+        <SideBar>{isOpen && <ProfileMenu />}</SideBar>
       </Container>
     </>
   );

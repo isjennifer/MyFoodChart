@@ -10,19 +10,24 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ProfileMenu() {
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
 
   const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
       method: "GET",
       credentials: "include",
-    }).catch((e) => {
-      console.log(e);
-    });
+    })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
   return (
     <Container initial="start" animate="end" variants={easeDown}>
