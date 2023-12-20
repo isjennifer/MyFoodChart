@@ -122,7 +122,7 @@ function Navbar({
             )}
           </NavRight>
         </Nav>
-        <SideBar>{isOpen && <ProfileMenu />}</SideBar>
+        <SideBar>{isLogin && isOpen && <ProfileMenu />}</SideBar>
       </Container>
     </>
   );
