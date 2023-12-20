@@ -5,7 +5,7 @@ import {
   faBars,
   faUser,
   faCircleUser,
-  faGem,
+  faArrowRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useIsLoginState } from "../../contexts/IsLoginContext";
 import ProfileMenu from "./ProfileMenu";
@@ -43,15 +43,49 @@ function Navbar({
 
   return (
     <>
-      <Nav>
-        {/* 모바일 내비게이션 반응형 */}
-        <NavMobile>
-          <FontAwesomeIcon icon={faBars} onClick={onClickMenu} />
-          <li>레시피숲</li>
-          <FontAwesomeIcon icon={faUser} onClick={onClickProfile} />
-        </NavMobile>
-        {toggleMenu ? (
-          <NavMobileMenu>
+      <Container>
+        <Nav>
+          {/* 모바일 내비게이션 반응형 */}
+          <NavMobile>
+            <FontAwesomeIcon icon={faBars} onClick={onClickMenu} />
+            <li>레시피숲</li>
+            <FontAwesomeIcon icon={faUser} onClick={onClickProfile} />
+          </NavMobile>
+          {toggleMenu ? (
+            <NavMobileMenu>
+              <Link to={"/recipes/school"}>
+                <li>식단공유</li>
+              </Link>
+              <Link to={"/community"}>
+                <li>커뮤니티</li>
+              </Link>
+              <Link to={"/event"}>
+                <li>이벤트</li>
+              </Link>
+              <Link to={"/how_to_use"}>
+                <li>이용방법</li>
+              </Link>
+            </NavMobileMenu>
+          ) : null}
+          {toggleProfile ? (
+            <NavMobileMenu style={{ height: "120px" }}>
+              <Link to={"/login"}>
+                <li>프로필</li>
+              </Link>
+              <li>포인트</li>
+            </NavMobileMenu>
+          ) : null}
+          <NavHome>
+            <Link to={"/"}>
+              <img
+                src="/img/green_korean_row.png"
+                alt="초록바탕한글로고"
+                style={{ width: 160 }}
+              />
+            </Link>
+          </NavHome>
+          {/* 웹용 내비게이션 */}
+          <NavMenu>
             <Link to={"/recipes/school"}>
               <li>식단공유</li>
             </Link>
@@ -64,61 +98,32 @@ function Navbar({
             <Link to={"/how_to_use"}>
               <li>이용방법</li>
             </Link>
-          </NavMobileMenu>
-        ) : null}
-        {toggleProfile ? (
-          <NavMobileMenu style={{ height: "120px" }}>
-            <Link to={"/login"}>
-              <li>프로필</li>
-            </Link>
-            <li>포인트</li>
-          </NavMobileMenu>
-        ) : null}
-        <NavHome>
-          <Link to={"/"}>
-            <img
-              src="/img/green_korean_row.png"
-              alt="초록바탕한글로고"
-              style={{ width: 160 }}
-            />
-          </Link>
-        </NavHome>
-        {/* 웹용 내비게이션 */}
-        <NavMenu>
-          <Link to={"/recipes/school"}>
-            <li>식단공유</li>
-          </Link>
-          <Link to={"/community"}>
-            <li>커뮤니티</li>
-          </Link>
-          <Link to={"/event"}>
-            <li>이벤트</li>
-          </Link>
-          <Link to={"/how_to_use"}>
-            <li>이용방법</li>
-          </Link>
-        </NavMenu>
-        <NavRight>
-          {isLogin === true ? (
-            <button onClick={MenuToggle}>
-              <FontAwesomeIcon icon={faCircleUser} className="icon" />
-              프로필
-            </button>
-          ) : (
-            <Link to={"/login"}>
-              <div>
-                <FontAwesomeIcon icon={faCircleUser} className="icon" />
-                로그인
-              </div>
-            </Link>
-          )}
-          <div>
-            <FontAwesomeIcon icon={faGem} className="icon" />
-            포인트
-          </div>
-          {isOpen ? <ProfileMenu /> : null}
-        </NavRight>
-      </Nav>
+          </NavMenu>
+          <NavRight>
+            {isLogin === true ? (
+              <ProfileBtn isOpen={isOpen} onClick={MenuToggle}>
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="icon"
+                  style={{ fontSize: 22 }}
+                />
+                프로필
+              </ProfileBtn>
+            ) : (
+              <Link to={"/login"}>
+                <ProfileBtn>
+                  <FontAwesomeIcon
+                    icon={faArrowRightToBracket}
+                    style={{ marginRight: 10 }}
+                  />
+                  로그인
+                </ProfileBtn>
+              </Link>
+            )}
+          </NavRight>
+        </Nav>
+        <SideBar>{isOpen && <ProfileMenu />}</SideBar>
+      </Container>
     </>
   );
 }
@@ -135,7 +140,7 @@ const Nav = styled.nav`
   /* margin-bottom: 50px; */
   list-style: none;
   /* z-index: 1000; */
-  width: 100%;
+  width: 100vw;
   @media screen and (max-width: 630px) {
     width: 100%;
   }
@@ -214,4 +219,44 @@ const NavMobileMenu = styled.div`
   @media screen and (max-width: 430px) {
     width: 430px;
   }
+`;
+
+const ProfileBtn = styled.button`
+  display: flex;
+  border: solid 1px white;
+  border-radius: 20px;
+  width: 120px;
+  height: 40px;
+  background: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+  letter-spacing: 2px;
+  /* line-height: 25px; */
+  &:hover {
+    cursor: pointer;
+    color: #3b7339;
+    background-color: white;
+  }
+  ${({ isOpen }) =>
+    isOpen &&
+    `
+    cursor: pointer;
+    color: #3b7339;
+    background-color: white;
+  `};
+`;
+
+const SideBar = styled.div`
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  z-index: 9999;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
 `;
