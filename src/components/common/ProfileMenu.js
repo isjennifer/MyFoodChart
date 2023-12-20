@@ -41,28 +41,40 @@ function ProfileMenu() {
         <span>영양사인증완료</span>
       </AboutMe>
       <MyLogUl>
-        <MyLogLI>
-          <IconStyle icon={faCircleUser} className="icon" />
-          개인정보수정
-        </MyLogLI>
-        <MyLogLI>
-          <IconStyle icon={faPencil} className="icon" />내 게시글
-        </MyLogLI>
-        <MyLogLI>
-          <IconStyle icon={faCommentDots} className="icon" />내 댓글
-        </MyLogLI>
-        <MyLogLI>
-          <IconStyle icon={faHeart} className="icon" />
-          좋아요한 글
-        </MyLogLI>
-        <MyLogLI>
-          <IconStyle icon={faBookmark} className="icon" />
-          북마크한 글
-        </MyLogLI>
-        <MyLogLI>
-          <IconStyle icon={faGem} className="icon" />
-          포인트 관리
-        </MyLogLI>
+        <ListBtn onClick={() => navigate("/profile/edit")}>
+          <MyLogLI>
+            <IconStyle icon={faCircleUser} className="icon" />
+            개인정보수정
+          </MyLogLI>
+        </ListBtn>
+        <ListBtn onClick={() => navigate("/profile/myposts")}>
+          <MyLogLI>
+            <IconStyle icon={faPencil} className="icon" />내 게시글
+          </MyLogLI>
+        </ListBtn>
+        <ListBtn>
+          <MyLogLI>
+            <IconStyle icon={faCommentDots} className="icon" />내 댓글
+          </MyLogLI>
+        </ListBtn>
+        <ListBtn>
+          <MyLogLI>
+            <IconStyle icon={faHeart} className="icon" />
+            좋아요한 글
+          </MyLogLI>
+        </ListBtn>
+        <ListBtn>
+          <MyLogLI>
+            <IconStyle icon={faBookmark} className="icon" />
+            북마크한 글
+          </MyLogLI>
+        </ListBtn>
+        <ListBtn>
+          <MyLogLI>
+            <IconStyle icon={faGem} className="icon" />
+            포인트 관리
+          </MyLogLI>
+        </ListBtn>
       </MyLogUl>
       <Button onClick={logout}>
         <IconStyle icon={faArrowRightFromBracket} />
@@ -138,6 +150,17 @@ const Container = styled(motion.div)`
   padding: 40px;
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+`;
+
+const ListBtn = styled.button`
+  background: none;
+  border-radius: 40px;
+  border: none;
+  &:hover {
+    cursor: pointer;
+    background-color: #fc8153;
+    color: white;
+  }
 `;
 
 const Button = styled.button`
