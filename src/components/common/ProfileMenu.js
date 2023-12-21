@@ -52,7 +52,7 @@ function ProfileMenu() {
             <IconStyle icon={faPencil} className="icon" />내 게시글
           </MyLogLI>
         </ListBtn>
-        <ListBtn>
+        <ListBtn onClick={() => navigate("/profile/mycomments")}>
           <MyLogLI>
             <IconStyle icon={faCommentDots} className="icon" />내 댓글
           </MyLogLI>
