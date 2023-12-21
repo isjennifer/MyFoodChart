@@ -12,7 +12,6 @@ import RecipeEdit from "./pages/RecipeEdit";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
-import Profile from "./pages/profile/Profile";
 import ProfileEdit from "./pages/profile/ProfileEdit";
 import ProfileMyPosts from "./pages/profile/ProfileMyPosts";
 
@@ -35,22 +34,12 @@ export const RouterInfo = [
         element: <Login />,
       },
       {
-        path: "/profile",
-        element: (
-          <Profile>
-            <Outlet />
-          </Profile>
-        ),
-        children: [
-          {
-            path: "edit",
-            element: <ProfileEdit />,
-          },
-          {
-            path: "myposts",
-            element: <ProfileMyPosts />,
-          },
-        ],
+        path: "/profile/edit",
+        element: <ProfileEdit />,
+      },
+      {
+        path: "/profile/myposts",
+        element: <ProfileMyPosts />,
       },
       {
         element: (

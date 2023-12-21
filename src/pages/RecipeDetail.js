@@ -5,6 +5,7 @@ import {
   faPencil,
   faTriangleExclamation,
   faArrowLeft,
+  faBowlFood,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faSquareCheck,
@@ -59,9 +60,9 @@ function RecipeDetail() {
   return (
     <>
       <HeadDiv style={{ fontWeight: 600 }}>
-        <FontAwesomeIcon
-          icon={faPencil}
-          style={{ fontSize: 40, margin: 20, color: "#F97F51" }}
+        <IconStyle
+          icon={faBowlFood}
+          style={{ fontSize: 40, margin: 20, color: "#3b7339" }}
         />
         식단 상세정보
       </HeadDiv>
@@ -146,9 +147,9 @@ function RecipeDetail() {
                 <BodyItem>{data.menuName}</BodyItem>
                 <BodyItem>
                   {data.isProductUsed ? (
-                    <FontAwesomeIcon icon={faSquareCheck} />
+                    <IconStyle icon={faSquareCheck} />
                   ) : (
-                    <FontAwesomeIcon icon={faSquare} />
+                    <IconStyle icon={faSquare} />
                   )}
                 </BodyItem>
                 <BodyItem>{data.productName}</BodyItem>
@@ -183,29 +184,23 @@ function RecipeDetail() {
         </FooterGrid>
 
         <FuncDiv>
-          <div
-            style={{
-              width: 60,
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <FontAwesomeIcon icon={faCommentDots} />
+          <RowDiv>
+            <IconStyle icon={faCommentDots} />
             <Title>댓글</Title>
-          </div>
-          <div
-            style={{
-              width: 220,
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <FontAwesomeIcon icon={faHeart} />
-            좋아요
-            <FontAwesomeIcon icon={faBookmark} />
-            북마크
-            <FontAwesomeIcon icon={faTriangleExclamation} />
-            신고
+          </RowDiv>
+          <div>
+            <RowDiv style={{ marginRight: 20 }}>
+              <IconStyle icon={faHeart} />
+              좋아요
+            </RowDiv>
+            <RowDiv style={{ marginRight: 20 }}>
+              <IconStyle icon={faBookmark} />
+              북마크
+            </RowDiv>
+            <RowDiv>
+              <IconStyle icon={faTriangleExclamation} />
+              신고
+            </RowDiv>
           </div>
         </FuncDiv>
         <RowDivisionLine />
@@ -214,7 +209,7 @@ function RecipeDetail() {
         <FuncDiv>
           <Link to={`/recipes/school`}>
             <Button>
-              <FontAwesomeIcon icon={faArrowLeft} />
+              <IconStyle icon={faArrowLeft} />
               목록으로
             </Button>
           </Link>
@@ -222,12 +217,12 @@ function RecipeDetail() {
           <RowDiv>
             <Link to={`/recipes/edit/${recipePosts?.id}`}>
               <Button>
-                <FontAwesomeIcon icon={faPenToSquare} />
+                <IconStyle icon={faPenToSquare} />
                 수정
               </Button>
             </Link>
             <Button onClick={recipePostsDelete}>
-              <FontAwesomeIcon icon={faTrashCan} />
+              <IconStyle icon={faTrashCan} />
               삭제
             </Button>
           </RowDiv>
@@ -239,9 +234,15 @@ function RecipeDetail() {
 
 export default RecipeDetail;
 
+const IconStyle = styled(FontAwesomeIcon)`
+  margin-right: 10px;
+`;
+
 const FuncDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  line-height: 1;
   margin-top: 100px;
 `;
 

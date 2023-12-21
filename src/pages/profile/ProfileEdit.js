@@ -69,7 +69,7 @@ function ProfileEdit() {
   };
 
   return (
-    <>
+    <ProfileForm>
       <Title>개인정보수정</Title>
       <Contents>
         <Div />
@@ -98,7 +98,7 @@ function ProfileEdit() {
         <ContentTitle>회원 탈퇴</ContentTitle>
         <Button onClick={userDeleteHandle}>탈퇴하기</Button>
       </Contents>
-    </>
+    </ProfileForm>
   );
 }
 
@@ -149,6 +149,20 @@ const Div = styled.div`
   height: 30px;
   background-color: grey;
   margin-right: 30px;
+`;
+
+const ProfileForm = styled.div`
+  width: 800px;
+  height: 600px;
+  padding: 30px;
+  margin-inline: auto;
+  margin-top: 100px;
+  color: #505050;
+  border-radius: 50px;
+  border: solid 1px #2c3e50;
+  font-size: 18px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `;
 
 const Contents = styled.div`

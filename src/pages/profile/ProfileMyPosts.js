@@ -28,7 +28,7 @@ function ProfileMyPosts() {
   //   }, [page, recipeInfoList]);
 
   return (
-    <>
+    <ProfileForm>
       <Title>내 게시글</Title>
       <Contents>
         <div style={{ display: "flex", marginBottom: 30 }}>
@@ -50,7 +50,7 @@ function ProfileMyPosts() {
           <ContentTitle>자유 게시판</ContentTitle>
         </div>
       </Contents>
-    </>
+    </ProfileForm>
   );
 }
 
@@ -94,6 +94,20 @@ const Title = styled.div`
   font-size: 23px;
   font-weight: 600;
   margin-bottom: 20px;
+`;
+
+const ProfileForm = styled.div`
+  width: 800px;
+  height: 600px;
+  padding: 30px;
+  margin-inline: auto;
+  margin-top: 100px;
+  color: #505050;
+  border-radius: 50px;
+  border: solid 1px #2c3e50;
+  font-size: 18px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `;
 
 const Contents = styled.div`
