@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import {
 import ReactPaginate from "react-paginate";
 import "../css/paginationStyle.css";
 import { motion } from "framer-motion";
+import { useIsLoginState } from "../contexts/IsLoginContext";
 
 function RecipeSchool() {
   // 서버에서 레시피 목록들 가져오기
@@ -38,6 +39,9 @@ function RecipeSchool() {
     );
   }, [page, recipeInfoList]);
 
+  const navigate = useNavigate();
+  const isLogin = useIsLoginState();
+
   return (
     <>
       <Container initial="start" animate="end" variants={easeDown}>
@@ -55,15 +59,20 @@ function RecipeSchool() {
             식단을 공유해요!
           </Div>
           <Div>
-            <Link to={"/recipes/write"}>
-              <Button style={{ width: 130, padding: 10 }}>
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  style={{ fontSize: 20, margin: 5 }}
-                />
-                글쓰기
-              </Button>
-            </Link>
+            <Button
+              style={{ width: 130, padding: 10 }}
+              onClick={
+                isLogin === true
+                  ? () => navigate("/recipes/write")
+                  : () => navigate("/login")
+              }
+            >
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                style={{ fontSize: 20, margin: 5 }}
+              />
+              글쓰기
+            </Button>
             <FontAwesomeIcon
               icon={faFilter}
               style={{ fontSize: 25, margin: 10 }}
