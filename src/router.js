@@ -14,6 +14,7 @@ import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import ProfileEdit from "./pages/profile/ProfileEdit";
 import ProfileMyPosts from "./pages/profile/ProfileMyPosts";
+import ProfileMyComments from "./pages/profile/ProfileMyComments";
 
 export const RouterInfo = [
   {
@@ -40,6 +41,10 @@ export const RouterInfo = [
       {
         path: "/profile/myposts",
         element: <ProfileMyPosts />,
+      },
+      {
+        path: "/profile/mycomments",
+        element: <ProfileMyComments />,
       },
       {
         element: (

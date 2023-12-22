@@ -1,3 +1,5 @@
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -29,26 +31,37 @@ function ProfileMyPosts() {
 
   return (
     <ProfileForm>
-      <Title>내 게시글</Title>
+      <TitleDiv>
+        <Title>내 게시글</Title>
+        <Div />
+        <SubTitle>식단공유 게시판</SubTitle>
+      </TitleDiv>
       <Contents>
-        <div style={{ display: "flex", marginBottom: 30 }}>
-          <Div />
-          <ContentTitle>식단공유 게시판</ContentTitle>
-        </div>
-        <BodyGrid>
-          <BodyItem>1</BodyItem>
-          <BodyItem>1</BodyItem>
-          <BodyItem>1</BodyItem>
-          <BodyItem>1</BodyItem>
-          <BodyItem>1</BodyItem>
-          <BodyItem>1</BodyItem>
-        </BodyGrid>
-      </Contents>
-      <Contents>
-        <div style={{ display: "flex", marginBottom: 30 }}>
-          <Div />
-          <ContentTitle>자유 게시판</ContentTitle>
-        </div>
+        <Img />
+        <ContentDiv>
+          <div style={{ display: "flex" }}>
+            <ContentTitle>메뉴</ContentTitle>
+            <Span>현미밥, 미역국, 채소무침, 불고기, 배추김치, 사과주스</Span>
+          </div>
+          <div style={{ display: "flex" }}>
+            <ContentTitle>작성일</ContentTitle>
+            <Span>2023-10-10</Span>
+          </div>
+          <div style={{ display: "flex" }}>
+            <ContentTitle>좋아요 받은 수</ContentTitle>
+            <Span>
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{
+                  fontSize: 16,
+                  color: "#FC427B",
+                  marginRight: 5,
+                }}
+              />
+              300
+            </Span>
+          </div>
+        </ContentDiv>
       </Contents>
     </ProfileForm>
   );
@@ -56,21 +69,30 @@ function ProfileMyPosts() {
 
 export default ProfileMyPosts;
 
-const BodyItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 125px;
-  margin-bottom: 10px;
-  border: solid 2px black;
+const Span = styled.span`
+  font-size: 16px;
+  color: "#505050";
 `;
 
-const BodyGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
+const Img = styled.div`
+  display: flex;
+  width: 160px;
+  height: 120px;
+  border: solid 1px black;
+  border-radius: 20px;
+  margin-right: 20px;
+`;
+
+const ContentDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+const TitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
 `;
 
 const Div = styled.div`
@@ -78,45 +100,50 @@ const Div = styled.div`
   width: 10px;
   height: 30px;
   background-color: grey;
-  margin-right: 30px;
+  margin-right: 20px;
 `;
 
 const ContentTitle = styled.div`
   display: flex;
+  font-size: 17px;
+  font-weight: 600;
+  margin-right: 15px;
+`;
+
+const Contents = styled.div`
+  display: flex;
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+  border: solid 1px black;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: whitesmoke;
+`;
+
+const SubTitle = styled.div`
+  display: flex;
   font-size: 20px;
   font-weight: 600;
-  align-items: center;
-  margin-right: 30px;
+  color: #3b7339;
 `;
 
 const Title = styled.div`
   display: flex;
   font-size: 23px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-right: 20px;
 `;
 
 const ProfileForm = styled.div`
   width: 800px;
-  height: 600px;
-  padding: 30px;
+  height: auto;
+  padding: 50px;
   margin-inline: auto;
   margin-top: 100px;
-  color: #505050;
   border-radius: 50px;
   border: solid 1px #2c3e50;
   font-size: 18px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-`;
-
-const Contents = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: auto;
-  /* border: solid 1px black; */
-  background-color: whitesmoke;
-  margin-bottom: 20px;
-  padding: 30px;
 `;

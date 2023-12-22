@@ -73,17 +73,17 @@ function ProfileEdit() {
       <Title>개인정보수정</Title>
       <Contents>
         <Div />
-        <ContentTitle>닉네임</ContentTitle>
+        <ContentTitle>닉네임 수정</ContentTitle>
         {/* //추후 변경 필요 */}
         <Input value={newUserName} onChange={handleInputChange}></Input>
         <Button onClick={userNameEditHandle}>수정하기</Button>
       </Contents>
-      {/* <Contents>
+      <Contents>
         <Div />
-        <ContentTitle>프로필 사진</ContentTitle>
+        <ContentTitle>프로필 사진 변경</ContentTitle>
         <Input></Input>
         <Button>수정하기</Button>
-      </Contents> */}
+      </Contents>
       <Contents>
         <Div />
         <ContentTitle>영양사 인증</ContentTitle>
@@ -153,11 +153,10 @@ const Div = styled.div`
 
 const ProfileForm = styled.div`
   width: 800px;
-  height: 600px;
-  padding: 30px;
+  height: auto;
+  padding: 50px;
   margin-inline: auto;
   margin-top: 100px;
-  color: #505050;
   border-radius: 50px;
   border: solid 1px #2c3e50;
   font-size: 18px;
