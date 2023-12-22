@@ -21,8 +21,10 @@ function Home() {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           setIsLogin(data.isLogIn);
-        });
+        })
+        .catch((e) => console.log(e));
     };
 
     if (location.pathname === "/") {
