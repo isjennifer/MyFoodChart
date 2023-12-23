@@ -1,5 +1,8 @@
+import { faImage } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import ImageCropper from "../../components/recipe/ImageCropper";
 
 function ProfileEdit() {
   const [userID, setUserID] = useState(0);
@@ -13,6 +16,7 @@ function ProfileEdit() {
       });
   }, []);
 
+  // 닉네임 수정 기능
   const handleInputChange = (event) => {
     setNewUserName(event.target.value);
   };
@@ -42,6 +46,8 @@ function ProfileEdit() {
       window.alert("취소 되었습니다.");
     }
   };
+
+  // 회원 탈퇴기능
   const userDeleteHandle = () => {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
       fetch(`${process.env.REACT_APP_DOMAIN}/users/${userID}`, {
@@ -68,6 +74,27 @@ function ProfileEdit() {
     }
   };
 
+  // ImageCropper 구현
+  // const [imageBlob, setImageBlob] = useState(null);
+  const [image, setImage] = useState(null);
+  const onCrop = (croppedImage) => {
+    setImage(croppedImage);
+    // // base64 -> blob url로 변환
+    // const byteString = atob(croppedImage.split(",")[1]);
+    // const ab = new ArrayBuffer(byteString.length);
+    // const ia = new Uint8Array(ab);
+    // for (let i = 0; i < byteString.length; i++) {
+    //   ia[i] = byteString.charCodeAt(i);
+    // }
+    // const blob = new Blob([ia], {
+    //   type: "image/*",
+    // });
+    // setImageBlob(blob);
+  };
+  useEffect(() => {
+    setImage(image);
+  }, [image]);
+
   return (
     <ProfileForm>
       <Title>개인정보수정</Title>
@@ -78,10 +105,25 @@ function ProfileEdit() {
         <Input value={newUserName} onChange={handleInputChange}></Input>
         <Button onClick={userNameEditHandle}>수정하기</Button>
       </Contents>
-      <Contents>
+      <Contents style={{ height: 200 }}>
         <Div />
         <ContentTitle>프로필 사진 변경</ContentTitle>
-        <Input></Input>
+        <ImageCropper onCrop={onCrop} aspectRatio={1}>
+          <UploadImg>
+            {image ? (
+              <img
+                src={image}
+                alt="프로필 이미지"
+                style={{ width: 150, height: 150, borderRadius: 100 }}
+              />
+            ) : (
+              <>
+                {" "}
+                <FontAwesomeIcon icon={faImage} />
+              </>
+            )}
+          </UploadImg>
+        </ImageCropper>
         <Button>수정하기</Button>
       </Contents>
       <Contents>
@@ -103,6 +145,20 @@ function ProfileEdit() {
 }
 
 export default ProfileEdit;
+
+const UploadImg = styled.div`
+  display: flex;
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+  margin-right: 30px;
+  background-color: #dedede;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const Input = styled.input`
   width: 200px;

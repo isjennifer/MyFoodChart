@@ -290,7 +290,7 @@ function RecipeWrite() {
           </HeaderItem>
         </HeaderGrid>
 
-        <ImageCropper onCrop={onCrop}>
+        <ImageCropper onCrop={onCrop} aspectRatio={1.6}>
           <UploadImg>
             {image ? (
               <img
