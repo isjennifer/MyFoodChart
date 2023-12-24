@@ -11,6 +11,7 @@ import {
 import ReactPaginate from "react-paginate";
 import "../css/paginationStyle.css";
 import { motion } from "framer-motion";
+import { useUserInfo } from "../contexts/UserInfoContext";
 
 function RecipeCompany() {
   const [recipeInfoList, setRecipeInfo] = useState(null);
@@ -36,6 +37,8 @@ function RecipeCompany() {
       })
     );
   }, [page, recipeInfoList]);
+
+  const { userInfo } = useUserInfo();
 
   return (
     <>
@@ -85,7 +88,6 @@ function RecipeCompany() {
                 return menu.menuName;
               })
               .join(", ");
-            const username = recipeInfo?.user.name;
             return (
               <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
@@ -94,8 +96,8 @@ function RecipeCompany() {
                       icon={faBowlFood}
                       style={{ fontSize: 20, marginRight: 15 }}
                     />
-                    {recipeTitle.length >= 23 &&
-                      `${recipeTitle.slice(0, 23)}...`}
+                    {recipeTitle.length >= 20 &&
+                      `${recipeTitle.slice(0, 20)}...`}
                   </Title>
                   <Img
                     src={`${process.env.REACT_APP_DOMAIN}/${recipeInfo?.recipeImg}`}
@@ -108,7 +110,7 @@ function RecipeCompany() {
                         icon={faPenToSquare}
                         style={{ fontSize: 20, marginRight: 5 }}
                       />
-                      {username}
+                      {userInfo.nickname}
                     </Div>
                     <Div style={{ fontSize: 16, padding: 10 }}>
                       <FontAwesomeIcon

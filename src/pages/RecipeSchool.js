@@ -103,7 +103,6 @@ function RecipeSchool() {
                 return menu.menuName;
               })
               .join(", ");
-            const username = recipeInfo?.user.name;
             return (
               <Link to={`/recipes/detail/${recipeInfo.id}`}>
                 <BodyItem>
@@ -112,8 +111,8 @@ function RecipeSchool() {
                       icon={faBowlFood}
                       style={{ fontSize: 20, marginRight: 15 }}
                     />
-                    {recipeTitle.length >= 23 &&
-                      `${recipeTitle.slice(0, 23)}...`}
+                    {recipeTitle.length >= 20 &&
+                      `${recipeTitle.slice(0, 20)}...`}
                   </Title>
                   <Img
                     src={`${process.env.REACT_APP_DOMAIN}/${recipeInfo?.recipeImg}`}
@@ -125,7 +124,7 @@ function RecipeSchool() {
                         icon={faPenToSquare}
                         style={{ fontSize: 20, marginRight: 5 }}
                       />
-                      {username}
+                      {userInfo.nickname}
                     </Div>
                     <Div style={{ fontSize: 16, padding: 10 }}>
                       <FontAwesomeIcon
