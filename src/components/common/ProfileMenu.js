@@ -10,11 +10,11 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUserInfo, initialState } from "../../contexts/UserInfoContext";
 
 function ProfileMenu() {
-  const location = useLocation();
-  const { pathname } = location;
+  const { updateUserInfo } = useUserInfo();
   const navigate = useNavigate();
 
   const logout = () =>
@@ -23,6 +23,7 @@ function ProfileMenu() {
       credentials: "include",
     })
       .then(() => {
+        updateUserInfo(initialState); 
         navigate("/");
       })
       .catch((e) => {

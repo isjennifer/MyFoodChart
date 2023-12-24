@@ -1,49 +1,37 @@
 import styled from "styled-components";
 import Navbar from "../components/common/Navbar";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { IsLoginContext } from "../contexts/IsLoginContext";
-import { useIsLoginState } from "../contexts/IsLoginContext";
+import { useEffect } from "react";
+import { useUserInfo } from "../contexts/UserInfoContext";
 import { useLocation } from "react-router-dom";
 
 function Home() {
-  const { setIsLogin } = useContext(IsLoginContext);
-  const userLoginStatus = useIsLoginState();
-  const [userName, setUserName] = useState("");
+  const { userInfo, updateUserInfo } = useUserInfo();
   const location = useLocation();
 
   useEffect(() => {
-    const getStatus = () => {
-      fetch(`${process.env.REACT_APP_DOMAIN}/auth/status`, {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setIsLogin(data.isLogIn);
-        })
-        .catch((e) => console.log(e));
-    };
-
-    if (location.pathname === "/") {
-      getStatus();
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (userLoginStatus === true) {
+    // 사용자 정보가 초기 상태이고, 홈페이지에 처음 접근했을 때만 상태 업데이트
+    if (!userInfo.id && location.pathname === "/") {
       fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
         method: "GET",
         credentials: "include",
       })
         .then((response) => response.json())
         .then((data) => {
-          setUserName(data.name);
-        });
+          if (data.id) {
+            // 상태 업데이트
+            updateUserInfo({
+              id: data.id,
+              email: data.email,
+              nickname: data.nickname,
+              userImg: data.userImg,
+              isNutritionist: data.isNutritionist
+            });
+          }
+        })
+        .catch((e) => console.log(e));
     }
-  }, [userLoginStatus]);
+  }, [location, userInfo, updateUserInfo]);
 
   return (
     <>
@@ -52,10 +40,10 @@ function Home() {
           <Navbar />
         </NavDiv>
         <Div initial="start" animate="end" variants={easeDown}>
-          {userName ? (
+          {userInfo.nickname ? (
             <>
               <SubTitle>레시피숲에 오신 것을 환영합니다!</SubTitle>
-              <Title>{userName}님의 식단을 함께 공유해요!</Title>
+              <Title>{userInfo.nickname}님의 식단을 함께 공유해요!</Title>
             </>
           ) : (
             <>

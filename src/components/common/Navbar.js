@@ -7,9 +7,9 @@ import {
   faCircleUser,
   faArrowRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { useIsLoginState } from "../../contexts/IsLoginContext";
+import { useUserInfo } from "../../contexts/UserInfoContext";
 import ProfileMenu from "./ProfileMenu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Navbar({
   toggleMenu,
@@ -17,6 +17,17 @@ function Navbar({
   toggleProfile,
   setToggleProfile,
 }) {
+  const {userInfo} = useUserInfo();
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 전역 상태 변경 감지
+  useEffect(() => {
+    // 사용자 정보가 없으면 사이드바 닫기
+    if (!userInfo.id) {
+      setIsOpen(false);
+    }
+  }, [userInfo]);
+
   const onClickMenu = () => {
     if (toggleProfile) {
       setToggleProfile(false);
@@ -30,12 +41,6 @@ function Navbar({
     }
     setToggleProfile(!toggleProfile);
   };
-
-  const isLogin = useIsLoginState();
-  // console.log(isLogin);
-
-  const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
 
   const MenuToggle = () => {
     setIsOpen(!isOpen);
@@ -100,7 +105,7 @@ function Navbar({
             </Link>
           </NavMenu>
           <NavRight>
-            {isLogin === true ? (
+            {userInfo.id ? (
               <ProfileBtn isOpen={isOpen} onClick={MenuToggle}>
                 <FontAwesomeIcon
                   icon={faCircleUser}
@@ -122,7 +127,7 @@ function Navbar({
             )}
           </NavRight>
         </Nav>
-        <SideBar>{isLogin && isOpen && <ProfileMenu />}</SideBar>
+        <SideBar>{userInfo.id && isOpen && <ProfileMenu />}</SideBar>
       </Container>
     </>
   );

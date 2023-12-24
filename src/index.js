@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RouterInfo } from "./router";
-import { IsLoginProvider } from "./contexts/IsLoginContext";
+import { UserInfoProvider } from "./contexts/UserInfoContext";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -73,12 +73,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <IsLoginProvider>
+    <UserInfoProvider>
       <RouterProvider
         router={RouterObject}
         fallbackElement={<div>Loading...</div>}
       />
-    </IsLoginProvider>
+    </UserInfoProvider>
   </React.StrictMode>
 );
 

@@ -11,7 +11,7 @@ import {
 import ReactPaginate from "react-paginate";
 import "../css/paginationStyle.css";
 import { motion } from "framer-motion";
-import { useIsLoginState } from "../contexts/IsLoginContext";
+import { useUserInfo } from "../contexts/UserInfoContext";
 
 function RecipeSchool() {
   // 서버에서 레시피 목록들 가져오기
@@ -40,7 +40,7 @@ function RecipeSchool() {
   }, [page, recipeInfoList]);
 
   const navigate = useNavigate();
-  const isLogin = useIsLoginState();
+  const { userInfo, updateUserInfo } = useUserInfo();
 
   return (
     <>
@@ -62,7 +62,7 @@ function RecipeSchool() {
             <Button
               style={{ width: 130, padding: 10 }}
               onClick={
-                isLogin === true
+                userInfo.id
                   ? () => navigate("/recipes/write")
                   : () => navigate("/login")
               }
