@@ -139,7 +139,11 @@ function ProfileEdit() {
           <UploadImg>
             {image ? (
               <img
-                src={image}
+                src={
+                  userInfo.userImg
+                    ? `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}`
+                    : image
+                }
                 alt="프로필 이미지"
                 style={{ width: 150, height: 150, borderRadius: 100 }}
               />
