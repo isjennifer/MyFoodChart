@@ -14,7 +14,7 @@
       "user": {
         "id": 1,
         "email": "front@test.com",
-        "name": "dundun",
+        "nickname": "dundun",
         "isNutritionist": "true"
       },
       "menues": [
