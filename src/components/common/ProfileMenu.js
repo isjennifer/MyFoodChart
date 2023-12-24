@@ -10,12 +10,13 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserInfo, initialState } from "../../contexts/UserInfoContext";
 
 function ProfileMenu() {
   const { userInfo, updateUserInfo } = useUserInfo();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const logout = () =>
     fetch(`${process.env.REACT_APP_DOMAIN}/auth/logout`, {
@@ -52,18 +53,37 @@ function ProfileMenu() {
         <span style={{ fontSize: 14 }}>{userInfo.email}</span>
       </AboutMe>
       <MyLogUl>
-        <ListBtn onClick={() => navigate("/profile/edit")}>
+        <ListBtn
+          onClick={() => navigate("/profile/edit")}
+          style={{
+            backgroundColor: pathname === "/profile/edit" ? "#fc8153" : "",
+            color: pathname === "/profile/edit" ? "white" : "",
+          }}
+        >
           <MyLogLI>
             <IconStyle icon={faCircleUser} className="icon" />
             개인정보수정
           </MyLogLI>
         </ListBtn>
-        <ListBtn onClick={() => navigate("/profile/myposts")}>
+        <ListBtn
+          onClick={() => navigate("/profile/myposts")}
+          style={{
+            backgroundColor: pathname === "/profile/myposts" ? "#fc8153" : "",
+            color: pathname === "/profile/myposts" ? "white" : "",
+          }}
+        >
           <MyLogLI>
             <IconStyle icon={faPencil} className="icon" />내 게시글
           </MyLogLI>
         </ListBtn>
-        <ListBtn onClick={() => navigate("/profile/mycomments")}>
+        <ListBtn
+          onClick={() => navigate("/profile/mycomments")}
+          style={{
+            backgroundColor:
+              pathname === "/profile/mycomments" ? "#fc8153" : "",
+            color: pathname === "/profile/mycomments" ? "white" : "",
+          }}
+        >
           <MyLogLI>
             <IconStyle icon={faCommentDots} className="icon" />내 댓글
           </MyLogLI>
