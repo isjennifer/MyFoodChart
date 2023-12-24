@@ -10,11 +10,11 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUserInfo, initialState } from "../../contexts/UserInfoContext";
 
 function ProfileMenu() {
-  const location = useLocation();
-  const { pathname } = location;
+  const { userInfo, updateUserInfo } = useUserInfo();
   const navigate = useNavigate();
 
   const logout = () =>
@@ -23,6 +23,7 @@ function ProfileMenu() {
       credentials: "include",
     })
       .then(() => {
+        updateUserInfo(initialState);
         navigate("/");
       })
       .catch((e) => {
@@ -32,13 +33,23 @@ function ProfileMenu() {
   return (
     <Container initial="start" animate="end" variants={easeDown}>
       <AboutMe>
-        <IconStyle
-          icon={faCircleUser}
-          className="icon"
-          style={{ fontSize: 70 }}
-        />
-        <span style={{ fontSize: 20, fontWeight: 600 }}>dundun</span>
-        <span>영양사인증완료</span>
+        {userInfo.userImg ? (
+          <img
+            src={`${process.env.REACT_APP_DOMAIN}/${userInfo?.userImg}`}
+            alt="유저 이미지"
+          />
+        ) : (
+          <IconStyle
+            icon={faCircleUser}
+            className="icon"
+            style={{ fontSize: 70 }}
+          />
+        )}
+
+        <span style={{ fontSize: 20, fontWeight: 600 }}>
+          {userInfo.nickname}
+        </span>
+        <span>{userInfo.email}</span>
       </AboutMe>
       <MyLogUl>
         <ListBtn onClick={() => navigate("/profile/edit")}>

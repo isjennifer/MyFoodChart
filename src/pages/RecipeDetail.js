@@ -29,6 +29,7 @@ function RecipeDetail() {
       .then((response) => response.json())
       .then((data) => {
         setRecipePosts(data);
+        console.log("data:", data);
       });
   }, [id]);
 
@@ -75,7 +76,7 @@ function RecipeDetail() {
               <DivisionLine />
             </RowDiv>
           </HeaderItem>
-          <HeaderItem>{recipePosts?.user.name}</HeaderItem>
+          <HeaderItem>{recipePosts?.user.nickname}</HeaderItem>
           <HeaderItem />
           <HeaderItem />
           <HeaderItem>
@@ -112,7 +113,10 @@ function RecipeDetail() {
           <HeaderItem>{recipePosts?.price}원</HeaderItem>
         </HeaderGrid>
 
-        <UploadImg src={recipePosts?.recipeImg} alt="식단 이미지" />
+        <UploadImg
+          src={`${process.env.REACT_APP_DOMAIN}/${recipePosts?.recipeImg}`}
+          alt="식단 이미지"
+        />
 
         <BodyGrid>
           <BodyItem />
@@ -175,7 +179,7 @@ function RecipeDetail() {
           </FooterItem>
           <FooterItem>
             <a
-              href={recipePosts?.recipeFile}
+              href={`${process.env.REACT_APP_DOMAIN}/${recipePosts?.recipeFile}`}
               download={`recipe_${recipePosts?.user.name}`}
             >
               클릭하여 다운로드

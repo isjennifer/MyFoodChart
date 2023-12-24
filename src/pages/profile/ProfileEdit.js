@@ -3,18 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageCropper from "../../components/recipe/ImageCropper";
+import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileEdit() {
-  const [userID, setUserID] = useState(0);
   const [newUserName, setNewUserName] = useState("");
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUserID(data.id);
-        setNewUserName(data.name);
-      });
-  }, []);
+  const {userInfo} = useUserInfo();
 
   // 닉네임 수정 기능
   const handleInputChange = (event) => {
@@ -23,7 +16,7 @@ function ProfileEdit() {
 
   const userNameEditHandle = () => {
     if (window.confirm("닉네임을 수정하시겠습니까?")) {
-      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userID}`, {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -50,12 +43,11 @@ function ProfileEdit() {
   // 회원 탈퇴기능
   const userDeleteHandle = () => {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
-      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userID}`, {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: userID }),
       })
         .then((response) => {
           if (response.ok) {

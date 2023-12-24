@@ -10,8 +10,11 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageCropper from "../components/recipe/ImageCropper.js";
+import { useUserInfo } from "../contexts/UserInfoContext.js";
 
 function RecipeWrite() {
+  const { userInfo } = useUserInfo();
+
   // react-hook-form
   const {
     register,
@@ -21,13 +24,12 @@ function RecipeWrite() {
   } = useForm({ mode: "onBlur" });
 
   // 파일 업로드
-  const [recipeFile, setRecipeFile] = useState("");
-  const file = watch("recipeFile");
-  useEffect(() => {
-    if (file && file.length > 0) {
-      setRecipeFile(file[0]);
-    }
-  }, [file]);
+  const [recipeFile, setRecipeFile] = useState(null);
+
+  // 파일 변경 핸들러
+  const handleFileChange = (event) => {
+    setRecipeFile(event.target.files[0]);
+  };
 
   // 메뉴 리스트 추가 삭제 부분
   const nextID = useRef(1);
@@ -79,26 +81,22 @@ function RecipeWrite() {
     setInputItems(inputItemsCopy); // 그걸 InputItems 에 저장해주자
   }
 
-  // 서버에서 데이터 가져오기
-  const [userName, setUserName] = useState("");
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => setUserName(data.name));
-  }, []);
+  const navigate = useNavigate();
 
   // 서버로 form 데이터 보내기
-  const formData = new FormData();
-  const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
+    const formData = new FormData();
+
     Object.keys(recipeInfo).forEach((key) => {
-      if (recipeInfo[key] == "recipeFile")
-        formData.append("recipeFile", recipeInfo.recipeFile[0]);
-      else formData.append(key, JSON.stringify(recipeInfo[key]));
+      formData.append(key, recipeInfo[key]);
     });
+
+    // 레시피 파일 추가
+    if (recipeFile) {
+      formData.append("recipeFile", recipeFile);
+    }
+
+    // 레시피 이미지 추가
     formData.append("recipeImg", imageBlob);
     const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
     formData.append("menues", JSON.stringify(jsonMenuList));
@@ -121,6 +119,7 @@ function RecipeWrite() {
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "POST",
       body: formData,
+      credentials: "include",
     })
       .then((response) => {
         if (response.ok === true) {
@@ -183,7 +182,7 @@ function RecipeWrite() {
               <DivisionLine />
             </RowDiv>
           </HeaderItem>
-          <HeaderItem>{userName}</HeaderItem>
+          <HeaderItem>{userInfo.nickname}</HeaderItem>
           <HeaderItem>
             <RowDiv>
               <Title>급식일</Title>
@@ -407,12 +406,7 @@ function RecipeWrite() {
             </RowDiv>
           </FooterItem>
           <FooterItem>
-            <input
-              {...register("recipeFile", {
-                required: "레시피 파일을 업로드해주세요.",
-              })}
-              type="file"
-            />
+            <input onChange={handleFileChange} type="file" />
             <Em>{errors?.recipeFile?.message}</Em>
           </FooterItem>
         </FooterGrid>
