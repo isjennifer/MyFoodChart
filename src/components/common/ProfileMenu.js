@@ -49,7 +49,7 @@ function ProfileMenu() {
         <span style={{ fontSize: 20, fontWeight: 600 }}>
           {userInfo.nickname}
         </span>
-        <span>{userInfo.email}</span>
+        <span style={{ fontSize: 14 }}>{userInfo.email}</span>
       </AboutMe>
       <MyLogUl>
         <ListBtn onClick={() => navigate("/profile/edit")}>
