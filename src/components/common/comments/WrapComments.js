@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import CommentLists from "./CommentLists";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { useUserInfo } from "../../../contexts/UserInfoContext";
 
 export default function WrapComments() {
+  const {userInfo} = useUserInfo();
+
   const [input, setInput] = useState("");
   const [commentLists, setCommentLists] = useState([]);
-  const [userName, setUserName] = useState("");
   const nextID = useRef(1);
   const dateNow = new Date();
   const params = useParams();
@@ -18,7 +20,7 @@ export default function WrapComments() {
     // 댓글 리스트 생성
     if (input !== "") {
       const newComment = {
-        username: userName,
+        username: userInfo.nickname,
         commentedAt: recipeId.id,
         content: input,
         createdAt: moment().format("YYYY-MM-DD"),
@@ -51,15 +53,6 @@ export default function WrapComments() {
     })
       .then((response) => response.json())
       .then((data) => setCommentLists(data));
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => setUserName(data.name));
   }, []);
 
   const editComment = (commentId, editValue) => {

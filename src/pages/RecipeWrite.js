@@ -10,8 +10,11 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageCropper from "../components/recipe/ImageCropper.js";
+import { useUserInfo } from "../contexts/UserInfoContext.js";
 
 function RecipeWrite() {
+  const {userInfo} = useUserInfo();
+
   // react-hook-form
   const {
     register,
@@ -78,17 +81,6 @@ function RecipeWrite() {
     } // 그리고 해당 인덱스를 가진 <input>의 내용을 변경해주자
     setInputItems(inputItemsCopy); // 그걸 InputItems 에 저장해주자
   }
-
-  // 서버에서 데이터 가져오기
-  const [userName, setUserName] = useState("");
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => setUserName(data.name));
-  }, []);
 
   // 서버로 form 데이터 보내기
   const formData = new FormData();
@@ -184,7 +176,7 @@ function RecipeWrite() {
               <DivisionLine />
             </RowDiv>
           </HeaderItem>
-          <HeaderItem>{userName}</HeaderItem>
+          <HeaderItem>{userInfo.nickname}</HeaderItem>
           <HeaderItem>
             <RowDiv>
               <Title>급식일</Title>

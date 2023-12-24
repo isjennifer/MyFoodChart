@@ -40,7 +40,7 @@ function RecipeSchool() {
   }, [page, recipeInfoList]);
 
   const navigate = useNavigate();
-  const { userInfo, updateUserInfo } = useUserInfo();
+  const { userInfo } = useUserInfo();
 
   return (
     <>
