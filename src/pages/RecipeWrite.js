@@ -407,7 +407,6 @@ function RecipeWrite() {
           </FooterItem>
           <FooterItem>
             <input onChange={handleFileChange} type="file" />
-            <Em>{errors?.recipeFile?.message}</Em>
           </FooterItem>
         </FooterGrid>
 
