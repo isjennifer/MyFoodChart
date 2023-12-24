@@ -97,7 +97,10 @@ function RecipeCompany() {
                     {recipeTitle.length >= 23 &&
                       `${recipeTitle.slice(0, 23)}...`}
                   </Title>
-                  <Img src="/img/background_img.jpg" alt="식단 이미지" />
+                  <Img
+                    src={`${process.env.REACT_APP_DOMAIN}/${recipeInfo?.recipeImg}`}
+                    alt="식단 이미지"
+                  />
                   <RowDiv style={{ marginTop: 0 }}>
                     <Div style={{ fontSize: 16, padding: 10 }}>
                       {/* 작성자아이콘으로 바꿔야됨 */}
