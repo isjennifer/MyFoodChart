@@ -35,17 +35,17 @@ function ProfileMenu() {
       <AboutMe>
         {userInfo.userImg ? (
           <img
-            src={`${process.env.REACT_APP_DOMAIN}/${userInfo?.userImg}`}
+            src={`${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}`}
             alt="유저 이미지"
+            style={{ width: 70, height: 70, borderRadius: 50 }}
           />
         ) : (
-          <IconStyle
+          <FontAwesomeIcon
             icon={faCircleUser}
             className="icon"
             style={{ fontSize: 70 }}
           />
         )}
-
         <span style={{ fontSize: 20, fontWeight: 600 }}>
           {userInfo.nickname}
         </span>
