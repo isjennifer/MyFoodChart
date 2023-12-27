@@ -36,19 +36,23 @@ function RecipeDetail() {
   // 삭제 기능
   const navigate = useNavigate();
   const recipePostsDelete = () => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          window.alert("삭제 되었습니다.");
-          navigate("/recipes/school");
-        } else throw new Error("에러 발생!");
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
+        method: "DELETE",
+        credentials: "include",
       })
-      .catch((error) => {
-        alert(error);
-      });
+        .then((response) => {
+          if (response.ok) {
+            window.alert("삭제 되었습니다.");
+            navigate("/recipes/school");
+          } else throw new Error("에러 발생!");
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      window.alert("취소 되었습니다.");
+    }
   };
 
   return (

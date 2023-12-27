@@ -109,47 +109,47 @@ function RecipeEdit() {
   const formData = new FormData();
   const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
-    const jsonRecipeInfo = JSON.stringify(recipeInfo);
-    formData.append("reciepInfo", jsonRecipeInfo);
-    formData.append("recipeImg", imageBlob);
-    formData.append("recipeFile", recipeFile);
-    const jsonMenuList = JSON.stringify(inputItems);
-    formData.append("menuList", jsonMenuList);
-    //   FormData의 value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    for (let value of inputItems) {
-      if (value.menuName === "") {
-        window.alert("메뉴를 작성해주세요.");
-        return;
+    if (window.confirm("수정 하시겠습니까?")) {
+      const jsonRecipeInfo = JSON.stringify(recipeInfo);
+      formData.append("reciepInfo", jsonRecipeInfo);
+      formData.append("recipeImg", imageBlob);
+      formData.append("recipeFile", recipeFile);
+      const jsonMenuList = JSON.stringify(inputItems);
+      formData.append("menuList", jsonMenuList);
+      //   FormData의 value 확인
+      for (let value of formData.values()) {
+        console.log(value);
       }
-    }
-    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: formData,
-    })
-      .then((response) => {
-        if (response.ok === true) {
-          return response.json();
+      for (let value of inputItems) {
+        if (value.menuName === "") {
+          window.alert("메뉴를 작성해주세요.");
+          return;
         }
-        throw new Error("에러 발생!");
+      }
+      fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: formData,
       })
-      .catch((error) => {
-        alert(error);
-      })
-      .then((data) => {
-        if (window.confirm("포스팅 하시겠습니까?")) {
+        .then((response) => {
+          if (response.ok === true) {
+            return response.json();
+          }
+          throw new Error("에러 발생!");
+        })
+        .catch((error) => {
+          alert(error);
+        })
+        .then(() => {
           window.alert("포스팅 되었습니다.");
           navigate(`/recipes/detail/${id}`);
-        } else {
-          window.alert("취소 되었습니다.");
-        }
-      });
+        });
+    } else {
+      window.alert("취소 되었습니다.");
+    }
   };
 
   // ImageCropper 구현

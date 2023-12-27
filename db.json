@@ -80,6 +80,27 @@
       "content": "수정을해요",
       "createdAt": "2023-12-07",
       "id": 2
+    },
+    {
+      "username": "dundun",
+      "commentedAt": "1",
+      "content": "ㅇㅇ",
+      "createdAt": "2023-12-27",
+      "id": 3
+    },
+    {
+      "username": "",
+      "commentedAt": "1",
+      "content": "댓글테스트",
+      "createdAt": "2023-12-27",
+      "id": 4
+    },
+    {
+      "username": "dundun",
+      "commentedAt": "1",
+      "content": "댓글테스트",
+      "createdAt": "2023-12-27",
+      "id": 5
     }
   ],
   "comments_free": [
