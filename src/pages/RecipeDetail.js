@@ -18,8 +18,11 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import WrapComments from "../components/common/comments/WrapComments.js";
+import { useUserInfo } from "../contexts/UserInfoContext.js";
 
 function RecipeDetail() {
+  const { userInfo } = useUserInfo();
+
   // 서버에서 메뉴이름들 가져오기
   const [recipePosts, setRecipePosts] = useState(null);
   const params = useParams();
@@ -221,19 +224,20 @@ function RecipeDetail() {
               목록으로
             </Button>
           </Link>
-          {/* 수정 삭제 부분은 토큰을 가진 유저(해당 글을 작성한 유저만 보이게 구현하기) */}
-          <RowDiv>
-            <Link to={`/recipes/edit/${recipePosts?.id}`}>
-              <Button>
-                <IconStyle icon={faPenToSquare} />
-                수정
+          {userInfo.nickname === recipePosts?.user.nickname && (
+            <RowDiv>
+              <Link to={`/recipes/edit/${recipePosts?.id}`}>
+                <Button>
+                  <IconStyle icon={faPenToSquare} />
+                  수정
+                </Button>
+              </Link>
+              <Button onClick={recipePostsDelete}>
+                <IconStyle icon={faTrashCan} />
+                삭제
               </Button>
-            </Link>
-            <Button onClick={recipePostsDelete}>
-              <IconStyle icon={faTrashCan} />
-              삭제
-            </Button>
-          </RowDiv>
+            </RowDiv>
+          )}
         </FuncDiv>
       </Form>
     </>
