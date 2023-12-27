@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUserInfo } from "../../../contexts/UserInfoContext";
 
 export default function WrapComments() {
-  const {userInfo} = useUserInfo();
+  const { userInfo } = useUserInfo();
 
   const [input, setInput] = useState("");
   const [commentLists, setCommentLists] = useState([]);
@@ -32,6 +32,7 @@ export default function WrapComments() {
       // 댓글 서버 보내기
       fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment),
       })
@@ -74,6 +75,7 @@ export default function WrapComments() {
     // 댓글 서버에 업데이트
     fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet/${commentId}`, {
       method: "PUT",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updateComment),
     })

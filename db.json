@@ -14,7 +14,7 @@
       "user": {
         "id": 1,
         "email": "front@test.com",
-        "name": "dundun",
+        "nickname": "dundun",
         "isNutritionist": "true"
       },
       "menues": [
@@ -61,6 +61,9 @@
           "productBrand": "서울우유"
         }
       ]
+    },
+    {
+      "id": "dNTui6m"
     }
   ],
   "comments_diet": [
@@ -94,21 +97,24 @@
   "aboutme": {
     "id": 1,
     "email": "front@test.com",
-    "name": "dundun",
-    "isNutritionist": "true"
+    "nickname": "dundun",
+    "isNutritionist": "true",
+    "userImg": ""
   },
   "users": [
     {
       "id": 1,
       "email": "front@test.com",
-      "name": "dundun",
-      "isNutritionist": "true"
+      "nickname": "dundun",
+      "isNutritionist": "true",
+      "userImg": ""
     },
     {
       "id": 2,
       "email": "back@test.com",
-      "name": "seunam",
-      "isNutritionist": "true"
+      "nickname": "seunam",
+      "isNutritionist": "true",
+      "userImg": ""
     }
   ]
 }

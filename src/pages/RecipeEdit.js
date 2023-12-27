@@ -127,6 +127,7 @@ function RecipeEdit() {
     }
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
       method: "PUT",
+      credentials: "include",
       headers: {
         "Content-Type": "multipart/form-data",
       },

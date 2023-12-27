@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPencil,
   faTriangleExclamation,
   faArrowLeft,
   faBowlFood,
@@ -15,6 +14,7 @@ import {
   faBookmark,
   faTrashCan,
   faPenToSquare,
+  faCircleDown,
 } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import WrapComments from "../components/common/comments/WrapComments.js";
@@ -38,6 +38,7 @@ function RecipeDetail() {
   const recipePostsDelete = () => {
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
       method: "DELETE",
+      credentials: "include",
     })
       .then((response) => {
         if (response.ok === true) {
@@ -171,20 +172,27 @@ function RecipeDetail() {
             </RowDiv>
           </FooterItem>
           <FooterItem>{recipePosts?.explanation}</FooterItem>
-          <FooterItem>
-            <RowDiv>
-              <Title>레시피 파일</Title>
-              <DivisionLine />
-            </RowDiv>
-          </FooterItem>
-          <FooterItem>
-            <a
-              href={`${process.env.REACT_APP_DOMAIN}/${recipePosts?.recipeFile}`}
-              download={`recipe_${recipePosts?.user.name}`}
-            >
-              클릭하여 다운로드
-            </a>
-          </FooterItem>
+          {recipePosts?.recipeFile && (
+            <>
+              <FooterItem>
+                <RowDiv>
+                  <Title>레시피 파일</Title>
+                  <DivisionLine />
+                </RowDiv>
+              </FooterItem>
+              <FooterItem>
+                <a
+                  href={`${process.env.REACT_APP_DOMAIN}/${recipePosts?.recipeFile}`}
+                  download={`recipe_${recipePosts?.user.nickname}`}
+                >
+                  <FileDown>
+                    <IconStyle icon={faCircleDown} />
+                    다운로드
+                  </FileDown>
+                </a>
+              </FooterItem>
+            </>
+          )}
         </FooterGrid>
 
         <FuncDiv>
@@ -237,6 +245,16 @@ function RecipeDetail() {
 }
 
 export default RecipeDetail;
+
+const FileDown = styled.div`
+  display: flex;
+  width: 120px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: #dedede;
+  justify-content: center;
+  align-items: center;
+`;
 
 const IconStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;

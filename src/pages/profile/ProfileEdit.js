@@ -6,8 +6,8 @@ import ImageCropper from "../../components/recipe/ImageCropper";
 import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileEdit() {
-  const [newUserName, setNewUserName] = useState("");
-  const {userInfo} = useUserInfo();
+  const { userInfo } = useUserInfo();
+  const [newUserName, setNewUserName] = useState(userInfo.nickname);
 
   // 닉네임 수정 기능
   const handleInputChange = (event) => {
@@ -15,28 +15,33 @@ function ProfileEdit() {
   };
 
   const userNameEditHandle = () => {
-    if (window.confirm("닉네임을 수정하시겠습니까?")) {
-      fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: newUserName }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error("에러 발생!");
+    if (newUserName !== "") {
+      if (window.confirm("닉네임을 수정하시겠습니까?")) {
+        fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ nickname: newUserName }),
         })
-        .then(() => {
-          window.alert("수정 되었습니다.");
-        })
-        .catch((error) => {
-          alert(error);
-        });
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("에러 발생!");
+          })
+          .then(() => {
+            window.alert("수정 되었습니다.");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      } else {
+        window.alert("취소 되었습니다.");
+      }
     } else {
-      window.alert("취소 되었습니다.");
+      window.alert("수정할 닉네임을 입력해주세요.");
     }
   };
 
@@ -45,6 +50,7 @@ function ProfileEdit() {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
       fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -67,25 +73,57 @@ function ProfileEdit() {
   };
 
   // ImageCropper 구현
-  // const [imageBlob, setImageBlob] = useState(null);
+  const [imageBlob, setImageBlob] = useState(null);
   const [image, setImage] = useState(null);
   const onCrop = (croppedImage) => {
     setImage(croppedImage);
-    // // base64 -> blob url로 변환
-    // const byteString = atob(croppedImage.split(",")[1]);
-    // const ab = new ArrayBuffer(byteString.length);
-    // const ia = new Uint8Array(ab);
-    // for (let i = 0; i < byteString.length; i++) {
-    //   ia[i] = byteString.charCodeAt(i);
-    // }
-    // const blob = new Blob([ia], {
-    //   type: "image/*",
-    // });
-    // setImageBlob(blob);
+    // base64 -> blob url로 변환
+    const byteString = atob(croppedImage.split(",")[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: "image/*",
+    });
+    setImageBlob(blob);
   };
   useEffect(() => {
     setImage(image);
   }, [image]);
+
+  // 프로필 사진 수정 기능
+  const userImgEditHandle = () => {
+    if (image !== null) {
+      if (window.confirm("프로필 사진을 수정하시겠습니까?")) {
+        fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: { userImg: imageBlob },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("에러 발생!");
+          })
+          .then(() => {
+            window.alert("수정 되었습니다.");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      } else {
+        window.alert("취소 되었습니다.");
+      }
+    } else {
+      window.alert("수정할 프로필 사진을 선택해주세요.");
+    }
+  };
 
   return (
     <ProfileForm>
@@ -104,7 +142,11 @@ function ProfileEdit() {
           <UploadImg>
             {image ? (
               <img
-                src={image}
+                src={
+                  userInfo.userImg
+                    ? `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}`
+                    : image
+                }
                 alt="프로필 이미지"
                 style={{ width: 150, height: 150, borderRadius: 100 }}
               />
@@ -116,7 +158,7 @@ function ProfileEdit() {
             )}
           </UploadImg>
         </ImageCropper>
-        <Button>수정하기</Button>
+        <Button onClick={userImgEditHandle}>수정하기</Button>
       </Contents>
       <Contents>
         <Div />
