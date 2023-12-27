@@ -41,21 +41,13 @@ function RecipeDetail() {
       credentials: "include",
     })
       .then((response) => {
-        if (response.ok === true) {
-          return response.json();
-        }
-        throw new Error("에러 발생!");
+        if (response.ok) {
+          window.alert("삭제 되었습니다.");
+          navigate("/recipes/school");
+        } else throw new Error("에러 발생!");
       })
       .catch((error) => {
         alert(error);
-      })
-      .then(() => {
-        if (window.confirm("삭제 하시겠습니까?")) {
-          navigate("/recipes/school");
-          window.alert("삭제 되었습니다.");
-        } else {
-          window.alert("취소 되었습니다.");
-        }
       });
   };
 
