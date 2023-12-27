@@ -118,8 +118,8 @@ function RecipeWrite() {
 
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "POST",
-      body: formData,
       credentials: "include",
+      body: formData,
     })
       .then((response) => {
         if (response.ok === true) {

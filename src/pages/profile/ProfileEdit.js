@@ -19,6 +19,7 @@ function ProfileEdit() {
       if (window.confirm("닉네임을 수정하시겠습니까?")) {
         fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
           method: "PATCH",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -49,6 +50,7 @@ function ProfileEdit() {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
       fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -97,6 +99,7 @@ function ProfileEdit() {
       if (window.confirm("프로필 사진을 수정하시겠습니까?")) {
         fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
           method: "PATCH",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

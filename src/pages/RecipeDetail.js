@@ -38,6 +38,7 @@ function RecipeDetail() {
   const recipePostsDelete = () => {
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
       method: "DELETE",
+      credentials: "include",
     })
       .then((response) => {
         if (response.ok === true) {
