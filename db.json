@@ -1,0 +1,202 @@
+{
+  "diet": [
+    {
+      "id": "1",
+      "createdAt": "2023-11-04",
+      "date": "2023-10-12",
+      "institute": "school",
+      "peopleNum": "300",
+      "price": "1000",
+      "recipeImg": "${process.env.REACT_APP_DOMAIN}/img/background_img.jpg",
+      "explanation": "레시피 설명 입니다.",
+      "recipeFile": "${process.env.REACT_APP_DOMAIN}/recipeFile/레시피_샘플파일.xlsx",
+      "whichSchool": "중학교",
+      "user": {
+        "id": 1,
+        "email": "front@test.com",
+        "nickname": "dundun",
+        "isNutritionist": "true"
+      },
+      "menues": [
+        {
+          "id": 0,
+          "menuName": "1번밥",
+          "isProductUsed": true,
+          "productName": "김포금쌀",
+          "productBrand": "김포산"
+        },
+        {
+          "id": 1,
+          "menuName": "된장국",
+          "isProductUsed": true,
+          "productName": "된장",
+          "productBrand": "풀무원"
+        },
+        {
+          "id": 2,
+          "menuName": "두부구이",
+          "isProductUsed": true,
+          "productName": "두부",
+          "productBrand": "청정원"
+        },
+        {
+          "id": 3,
+          "menuName": "시금치무침",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 4,
+          "menuName": "배추김치",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 5,
+          "menuName": "초코우유",
+          "isProductUsed": true,
+          "productName": "맛있는초코우유",
+          "productBrand": "서울우유"
+        }
+      ]
+    }
+  ],
+  "comments_diet": [
+    {
+      "commentedAt": 287,
+      "id": 1,
+      "username": "dundun",
+      "content": "수정은 잘되나요?",
+      "createdAt": "2023-12-03"
+    },
+    {
+      "username": "dundun",
+      "commentedAt": "1",
+      "content": "수정을해요",
+      "createdAt": "2023-12-07",
+      "id": 2
+    },
+    {
+      "username": "dundun",
+      "commentedAt": "1",
+      "content": "ㅇㅇ",
+      "createdAt": "2023-12-27",
+      "id": 3
+    },
+    {
+      "username": "",
+      "commentedAt": "1",
+      "content": "댓글테스트",
+      "createdAt": "2023-12-27",
+      "id": 4
+    },
+    {
+      "username": "dundun",
+      "commentedAt": "1",
+      "content": "댓글테스트",
+      "createdAt": "2023-12-27",
+      "id": 5
+    }
+  ],
+  "comments_free": [
+    {
+      "commentedAt": 100,
+      "id": 1,
+      "username": "dundun",
+      "content": "자유 게시판 댓글입니다!",
+      "createdAt": "2023-12-03"
+    }
+  ],
+  "status": {
+    "isLogIn": true
+  },
+  "aboutme": {
+    "id": 1,
+    "email": "front@test.com",
+    "nickname": "dundun",
+    "isNutritionist": "true",
+    "userImg": ""
+  },
+  "users": [
+    {
+      "id": 1,
+      "email": "front@test.com",
+      "nickname": "dundun",
+      "isNutritionist": "true",
+      "userImg": ""
+    },
+    {
+      "id": 2,
+      "email": "back@test.com",
+      "nickname": "seunam",
+      "isNutritionist": "true",
+      "userImg": ""
+    }
+  ],
+  "myposts": [
+    {
+      "id": "1",
+      "createdAt": "2023-11-04",
+      "date": "2023-10-12",
+      "institute": "school",
+      "peopleNum": "300",
+      "price": "1000",
+      "recipeImg": "${process.env.REACT_APP_DOMAIN}/img/background_img.jpg",
+      "explanation": "레시피 설명 입니다.",
+      "recipeFile": "${process.env.REACT_APP_DOMAIN}/recipeFile/레시피_샘플파일.xlsx",
+      "whichSchool": "중학교",
+      "user": {
+        "id": 1,
+        "email": "front@test.com",
+        "nickname": "dundun",
+        "isNutritionist": "true"
+      },
+      "menues": [
+        {
+          "id": 0,
+          "menuName": "1번밥",
+          "isProductUsed": true,
+          "productName": "김포금쌀",
+          "productBrand": "김포산"
+        },
+        {
+          "id": 1,
+          "menuName": "된장국",
+          "isProductUsed": true,
+          "productName": "된장",
+          "productBrand": "풀무원"
+        },
+        {
+          "id": 2,
+          "menuName": "두부구이",
+          "isProductUsed": true,
+          "productName": "두부",
+          "productBrand": "청정원"
+        },
+        {
+          "id": 3,
+          "menuName": "시금치무침",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 4,
+          "menuName": "배추김치",
+          "isProductUsed": false,
+          "productName": "",
+          "productBrand": ""
+        },
+        {
+          "id": 5,
+          "menuName": "초코우유",
+          "isProductUsed": true,
+          "productName": "맛있는초코우유",
+          "productBrand": "서울우유"
+        }
+      ]
+    }
+  ]
+}
