@@ -13,11 +13,8 @@ function ProfileMyPosts() {
 
   const [myPostsType, setMyPostsType] = useState("");
 
-  const filterMyPostsToDiet = () => {
-    setMyPostsType("?type={diet}");
-  };
-  const filterMyPostsToFree = () => {
-    setMyPostsType("?type={free}");
+  const filterMyPosts = (type) => {
+    setMyPostsType(`?type=${type}`);
   };
 
   useEffect(() => {
@@ -47,8 +44,10 @@ function ProfileMyPosts() {
       <TitleDiv>
         <Title>내 게시글</Title>
         <Div />
-        <SubTitle onClick={filterMyPostsToDiet}>식단공유 게시판</SubTitle>
-        <SubTitle onClick={filterMyPostsToFree}>자유 게시판</SubTitle>
+        <SubTitle onClick={() => filterMyPosts("diet")}>
+          식단공유 게시판
+        </SubTitle>
+        <SubTitle onClick={() => filterMyPosts("free")}>자유 게시판</SubTitle>
       </TitleDiv>
       {filterData?.map((myPostsInfo) => {
         const recipeTitle = myPostsInfo?.menues
