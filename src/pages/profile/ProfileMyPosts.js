@@ -22,7 +22,6 @@ function ProfileMyPosts() {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((data) => data.filter((v) => v.user.nickname === userInfo.nickname))
       .then((data) => setMyPosts(data.reverse()));
   }, []);
 
