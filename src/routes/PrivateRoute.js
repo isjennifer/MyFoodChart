@@ -4,11 +4,11 @@ import { useUserInfo } from "../contexts/UserInfoContext";
 
 function PrivateRoute({ component: Component }) {
   const { userInfo } = useUserInfo();
-  return userInfo.id ? (
-    Component
-  ) : (
-    <Navigate to="/login" {...alert("로그인이 필요합니다.")} />
-  );
+  if (!userInfo.id) {
+    alert("로그인이 필요합니다.");
+    return <Navigate to="/login" />;
+  }
+  return <Component />;
 }
 
 export default PrivateRoute;
