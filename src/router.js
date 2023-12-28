@@ -15,6 +15,7 @@ import Footer from "./components/common/Footer";
 import ProfileEdit from "./pages/profile/ProfileEdit";
 import ProfileMyPosts from "./pages/profile/ProfileMyPosts";
 import ProfileMyComments from "./pages/profile/ProfileMyComments";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export const RouterInfo = [
   {
@@ -70,7 +71,7 @@ export const RouterInfo = [
       },
       {
         path: "/recipes/detail/:id",
-        element: <RecipeDetail />,
+        element: <PrivateRoute component={RecipeDetail} />,
       },
       {
         path: "/recipes/edit/:id",

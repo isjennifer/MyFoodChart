@@ -18,6 +18,8 @@
 .env.test.local
 .env.production.local
 .env
+.db.json
+recipeFile/
 
 npm-debug.log*
 yarn-debug.log*

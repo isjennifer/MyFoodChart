@@ -1,68 +1,107 @@
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileMyPosts() {
   // 서버에서 레시피 목록들 가져오기
-  // const [recipeInfoList, setRecipeInfo] = useState(null);
+  const [myPosts, setMyPosts] = useState(null);
+  const { userInfo } = useUserInfo();
 
-  // useEffect(() => {
-  //   fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet?userId=`, {
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => data.filter((v) => v.institute === "school"))
-  //     .then((data) => setRecipeInfo(data.reverse()));
-  // }, []);
+  const [myPostsType, setMyPostsType] = useState("");
 
-  //   // 페이지네이션 react-paginate
-  //   const [page, setPage] = useState(0);
-  //   const [filterData, setFilterData] = useState();
-  //   const n = 9;
+  const filterMyPosts = (type) => {
+    setMyPostsType(`?type=${type}`);
+  };
 
-  //   useEffect(() => {
-  //     setFilterData(
-  //       recipeInfoList?.filter((item, index) => {
-  //         return (index >= page * n) & (index < (page + 1) * n);
-  //       })
-  //     );
-  //   }, [page, recipeInfoList]);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/profile/myposts${myPostsType}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => setMyPosts(data.reverse()));
+  }, []);
+
+  // 페이지네이션 react-paginate
+  const [page, setPage] = useState(0);
+  const [filterData, setFilterData] = useState();
+  const n = 9;
+
+  useEffect(() => {
+    setFilterData(
+      myPosts?.filter((item, index) => {
+        return (index >= page * n) & (index < (page + 1) * n);
+      })
+    );
+  }, [page, myPosts]);
 
   return (
     <ProfileForm>
       <TitleDiv>
         <Title>내 게시글</Title>
         <Div />
-        <SubTitle>식단공유 게시판</SubTitle>
+        <SubTitle onClick={() => filterMyPosts("diet")}>
+          식단공유 게시판
+        </SubTitle>
+        <SubTitle onClick={() => filterMyPosts("free")}>자유 게시판</SubTitle>
       </TitleDiv>
-      <Contents>
-        <Img />
-        <ContentDiv>
-          <div style={{ display: "flex" }}>
-            <ContentTitle>메뉴</ContentTitle>
-            <Span>현미밥, 미역국, 채소무침, 불고기, 배추김치, 사과주스</Span>
-          </div>
-          <div style={{ display: "flex" }}>
-            <ContentTitle>작성일</ContentTitle>
-            <Span>2023-10-10</Span>
-          </div>
-          <div style={{ display: "flex" }}>
-            <ContentTitle>좋아요 받은 수</ContentTitle>
-            <Span>
-              <FontAwesomeIcon
-                icon={faHeart}
-                style={{
-                  fontSize: 16,
-                  color: "#FC427B",
-                  marginRight: 5,
-                }}
+      {filterData?.map((myPostsInfo) => {
+        const recipeTitle = myPostsInfo?.menues
+          .map((menu) => {
+            return menu.menuName;
+          })
+          .join(", ");
+        return (
+          <Link to={`/recipes/detail/${myPostsInfo.id}`}>
+            <Contents>
+              <Img
+                src={`${process.env.REACT_APP_DOMAIN}/${myPostsInfo?.recipeImg}`}
+                alt="식단 이미지"
               />
-              300
-            </Span>
-          </div>
-        </ContentDiv>
-      </Contents>
+              <ContentDiv>
+                <div style={{ display: "flex" }}>
+                  <ContentTitle>메뉴</ContentTitle>
+                  <Span>{recipeTitle}</Span>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <ContentTitle>작성일</ContentTitle>
+                  <Span>{myPostsInfo?.createdAt}</Span>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <ContentTitle>좋아요 받은 수</ContentTitle>
+                  <Span>
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      style={{
+                        fontSize: 16,
+                        color: "#FC427B",
+                        marginRight: 5,
+                      }}
+                    />
+                    {/* 추후 변경 필요 */}
+                    300
+                  </Span>
+                </div>
+              </ContentDiv>
+            </Contents>
+          </Link>
+        );
+      })}
+      <ReactPaginate
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        pageClassName={"page-item"}
+        onPageChange={(event) => setPage(event.selected)}
+        breakLabel="..."
+        pageCount={Math.ceil(myPosts?.length / n)}
+        previousLabel={"<"}
+        previousClassName={"previous"}
+        nextLabel={">"}
+        nextClassName={"next"}
+      />
     </ProfileForm>
   );
 }
@@ -74,7 +113,7 @@ const Span = styled.span`
   color: "#505050";
 `;
 
-const Img = styled.div`
+const Img = styled.img`
   display: flex;
   width: 160px;
   height: 120px;
@@ -121,7 +160,7 @@ const Contents = styled.div`
   background-color: whitesmoke;
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.button`
   display: flex;
   font-size: 20px;
   font-weight: 600;

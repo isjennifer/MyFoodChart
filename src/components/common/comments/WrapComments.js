@@ -17,34 +17,45 @@ export default function WrapComments() {
   const moment = require("moment");
 
   const addComment = () => {
-    // 댓글 리스트 생성
-    if (input !== "") {
-      const newComment = {
-        username: userInfo.nickname,
-        commentedAt: recipeId.id,
-        content: input,
-        createdAt: moment().format("YYYY-MM-DD"),
-      };
-      setCommentLists([...commentLists, newComment]);
-      setInput("");
-      nextID.current += 1;
-      console.log(nextID.current);
-      // 댓글 서버 보내기
-      fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newComment),
-      })
-        .then((response) => {
-          if (response.ok === true) {
-            return response.json();
-          }
-          throw new Error("에러 발생!");
+    if (
+      window.confirm(
+        "댓글을 등록하시겠습니까? 댓글은 수정만 가능하며 삭제가 불가합니다."
+      )
+    ) {
+      // 댓글 리스트 생성
+      if (input !== "") {
+        const newComment = {
+          username: userInfo.nickname,
+          commentedAt: recipeId.id,
+          content: input,
+          createdAt: moment().format("YYYY-MM-DD"),
+        };
+        setCommentLists([...commentLists, newComment]);
+        setInput("");
+        nextID.current += 1;
+        console.log(nextID.current);
+        // 댓글 서버 보내기
+        fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newComment),
         })
-        .catch((error) => {
-          alert(error);
-        });
+          .then((response) => {
+            if (response.ok === true) {
+              return response.json();
+            }
+            throw new Error("에러 발생!");
+          })
+          .catch((error) => {
+            alert(error);
+          })
+          .then(() => {
+            window.alert("댓글이 등록되었습니다.");
+          });
+      } else {
+        window.alert("취소 되었습니다.");
+      }
     }
   };
 

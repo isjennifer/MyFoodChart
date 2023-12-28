@@ -85,59 +85,58 @@ function RecipeWrite() {
 
   // 서버로 form 데이터 보내기
   const onSubmit = (recipeInfo) => {
-    const formData = new FormData();
+    if (window.confirm("포스팅 하시겠습니까?")) {
+      const formData = new FormData();
 
-    Object.keys(recipeInfo).forEach((key) => {
-      formData.append(key, recipeInfo[key]);
-    });
+      Object.keys(recipeInfo).forEach((key) => {
+        formData.append(key, recipeInfo[key]);
+      });
 
-    // 레시피 파일 추가
-    if (recipeFile) {
-      formData.append("recipeFile", recipeFile);
-    }
+      // 레시피 파일 추가
+      if (recipeFile) {
+        formData.append("recipeFile", recipeFile);
+      }
 
-    // 레시피 이미지 추가
-    formData.append("recipeImg", imageBlob);
-    const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
-    formData.append("menues", JSON.stringify(jsonMenuList));
-    //   FormData의 value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    if (imageBlob === null) {
-      window.alert("식단 이미지를 업로드해주세요.");
-      return;
-    }
-    for (let value of inputItems) {
-      if (value.menuName === "") {
-        window.alert("메뉴를 작성해주세요.");
+      // 레시피 이미지 추가
+      formData.append("recipeImg", imageBlob);
+      const jsonMenuList = inputItems.map(({ id, ...inputItem }) => inputItem);
+      formData.append("menues", JSON.stringify(jsonMenuList));
+      //   FormData의 value 확인
+      for (let value of formData.values()) {
+        console.log(value);
+      }
+      if (imageBlob === null) {
+        window.alert("식단 이미지를 업로드해주세요.");
         return;
       }
-    }
-    console.log(formData);
-
-    fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    })
-      .then((response) => {
-        if (response.ok === true) {
-          return response.json();
+      for (let value of inputItems) {
+        if (value.menuName === "") {
+          window.alert("메뉴를 작성해주세요.");
+          return;
         }
-        throw new Error("에러 발생!");
+      }
+      console.log(formData);
+      fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
       })
-      .then((data) => {
-        if (window.confirm("포스팅 하시겠습니까?")) {
+        .then((response) => {
+          if (response.ok === true) {
+            return response.json();
+          }
+          throw new Error("에러 발생!");
+        })
+        .then(() => {
           window.alert("포스팅 되었습니다.");
           navigate("/recipes/school");
-        } else {
-          window.alert("취소 되었습니다.");
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      window.alert("취소 되었습니다.");
+    }
   };
 
   // ImageCropper 구현
