@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileMyPosts() {
   // 서버에서 레시피 목록들 가져오기
   const [myPosts, setMyPosts] = useState(null);
-  const { userInfo } = useUserInfo();
 
   const [myPostsType, setMyPostsType] = useState("");
 
@@ -20,23 +18,28 @@ function ProfileMyPosts() {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_DOMAIN}/profile/myposts${myPostsType}`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => setMyPosts(data.reverse()));
+      .then((data) => {
+        console.log(data);
+        setMyPosts(data);
+      });
   }, []);
 
   // 페이지네이션 react-paginate
   const [page, setPage] = useState(0);
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState([]);
   const n = 9;
 
   useEffect(() => {
-    setFilterData(
-      myPosts?.filter((item, index) => {
-        return (index >= page * n) & (index < (page + 1) * n);
-      })
-    );
+    if (myPosts) {
+      const startIndex = page * n;
+      const endIndex = (page + 1) * n;
+      setFilterData(myPosts.slice(startIndex, endIndex));
+    }
   }, [page, myPosts]);
+  console.log(filterData);
 
   return (
     <ProfileForm>
@@ -49,11 +52,9 @@ function ProfileMyPosts() {
         <SubTitle onClick={() => filterMyPosts("free")}>자유 게시판</SubTitle>
       </TitleDiv>
       {filterData?.map((myPostsInfo) => {
-        const recipeTitle = myPostsInfo?.menues
-          .map((menu) => {
-            return menu.menuName;
-          })
-          .join(", ");
+        const recipeTitle = Array.isArray(myPostsInfo?.menu)
+          ? myPostsInfo.menu.map((menu) => menu.menuName).join(", ")
+          : "loading...";
         return (
           <Link to={`/recipes/detail/${myPostsInfo.id}`}>
             <Contents>

@@ -121,11 +121,12 @@ function RecipeWrite() {
         credentials: "include",
         body: formData,
       })
-        .then((response) => {
-          if (response.ok === true) {
-            return response.json();
+        .then(async (response) => {
+          const res = await response.json();
+          // 에러시 예외 발생
+          if (!response.ok) {
+            throw new Error(res.message);
           }
-          throw new Error("에러 발생!");
         })
         .then(() => {
           window.alert("포스팅 되었습니다.");

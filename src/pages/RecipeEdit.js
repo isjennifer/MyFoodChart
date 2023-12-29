@@ -134,11 +134,12 @@ function RecipeEdit() {
         },
         body: formData,
       })
-        .then((response) => {
-          if (response.ok === true) {
-            return response.json();
+        .then(async (response) => {
+          const res = await response.json();
+          // 에러시 예외 발생
+          if (!response.ok) {
+            throw new Error(res.message);
           }
-          throw new Error("에러 발생!");
         })
         .catch((error) => {
           alert(error);
