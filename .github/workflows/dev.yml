@@ -2,39 +2,77 @@ name: Docker Image CI CD
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ["dev"]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      
-    - name: Build and Push Docker Image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: runninglearner/recipesoup:latest
-        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: runninglearner/recipesoup:latest
+
   deploy:
     needs: build
     runs-on: [self-hosted, front]
     steps:
-    - name: Pull Latest Docker Image
-      run: sudo docker pull runninglearner/recipesoup:latest
+      - name: Pull Latest Docker Image
+        run: sudo docker pull runninglearner/recipesoup:latest
 
-    - name: Restart app using Docker Compose
-      run: |
-        cd /home/adminuser/SetupRecipeSoup
-        sudo docker-compose down
-        sudo docker-compose up -d
+      - name: Stop nginx Container
+        run: |
+          if ! sudo docker stop nginx; then
+            echo "Failed to stop nginx container"
+            sudo docker logs nginx
+            exit 1
+          fi
+
+      - name: Stop certbot Container
+        run: |
+          if ! sudo docker stop certbot; then
+            echo "Failed to stop certbot container"
+            sudo docker logs certbot
+            exit 1
+          fi
+
+      - name: Stop react-app Container
+        run: |
+          if ! sudo docker stop react-app; then
+            echo "Failed to stop react-app container"
+            sudo docker logs react-app
+            exit 1
+          fi
+
+      - name: Stop nest-app Container
+        run: |
+          if ! sudo docker stop nest-app; then
+            echo "Failed to stop nest-app container"
+            sudo docker logs nest-app
+            exit 1
+          fi
+
+      - name: Stop db Container
+        run: |
+          if ! sudo docker stop db; then
+            echo "Failed to stop db container"
+            sudo docker logs db
+            exit 1
+          fi
+
+      - name: Restart all services using Docker Compose
+        run: |
+          cd /home/adminuser/SetupRecipeSoup
+          sudo docker-compose up -d
