@@ -76,7 +76,7 @@ export default function WrapComments({ commentLists }) {
     console.log(updateComment);
     // 댓글 서버에 업데이트
     fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet/${commentId}`, {
-      method: "PUT",
+      method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updateComment),
