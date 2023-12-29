@@ -96,8 +96,9 @@ function RecipeCompany() {
                       icon={faBowlFood}
                       style={{ fontSize: 20, marginRight: 15 }}
                     />
-                    {recipeTitle.length >= 20 &&
-                      `${recipeTitle.slice(0, 20)}...`}
+                    {recipeTitle.length >= 20
+                      ? `${recipeTitle.slice(0, 20)}...`
+                      : recipeTitle}
                   </Title>
                   <Img
                     src={`${process.env.REACT_APP_DOMAIN}/${recipeInfo?.recipeImg}`}
