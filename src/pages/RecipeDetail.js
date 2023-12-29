@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTriangleExclamation,
-  faArrowLeft,
-  faBowlFood,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTriangleExclamation, faArrowLeft, faBowlFood } from "@fortawesome/free-solid-svg-icons";
 import {
   faSquareCheck,
   faSquare,
@@ -61,10 +57,7 @@ function RecipeDetail() {
   return (
     <>
       <HeadDiv style={{ fontWeight: 600 }}>
-        <IconStyle
-          icon={faBowlFood}
-          style={{ fontSize: 40, margin: 20, color: "#3b7339" }}
-        />
+        <IconStyle icon={faBowlFood} style={{ fontSize: 40, margin: 20, color: "#3b7339" }} />
         식단 상세정보
       </HeadDiv>
 
@@ -93,9 +86,7 @@ function RecipeDetail() {
             </RowDiv>
           </HeaderItem>
           <HeaderItem>
-            {recipePosts?.institute === "school"
-              ? recipePosts.whichSchool
-              : recipePosts?.institute}
+            {recipePosts?.institute === "school" ? recipePosts.whichSchool : recipePosts?.institute}
           </HeaderItem>
           <HeaderItem>
             <RowDiv>
@@ -215,7 +206,7 @@ function RecipeDetail() {
           </div>
         </FuncDiv>
         <RowDivisionLine />
-        <WrapComments />
+        <WrapComments commentLists={recipePosts?.comments} />
         <RowDivisionLine />
         <FuncDiv>
           <Link to={`/recipes/school`}>
