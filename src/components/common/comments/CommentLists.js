@@ -3,7 +3,7 @@ import Comment from "./Comment";
 
 export default function CommentLists({ commentLists, editComment }) {
   const [selectedCommentIndex, setSelectedCommentIndex] = useState(0);
-
+  console.log(commentLists);
   return (
     <ul>
       {commentLists?.map((comment) => {

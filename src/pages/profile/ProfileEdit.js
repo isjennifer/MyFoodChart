@@ -6,7 +6,7 @@ import ImageCropper from "../../components/recipe/ImageCropper";
 import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileEdit() {
-  const { userInfo } = useUserInfo();
+  const { userInfo, updateUserInfo } = useUserInfo();
   const [newUserName, setNewUserName] = useState(userInfo.nickname);
 
   // 닉네임 수정 기능
@@ -25,13 +25,18 @@ function ProfileEdit() {
           },
           body: JSON.stringify({ nickname: newUserName }),
         })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
+          .then(async (response) => {
+            const res = await response.json();
+            // 에러시 예외 발생
+            if (!response.ok) {
+              throw new Error(res.message);
             }
-            throw new Error("에러 발생!");
           })
           .then(() => {
+            updateUserInfo({
+              ...userInfo, // 기존 객체의 모든 속성을 복사
+              nickname: newUserName, // 닉네임만 새로운 값으로 업데이트
+            });
             window.alert("수정 되었습니다.");
           })
           .catch((error) => {
@@ -143,9 +148,7 @@ function ProfileEdit() {
             {image ? (
               <img
                 src={
-                  userInfo.userImg
-                    ? `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}`
-                    : image
+                  userInfo.userImg ? `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}` : image
                 }
                 alt="프로필 이미지"
                 style={{ width: 150, height: 150, borderRadius: 100 }}
@@ -165,9 +168,7 @@ function ProfileEdit() {
         <ContentTitle>영양사 인증</ContentTitle>
         {/* //추후 변경 필요 */}
         <Input placeholder="영양사 면허번호를 입력해주세요."></Input>
-        <Button onClick={() => window.alert("준비중인 기능입니다.")}>
-          인증하기
-        </Button>
+        <Button onClick={() => window.alert("준비중인 기능입니다.")}>인증하기</Button>
       </Contents>
       <Contents>
         <Div />
