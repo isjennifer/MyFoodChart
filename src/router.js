@@ -67,7 +67,7 @@ export const RouterInfo = [
       },
       {
         path: "/recipes/write",
-        element: <RecipeWrite />,
+        element: <PrivateRoute component={RecipeWrite} />,
       },
       {
         path: "/recipes/detail/:id",
