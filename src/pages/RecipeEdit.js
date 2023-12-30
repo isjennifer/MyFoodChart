@@ -32,7 +32,7 @@ function RecipeEdit() {
       .then((response) => response.json())
       .then((data) => {
         setRecipePosts(data);
-        setImage(data.recipeImg);
+        setImage(`${process.env.REACT_APP_DOMAIN}/${data.recipeImg}`);
         setInputItems(data.menues);
         reset({
           createdAt: data.createdAt,
@@ -134,11 +134,12 @@ function RecipeEdit() {
         },
         body: formData,
       })
-        .then((response) => {
-          if (response.ok === true) {
-            return response.json();
+        .then(async (response) => {
+          const res = await response.json();
+          // 에러시 예외 발생
+          if (!response.ok) {
+            throw new Error(res.message);
           }
-          throw new Error("에러 발생!");
         })
         .catch((error) => {
           alert(error);
@@ -195,7 +196,7 @@ function RecipeEdit() {
               <DivisionLine />
             </RowDiv>
           </HeaderItem>
-          <HeaderItem>{recipePosts?.user.name}</HeaderItem>
+          <HeaderItem>{recipePosts?.user.nickname}</HeaderItem>
           <HeaderItem>
             <RowDiv>
               <Title>급식일</Title>
@@ -302,7 +303,7 @@ function RecipeEdit() {
           </HeaderItem>
         </HeaderGrid>
 
-        <ImageCropper onCrop={onCrop}>
+        <ImageCropper onCrop={onCrop} aspectRatio={1.6}>
           <UploadImg>
             {image ? (
               <img
@@ -422,11 +423,11 @@ function RecipeEdit() {
             <RowDiv>
               <a
                 href={recipePosts?.recipeFile}
-                download={`recipe_${recipePosts?.user.name}`}
+                download={`recipe_${recipePosts?.user.nickname}`}
               >
                 {recipeFile === ""
-                  ? `recipe_${recipePosts?.user.name}`
-                  : recipeFile?.name}
+                  ? `recipe_${recipePosts?.user.nickname}`
+                  : recipeFile?.nickname}
               </a>
             </RowDiv>
             <label for="recipeFile">
@@ -443,7 +444,7 @@ function RecipeEdit() {
 
         <RowDivisionLine />
 
-        <FormSubmitBtn type="submit">내 식단 공유하기</FormSubmitBtn>
+        <FormSubmitBtn type="submit">수정하기</FormSubmitBtn>
       </Form>
     </>
   );

@@ -38,8 +38,8 @@ function RecipeSchool() {
       })
     );
   }, [page, recipeInfoList]);
+  console.log(filterData);
 
-  const navigate = useNavigate();
   const { userInfo } = useUserInfo();
 
   return (
@@ -59,20 +59,15 @@ function RecipeSchool() {
             식단을 공유해요!
           </Div>
           <Div>
-            <Button
-              style={{ width: 130, padding: 10 }}
-              onClick={
-                userInfo.id
-                  ? () => navigate("/recipes/write")
-                  : () => navigate("/login")
-              }
-            >
-              <FontAwesomeIcon
-                icon={faPenToSquare}
-                style={{ fontSize: 20, margin: 5 }}
-              />
-              글쓰기
-            </Button>
+            <Link to="/recipes/write">
+              <Button style={{ width: 130, padding: 10 }}>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  style={{ fontSize: 20, margin: 5 }}
+                />
+                글쓰기
+              </Button>
+            </Link>
             <FontAwesomeIcon
               icon={faFilter}
               style={{ fontSize: 25, margin: 10 }}
@@ -111,8 +106,9 @@ function RecipeSchool() {
                       icon={faBowlFood}
                       style={{ fontSize: 20, marginRight: 15 }}
                     />
-                    {recipeTitle.length >= 20 &&
-                      `${recipeTitle.slice(0, 20)}...`}
+                    {recipeTitle.length >= 20
+                      ? `${recipeTitle.slice(0, 20)}...`
+                      : recipeTitle}
                   </Title>
                   <Img
                     src={`${process.env.REACT_APP_DOMAIN}/${recipeInfo?.recipeImg}`}

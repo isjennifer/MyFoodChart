@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useUserInfo } from "../../contexts/UserInfoContext";
 
 function ProfileMyPosts() {
   // 서버에서 레시피 목록들 가져오기
   const [myPosts, setMyPosts] = useState(null);
-  const { userInfo } = useUserInfo();
 
   const [myPostsType, setMyPostsType] = useState("");
 
@@ -20,23 +18,30 @@ function ProfileMyPosts() {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_DOMAIN}/profile/myposts${myPostsType}`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => setMyPosts(data.reverse()));
-  }, []);
+      .then((data) => {
+        console.log(data);
+        setMyPosts(data);
+      });
+  }, [myPostsType]);
 
   // 페이지네이션 react-paginate
   const [page, setPage] = useState(0);
-  const [filterData, setFilterData] = useState();
+  const [filterData, setFilterData] = useState([]);
   const n = 9;
 
   useEffect(() => {
-    setFilterData(
-      myPosts?.filter((item, index) => {
-        return (index >= page * n) & (index < (page + 1) * n);
-      })
-    );
+    if (myPosts) {
+      const startIndex = page * n;
+      const endIndex = (page + 1) * n;
+      setFilterData(myPosts.slice(startIndex, endIndex));
+    }
   }, [page, myPosts]);
+  console.log(filterData);
+
+  const moment = require("moment");
 
   return (
     <ProfileForm>
@@ -48,12 +53,22 @@ function ProfileMyPosts() {
         </SubTitle>
         <SubTitle onClick={() => filterMyPosts("free")}>자유 게시판</SubTitle>
       </TitleDiv>
+      <ContentDiv
+        style={{
+          marginBottom: 150,
+          display: myPosts?.length === 0 ? "flex" : "none",
+        }}
+      >
+        내가 작성한 게시글이 없습니다.
+      </ContentDiv>
       {filterData?.map((myPostsInfo) => {
         const recipeTitle = myPostsInfo?.menues
           .map((menu) => {
+            console.log(myPostsInfo.createdAt);
             return menu.menuName;
           })
           .join(", ");
+        const createdAt = moment(myPostsInfo.createdAt).format("YYYY-MM-DD");
         return (
           <Link to={`/recipes/detail/${myPostsInfo.id}`}>
             <Contents>
@@ -68,7 +83,7 @@ function ProfileMyPosts() {
                 </div>
                 <div style={{ display: "flex" }}>
                   <ContentTitle>작성일</ContentTitle>
-                  <Span>{myPostsInfo?.createdAt}</Span>
+                  <Span>{createdAt}</Span>
                 </div>
                 <div style={{ display: "flex" }}>
                   <ContentTitle>좋아요 받은 수</ContentTitle>
@@ -90,18 +105,20 @@ function ProfileMyPosts() {
           </Link>
         );
       })}
-      <ReactPaginate
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        pageClassName={"page-item"}
-        onPageChange={(event) => setPage(event.selected)}
-        breakLabel="..."
-        pageCount={Math.ceil(myPosts?.length / n)}
-        previousLabel={"<"}
-        previousClassName={"previous"}
-        nextLabel={">"}
-        nextClassName={"next"}
-      />
+      <div style={{ display: myPosts?.length === 0 ? "none" : "flex" }}>
+        <ReactPaginate
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+          pageClassName={"page-item"}
+          onPageChange={(event) => setPage(event.selected)}
+          breakLabel="..."
+          pageCount={Math.ceil(myPosts?.length / n)}
+          previousLabel={"<"}
+          previousClassName={"previous"}
+          nextLabel={">"}
+          nextClassName={"next"}
+        />
+      </div>
     </ProfileForm>
   );
 }
@@ -117,7 +134,7 @@ const Img = styled.img`
   display: flex;
   width: 160px;
   height: 120px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   border-radius: 20px;
   margin-right: 20px;
 `;
