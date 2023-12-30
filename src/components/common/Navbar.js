@@ -11,14 +11,33 @@ import { useUserInfo } from "../../contexts/UserInfoContext";
 import ProfileMenu from "./ProfileMenu";
 import { useState, useEffect } from "react";
 
-function Navbar({
-  toggleMenu,
-  setToggleMenu,
-  toggleProfile,
-  setToggleProfile,
-}) {
-  const {userInfo} = useUserInfo();
+function Navbar({ toggleMenu, setToggleMenu, toggleProfile, setToggleProfile }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { userInfo, updateUserInfo } = useUserInfo();
+
+  useEffect(() => {
+    // 사용자 정보가 초기 상태이고, 홈페이지에 처음 접근했을 때만 상태 업데이트
+    if (!userInfo.id) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.id) {
+            // 상태 업데이트
+            updateUserInfo({
+              id: data.id,
+              email: data.email,
+              nickname: data.nickname,
+              userImg: data.userImg,
+              isNutritionist: data.isNutritionist,
+            });
+          }
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [userInfo, updateUserInfo]);
 
   // 전역 상태 변경 감지
   useEffect(() => {
@@ -82,11 +101,7 @@ function Navbar({
           ) : null}
           <NavHome>
             <Link to={"/"}>
-              <img
-                src="/img/green_korean_row.png"
-                alt="초록바탕한글로고"
-                style={{ width: 160 }}
-              />
+              <img src="/img/green_korean_row.png" alt="초록바탕한글로고" style={{ width: 160 }} />
             </Link>
           </NavHome>
           {/* 웹용 내비게이션 */}
@@ -107,20 +122,13 @@ function Navbar({
           <NavRight>
             {userInfo.id ? (
               <ProfileBtn isOpen={isOpen} onClick={MenuToggle}>
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  className="icon"
-                  style={{ fontSize: 22 }}
-                />
+                <FontAwesomeIcon icon={faCircleUser} className="icon" style={{ fontSize: 22 }} />
                 프로필
               </ProfileBtn>
             ) : (
               <Link to={"/login"}>
                 <ProfileBtn>
-                  <FontAwesomeIcon
-                    icon={faArrowRightToBracket}
-                    style={{ marginRight: 10 }}
-                  />
+                  <FontAwesomeIcon icon={faArrowRightToBracket} style={{ marginRight: 10 }} />
                   로그인
                 </ProfileBtn>
               </Link>
