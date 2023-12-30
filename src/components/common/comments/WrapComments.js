@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CommentLists from "./CommentLists";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
@@ -8,8 +8,6 @@ export default function WrapComments({ commentLists }) {
   const { userInfo } = useUserInfo();
   const [input, setInput] = useState("");
   const [localCommentLists, setLocalCommentLists] = useState(commentLists || []);
-  const nextID = useRef(1);
-  const dateNow = new Date();
   const params = useParams();
   const recipeId = params;
   // 오늘 날짜 간편하게 받아오기 : Moment.js
@@ -31,10 +29,7 @@ export default function WrapComments({ commentLists }) {
           // TODO 추후 자유게시판에서 쓸 수 있도록 url에서 가져오기
           type: "diet",
         };
-        setLocalCommentLists([...localCommentLists, newComment]);
         setInput("");
-        nextID.current += 1;
-        console.log(nextID.current);
         // 댓글 서버 보내기
         fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
           method: "POST",
@@ -44,6 +39,13 @@ export default function WrapComments({ commentLists }) {
         })
           .then(async (response) => {
             const res = await response.json();
+            const newComment = {
+              user: res.user,
+              postId: res.post.id,
+              content: res.content,
+              createdAt: moment(res.createdAt).format("YYYY-MM-DD"),
+            };
+            setLocalCommentLists([...localCommentLists, newComment]);
             if (!response.ok) {
               throw new Error(res.message);
             }

@@ -13,7 +13,6 @@ export default function Comment({
     editComment(id, editValue);
     setSelectedCommentIndex(0);
   };
-
   const editInput = (
     <input
       type="text"
