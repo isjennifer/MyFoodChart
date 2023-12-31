@@ -22,7 +22,6 @@ function ProfileMyPosts() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setMyPosts(data);
       });
   }, [myPostsType]);
@@ -39,7 +38,6 @@ function ProfileMyPosts() {
       setFilterData(myPosts.slice(startIndex, endIndex));
     }
   }, [page, myPosts]);
-  console.log(filterData);
 
   const moment = require("moment");
 
@@ -64,7 +62,6 @@ function ProfileMyPosts() {
       {filterData?.map((myPostsInfo) => {
         const recipeTitle = myPostsInfo?.menues
           .map((menu) => {
-            console.log(myPostsInfo.createdAt);
             return menu.menuName;
           })
           .join(", ");

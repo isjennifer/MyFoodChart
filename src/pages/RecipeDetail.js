@@ -32,7 +32,6 @@ function RecipeDetail() {
       .then((response) => response.json())
       .then((data) => {
         setRecipePosts(data);
-        console.log("data:", data);
       });
   }, [id]);
 
@@ -145,12 +144,12 @@ function RecipeDetail() {
         </BodyGrid>
 
         <RowDivisionLine />
-        {recipePosts?.menues.map((data) => {
+        {recipePosts?.menues.map((data, index) => {
           return (
             <>
               <BodyGrid key={data.id}>
                 <BodyItem>
-                  <Title>메뉴 {data.id + 1}</Title>
+                  <Title>메뉴 {index + 1}</Title>
                   <DivisionLine />
                 </BodyItem>
                 <BodyItem>{data.menuName}</BodyItem>
@@ -220,7 +219,7 @@ function RecipeDetail() {
           </div>
         </FuncDiv>
         <RowDivisionLine />
-        <WrapComments commentLists={recipePosts?.comments} />
+        <WrapComments commentLists={recipePosts?.comments} type={"diet"} />
         <RowDivisionLine />
         <FuncDiv>
           <Link to={`/recipes/school`}>

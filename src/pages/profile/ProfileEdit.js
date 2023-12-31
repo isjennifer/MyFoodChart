@@ -102,33 +102,42 @@ function ProfileEdit() {
   const userImgEditHandle = () => {
     if (image !== null) {
       if (window.confirm("프로필 사진을 수정하시겠습니까?")) {
-        fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
+        const formData = new FormData();
+        formData.append("userImg", imageBlob); // imageBlob는 파일 객체여야 함
+        fetch(`${process.env.REACT_APP_DOMAIN}/profile/updatephoto`, {
           method: "PATCH",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: { userImg: imageBlob },
+          body: formData, // JSON.stringify() 사용하지 않음
+          // Content-Type 헤더는 설정하지 않음
         })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
+          .then(async (response) => {
+            const res = await response.json();
+            if (!response.ok) {
+              throw new Error(res.message);
             }
-            throw new Error("에러 발생!");
-          })
-          .then(() => {
-            window.alert("수정 되었습니다.");
+            updateUserInfo({
+              ...userInfo, // 기존 객체의 모든 속성을 복사
+              userImg: res.userImg, // 이미지 주소를 새로운 값으로 업데이트
+            });
+            window.alert("수정되었습니다.");
           })
           .catch((error) => {
-            alert(error);
+            console.error("Error:", error);
           });
-      } else {
-        window.alert("취소 되었습니다.");
       }
     } else {
       window.alert("수정할 프로필 사진을 선택해주세요.");
     }
   };
+
+  const getImageSource = () => {
+    if (image) return image;
+    if (userInfo.userImg)
+      return `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}`;
+    return null;
+  };
+
+  const imageSrc = getImageSource();
 
   return (
     <ProfileForm>
@@ -145,11 +154,9 @@ function ProfileEdit() {
         <ContentTitle>프로필 사진 변경</ContentTitle>
         <ImageCropper onCrop={onCrop} aspectRatio={1}>
           <UploadImg>
-            {image ? (
+            {imageSrc ? (
               <img
-                src={
-                  userInfo.userImg ? `${process.env.REACT_APP_DOMAIN}/${userInfo.userImg}` : image
-                }
+                src={imageSrc}
                 alt="프로필 이미지"
                 style={{ width: 150, height: 150, borderRadius: 100 }}
               />
@@ -168,7 +175,9 @@ function ProfileEdit() {
         <ContentTitle>영양사 인증</ContentTitle>
         {/* //추후 변경 필요 */}
         <Input placeholder="영양사 면허번호를 입력해주세요."></Input>
-        <Button onClick={() => window.alert("준비중인 기능입니다.")}>인증하기</Button>
+        <Button onClick={() => window.alert("준비중인 기능입니다.")}>
+          인증하기
+        </Button>
       </Contents>
       <Contents>
         <Div />

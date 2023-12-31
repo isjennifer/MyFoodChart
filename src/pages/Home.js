@@ -1,37 +1,10 @@
 import styled from "styled-components";
 import Navbar from "../components/common/Navbar";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { useUserInfo } from "../contexts/UserInfoContext";
-import { useLocation } from "react-router-dom";
 
 function Home() {
-  const { userInfo, updateUserInfo } = useUserInfo();
-  const location = useLocation();
-
-  useEffect(() => {
-    // 사용자 정보가 초기 상태이고, 홈페이지에 처음 접근했을 때만 상태 업데이트
-    if (!userInfo.id && location.pathname === "/") {
-      fetch(`${process.env.REACT_APP_DOMAIN}/users/aboutme`, {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.id) {
-            // 상태 업데이트
-            updateUserInfo({
-              id: data.id,
-              email: data.email,
-              nickname: data.nickname,
-              userImg: data.userImg,
-              isNutritionist: data.isNutritionist
-            });
-          }
-        })
-        .catch((e) => console.log(e));
-    }
-  }, [location, userInfo, updateUserInfo]);
+  const { userInfo } = useUserInfo();
 
   return (
     <>
