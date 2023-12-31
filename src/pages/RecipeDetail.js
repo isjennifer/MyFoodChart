@@ -145,7 +145,6 @@ function RecipeDetail() {
 
         <RowDivisionLine />
         {recipePosts?.menues.map((data, index) => {
-          console.log("menudataL:", data);
           return (
             <>
               <BodyGrid key={data.id}>

@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ function RecipeEdit() {
   } = useForm({
     mode: "onBlur",
   });
+  const [recipeFile, setRecipeFile] = useState("");
 
   // 서버에서 데이터 가져오기
   const [recipePosts, setRecipePosts] = useState(null);
@@ -45,16 +47,6 @@ function RecipeEdit() {
         });
       });
   }, [reset, id]);
-
-  // 파일 업로드
-  const [recipeFile, setRecipeFile] = useState("");
-  const file = watch("recipeFile");
-  useEffect(() => {
-    if (file && file.length > 0) {
-      setRecipeFile(file[0]);
-    }
-  }, [file]);
-  console.log(recipeFile);
 
   // 메뉴 리스트 추가 삭제 부분
   const nextID = useRef(1);
@@ -110,15 +102,17 @@ function RecipeEdit() {
   const navigate = useNavigate();
   const onSubmit = (recipeInfo) => {
     if (window.confirm("수정 하시겠습니까?")) {
-      const jsonRecipeInfo = JSON.stringify(recipeInfo);
-      formData.append("reciepInfo", jsonRecipeInfo);
+      Object.keys(recipeInfo).forEach((key) => {
+        formData.append(key, recipeInfo[key]);
+      });
+
       formData.append("recipeImg", imageBlob);
       formData.append("recipeFile", recipeFile);
       const jsonMenuList = JSON.stringify(inputItems);
-      formData.append("menuList", jsonMenuList);
+      formData.append("menues", jsonMenuList);
       //   FormData의 value 확인
-      for (let value of formData.values()) {
-        console.log(value);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
       }
       for (let value of inputItems) {
         if (value.menuName === "") {
@@ -126,12 +120,10 @@ function RecipeEdit() {
           return;
         }
       }
+
       fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet/${id}`, {
-        method: "PUT",
+        method: "PATCH",
         credentials: "include",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         body: formData,
       })
         .then(async (response) => {
@@ -177,6 +169,13 @@ function RecipeEdit() {
 
   // 오늘 날짜 간편하게 받아오기 : Moment.js
   const moment = require("moment");
+
+  // 파일 업로드
+  const handleFileChange = (event) => {
+    if (event.target.files.length > 0) {
+      setRecipeFile(event.target.files[0]);
+    }
+  };
 
   return (
     <>
@@ -422,7 +421,9 @@ function RecipeEdit() {
           <FooterItem>
             <RowDiv>
               <a
-                href={recipePosts?.recipeFile}
+                href={`${
+                  process.env.REACT_APP_DOMAIN
+                }/${recipePosts?.recipeFile.replace(/\\/g, "/")}`}
                 download={`recipe_${recipePosts?.user.nickname}`}
               >
                 {recipeFile === ""
@@ -434,16 +435,14 @@ function RecipeEdit() {
               <FileChange>파일 변경</FileChange>
             </label>
             <input
-              {...register("recipeFile", {})}
+              onChange={handleFileChange}
               type="file"
               id="recipeFile"
               style={{ display: "none" }}
             />
           </FooterItem>
         </FooterGrid>
-
         <RowDivisionLine />
-
         <FormSubmitBtn type="submit">수정하기</FormSubmitBtn>
       </Form>
     </>

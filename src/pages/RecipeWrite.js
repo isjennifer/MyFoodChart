@@ -115,7 +115,6 @@ function RecipeWrite() {
           return;
         }
       }
-      console.log(formData);
       fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
         method: "POST",
         credentials: "include",
