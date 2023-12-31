@@ -102,33 +102,61 @@ function ProfileEdit() {
   const userImgEditHandle = () => {
     if (image !== null) {
       if (window.confirm("프로필 사진을 수정하시겠습니까?")) {
+        const formData = new FormData();
+        formData.append("userImg", imageBlob); // imageBlob는 파일 객체여야 함
+
         fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
           method: "PATCH",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: { userImg: imageBlob },
+          body: formData, // JSON.stringify() 사용하지 않음
+          // Content-Type 헤더는 설정하지 않음
         })
           .then((response) => {
-            if (response.ok) {
-              return response.json();
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
             }
-            throw new Error("에러 발생!");
+            return response.json();
           })
-          .then(() => {
-            window.alert("수정 되었습니다.");
+          .then((data) => {
+            // 성공적으로 처리된 경우
           })
           .catch((error) => {
-            alert(error);
+            console.error("Error:", error);
           });
-      } else {
-        window.alert("취소 되었습니다.");
       }
-    } else {
-      window.alert("수정할 프로필 사진을 선택해주세요.");
     }
   };
+
+  // const userImgEditHandle = () => {
+  //   if (image !== null) {
+  //     if (window.confirm("프로필 사진을 수정하시겠습니까?")) {
+  //       fetch(`${process.env.REACT_APP_DOMAIN}/users/${userInfo.id}`, {
+  //         method: "PATCH",
+  //         credentials: "include",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: { userImg: imageBlob },
+  //       })
+  //         .then((response) => {
+  //           if (response.ok) {
+  //             return response.json();
+  //           }
+  //           throw new Error("에러 발생!");
+  //         })
+  //         .then(() => {
+  //           window.alert("수정 되었습니다.");
+  //         })
+  //         .catch((error) => {
+  //           alert(error);
+  //         });
+  //     } else {
+  //       window.alert("취소 되었습니다.");
+  //     }
+  //   } else {
+  //     window.alert("수정할 프로필 사진을 선택해주세요.");
+  //   }
+  // };
 
   return (
     <ProfileForm>
