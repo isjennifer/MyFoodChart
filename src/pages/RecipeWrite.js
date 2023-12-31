@@ -8,7 +8,7 @@ import {
   faSquareMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ImageCropper from "../components/recipe/ImageCropper.js";
 import { useUserInfo } from "../contexts/UserInfoContext.js";
 

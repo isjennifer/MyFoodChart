@@ -219,7 +219,7 @@ function RecipeDetail() {
           </div>
         </FuncDiv>
         <RowDivisionLine />
-        <WrapComments commentLists={recipePosts?.comments} />
+        <WrapComments commentLists={recipePosts?.comments} type={"diet"} />
         <RowDivisionLine />
         <FuncDiv>
           <Link to={`/recipes/school`}>

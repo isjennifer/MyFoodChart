@@ -1,9 +1,24 @@
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import moment from "moment";
 
 function ProfileMyComments() {
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/profile/mycomments`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCommentList(data);
+      });
+  }, []);
+
   return (
     <ProfileForm>
       <TitleDiv>
@@ -18,10 +33,24 @@ function ProfileMyComments() {
       <BodyGrid>
         <BodyTitle>댓글 내용</BodyTitle>
         <BodyTitle>날짜</BodyTitle>
-        <BodyItem>너무 좋은 식단이에요!</BodyItem>
-        <BodyItem>2023-10-10</BodyItem>
-        <BodyItem>너무 좋은 식단이에요!</BodyItem>
-        <BodyItem>2023-10-10</BodyItem>
+        {commentList?.map((comment) => {
+          return (
+            <>
+              <Link
+                to={
+                  comment.type === "diet"
+                    ? `/recipes/detail/${comment.postDiet.id}`
+                    : `/free/detail/${comment.postFree.id}`
+                }
+              >
+                <BodyItem>{comment.content}</BodyItem>
+              </Link>
+              <BodyItem>
+                {moment(comment.updatedAt).format("YYYY-MM-DD HH:mm")}
+              </BodyItem>
+            </>
+          );
+        })}
       </BodyGrid>
     </ProfileForm>
   );

@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useUserInfo } from "../../../contexts/UserInfoContext";
 
-export default function WrapComments({ commentLists }) {
+export default function WrapComments({ commentLists, type }) {
   const { userInfo } = useUserInfo();
   const [input, setInput] = useState("");
-  const [localCommentLists, setLocalCommentLists] = useState(commentLists || []);
+  const [localCommentLists, setLocalCommentLists] = useState(
+    commentLists || []
+  );
   const params = useParams();
   const recipeId = params;
   // 오늘 날짜 간편하게 받아오기 : Moment.js
@@ -18,7 +20,11 @@ export default function WrapComments({ commentLists }) {
   }, [commentLists]);
 
   const addComment = () => {
-    if (window.confirm("댓글을 등록하시겠습니까? 댓글은 수정만 가능하며 삭제가 불가합니다.")) {
+    if (
+      window.confirm(
+        "댓글을 등록하시겠습니까? 댓글은 수정만 가능하며 삭제가 불가합니다."
+      )
+    ) {
       // 댓글 리스트 생성
       if (input !== "") {
         const newComment = {
@@ -27,11 +33,11 @@ export default function WrapComments({ commentLists }) {
           content: input,
           createdAt: moment().format("YYYY-MM-DD"),
           // TODO 추후 자유게시판에서 쓸 수 있도록 url에서 가져오기
-          type: "diet",
+          type: type,
         };
         setInput("");
         // 댓글 서버 보내기
-        fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet`, {
+        fetch(`${process.env.REACT_APP_DOMAIN}/comments/${type}`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -41,7 +47,7 @@ export default function WrapComments({ commentLists }) {
             const res = await response.json();
             const newComment = {
               user: res.user,
-              postId: res.post.id,
+              postId: type === "diet" ? res.postDiet.id : res.postFree.id,
               content: res.content,
               createdAt: moment(res.createdAt).format("YYYY-MM-DD"),
             };
@@ -74,10 +80,12 @@ export default function WrapComments({ commentLists }) {
     });
     setLocalCommentLists(newCommentLists);
 
-    const updateComment = newCommentLists.find((comment) => comment.id === commentId);
+    const updateComment = newCommentLists.find(
+      (comment) => comment.id === commentId
+    );
     console.log(updateComment);
     // 댓글 서버에 업데이트
-    fetch(`${process.env.REACT_APP_DOMAIN}/comments/diet/${commentId}`, {
+    fetch(`${process.env.REACT_APP_DOMAIN}/comments/${type}/${commentId}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -97,7 +105,10 @@ export default function WrapComments({ commentLists }) {
 
   return (
     <>
-      <CommentLists commentLists={localCommentLists} editComment={editComment} />
+      <CommentLists
+        commentLists={localCommentLists}
+        editComment={editComment}
+      />
       <CommentBox>
         <Input
           type="text"
@@ -105,7 +116,9 @@ export default function WrapComments({ commentLists }) {
           value={input || ""}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) =>
-            e.key === "Enter" && e.nativeEvent.isComposing === false ? addComment() : null
+            e.key === "Enter" && e.nativeEvent.isComposing === false
+              ? addComment()
+              : null
           }
         />
         <Button disabled="" onClick={addComment}>
