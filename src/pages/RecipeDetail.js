@@ -62,6 +62,23 @@ function RecipeDetail() {
     }
   };
 
+  // 좋아요
+  const updateLike = async () => {
+    const bodyData = JSON.stringify({
+      targetId: `${id}`,
+      targetType: "DietPost",
+    });
+    console.log(bodyData);
+    fetch(`${process.env.REACT_APP_DOMAIN}/like`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: bodyData,
+    }).then((data) => console.log(data));
+  };
+
   return (
     <>
       <HeadDiv style={{ fontWeight: 600 }}>
@@ -206,7 +223,7 @@ function RecipeDetail() {
           <div>
             <RowDiv style={{ marginRight: 20 }}>
               <IconStyle icon={faHeart} />
-              좋아요
+              <button onClick={updateLike}>좋아요</button>
             </RowDiv>
             <RowDiv style={{ marginRight: 20 }}>
               <IconStyle icon={faBookmark} />
