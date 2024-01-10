@@ -20,9 +20,15 @@ function RecipeCompany() {
     fetch(`${process.env.REACT_APP_DOMAIN}/posts/diet`, {
       method: "GET",
     })
-      .then((response) => response.json())
+      .then(async (response) => response.json())
       .then((data) => data.filter((v) => v.institute === "산업체"))
-      .then((data) => setRecipeInfo(data));
+      .then((data) => {
+        setRecipeInfo(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
   }, []);
 
   // 페이지네이션 react-paginate
@@ -122,7 +128,7 @@ function RecipeCompany() {
                           marginRight: 5,
                         }}
                       />
-                      좋아요수
+                      {recipeInfo.likes}
                     </Div>
                   </RowDiv>
                 </BodyItem>

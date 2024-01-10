@@ -131,7 +131,7 @@ function RecipeSchool() {
                           marginRight: 5,
                         }}
                       />
-                      좋아요수
+                      {recipeInfo.likes}
                     </Div>
                   </RowDiv>
                 </BodyItem>
